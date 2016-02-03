@@ -2,7 +2,7 @@
 #include "../stdafx.h"
 #include "SFML\Graphics.hpp"
 
-void Test1() {
+std::string Test1() {
 	std::clog << "Test1";
 	sf::RenderWindow okno(sf::VideoMode(320, 240), "Test1");
 	sf::Clock stoper;
@@ -25,4 +25,5 @@ void Test1() {
 
 		okno.display();
 	}
+	return "";
 }
