@@ -8,8 +8,11 @@ namespace GameFramework {
 		typedef sf::Mouse Mouse;
 		typedef sf::Keyboard Keyboard;
 		typedef sf::Joystick Joystick;
+		typedef sf::NonCopyable NonCopyable;
+		typedef sf::Vector2i Position;
+		typedef sf::Vector2u Size;
 
-		class Window {
+		class Window :NonCopyable {
 		public:
 			Window();
 			~Window();
@@ -20,6 +23,18 @@ namespace GameFramework {
 			//std::shared_ptr<Timer> CreateTimer();
 			//bool ApplyGraphObj(std::shared_ptr<GraphObject>);
 			//bool ApplyTimer(std::shared_ptr<Timer>);
+			//properties
+			const std::string& getTitle() { return title; }
+			const Size& getSize() { return size; }
+			const Position& getPosition() { return pos; }
+			void setTitle(const std::string title);
+			void setSize(const Size size);
+			void setPosition(const Position pos);
+			void setCursorVisible(bool flag);
+			void setVerticalSyncEnabled(bool enabled);
+			void setKeyRepeatEnabled(bool enabled);
+			void setFramerateLimit(unsigned int limit);
+			void setJoystickThreshold(float threshold);
 #ifdef DEBUG
 			void TestEvents(sf::Event ev);
 #endif // DEBUG
@@ -29,11 +44,6 @@ namespace GameFramework {
 #pragma region OnEvent Funcs
 			void OnWindowRender();
 			void OnClose();
-			/*void OnWindowResize(Events::ResizeArgs &args);
-			void OnMouseButtonPress(Events::MouseButtArgs &args);
-			void OnMouseButtonRelease(Events::MouseButtArgs &args);
-			void OnMouseWheel(Events::MouseWheelArgs &args);*/
-
 			template <typename ArgType> void OnEvent(Events::Event<ArgType> &sync, Events::Event<ArgType>* async, ArgType args);
 #pragma endregion
 		public:
@@ -74,12 +84,22 @@ namespace GameFramework {
 			Events::Event<Events::JoystickButtArgs> JoystickButtonReleaseAsync;
 			Events::Event<Events::JoystickMoveArgs> JoystickMoveAsync;
 			Events::Event<Events::JoystickArgs> JoystickConnectAsync;
-			Events::Event<Events::JoystickArgs> JoystickDisconnectAsync;	
+			Events::Event<Events::JoystickArgs> JoystickDisconnectAsync;
 			Events::Event<Events::TextTypeArgs> TextTypeAsync;
 #pragma endregion
+
+			bool fullscreen = false;
+			bool canResize = false;
+			bool hasCloseButton = true;
+			bool hasTitlebar = true;
 		protected:
+			std::string title = "Window";
+			Position pos = { 0,0 };
+			Size size = { 800,600 };
 			std::shared_ptr<std::thread> thread;
 			sf::RenderWindow window;
+			//consts
+			const Size MIN_SIZE = { 10,10 };
 		};
 
 

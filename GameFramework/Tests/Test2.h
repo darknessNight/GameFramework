@@ -43,7 +43,7 @@ std::string Test2() {
 		GameFramework::IOModule::Window window;
 		window.ShowAsync();
 		using namespace std::literals;
-		std::this_thread::sleep_for(2s);
+		std::this_thread::sleep_for(4s);
 		window.Close();
 		window.Close();
 
@@ -63,7 +63,7 @@ std::string Test2() {
 		window.JoystickButtonPress -= id;
 		window.JoystickMove += Test2Helpers::JoystickMoveTest;
 		window.ShowAsync();
-		std::this_thread::sleep_for(1s);
+		std::this_thread::sleep_for(4s);
 
 		ev.joystickButton.joystickId = 1;
 		ev.joystickMove.axis = GameFramework::IOModule::Joystick::Axis::U;

@@ -17,8 +17,7 @@ namespace GameFramework {
 		void Window::Show()
 		{
 			if (thread != nullptr && std::this_thread::get_id() != thread->get_id() && thread->joinable()) thread->join();
-			window.create(sf::VideoMode(800, 600, 32), "Test2");
-			window.setFramerateLimit(60);
+			window.create(sf::VideoMode(size.x, size.y, 32), title);
 			InputLoop();
 		}
 
@@ -37,7 +36,6 @@ namespace GameFramework {
 		void Window::TestEvents(sf::Event ev)
 		{
 			Events::EventArgs stdArg;
-			OnEvent<Events::EventArgs>(WindowClose, nullptr, stdArg);
 			OnEvent<Events::EventArgs>(WindowFocused, &WindowFocusedAsync, stdArg);
 			OnEvent<Events::EventArgs>(WindowLostFocus, &WindowLostFocusAsync, stdArg);
 			OnEvent<Events::ResizeArgs>(WindowResize, &WindowResizeAsync, ev.size);
@@ -123,5 +121,53 @@ namespace GameFramework {
 				window.close();
 		}
 
-	}
+		void Window::setTitle(const std::string title)
+		{
+			if (title.size() > 0) {
+				this->title = title;
+				if (window.isOpen()) window.setTitle(title);
+			}
+		}
+
+		void Window::setSize(const Size size)
+		{
+			if (size.x >= MIN_SIZE.x&&size.y > MIN_SIZE.y) {
+				this->size = size;
+				if(window.isOpen())
+				window.setSize(size);
+			}
+		}
+
+		void Window::setPosition(const Position pos)
+		{
+			this->pos = pos;
+			window.setPosition(pos);
+		}
+
+		void Window::setCursorVisible(bool flag)
+		{
+			window.setMouseCursorVisible(flag);
+		}
+
+		void Window::setVerticalSyncEnabled(bool enabled)
+		{
+			window.setVerticalSyncEnabled(enabled);
+		}
+
+		void Window::setKeyRepeatEnabled(bool enabled)
+		{
+			window.setKeyRepeatEnabled(enabled);
+		}
+
+		void Window::setFramerateLimit(unsigned int limit)
+		{
+			window.setFramerateLimit(limit);
+		}
+
+		void Window::setJoystickThreshold(float threshold)
+		{
+			window.setJoystickThreshold(threshold);
+		}
+
+}
 }
