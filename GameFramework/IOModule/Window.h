@@ -20,13 +20,24 @@ namespace GameFramework {
 			//std::shared_ptr<Timer> CreateTimer();
 			//bool ApplyGraphObj(std::shared_ptr<GraphObject>);
 			//bool ApplyTimer(std::shared_ptr<Timer>);
-		private:
+		protected:
 			void InputLoop();
+#pragma region OnEvent Funcs
+			void OnWindowRender();
+			void OnClose();
+			/*void OnWindowResize(Events::ResizeArgs &args);
+			void OnMouseButtonPress(Events::MouseButtArgs &args);
+			void OnMouseButtonRelease(Events::MouseButtArgs &args);
+			void OnMouseWheel(Events::MouseWheelArgs &args);*/
+			template <typename ArgType> void OnEvent(Events::Event<ArgType> &sync, Events::Event<ArgType>* async, ArgType &args);
+#pragma endregion
 		public:
 #pragma region Events
 			Events::Event<Events::EventArgs> WindowRender;
-			Events::Event<Events::EventArgs> Focus;
-			Events::Event<Events::EventArgs> LostFocus;
+			Events::Event<Events::ResizeArgs> WindowResize;
+			Events::Event<Events::EventArgs> WindowFocused;
+			Events::Event<Events::EventArgs> WindowLostFocus;
+			Events::Event<Events::EventArgs> WindowClose;
 			Events::Event<Events::KeyboardArgs> KeyPress;
 			Events::Event<Events::KeyboardArgs> KeyRelease;
 			Events::Event<Events::MouseButtArgs> MouseButtonPress;
@@ -41,8 +52,10 @@ namespace GameFramework {
 			Events::Event<Events::JoystickArgs> JoystickConnect;
 			Events::Event<Events::JoystickArgs> JoystickDisconnect;
 			//async events
-			Events::Event<Events::EventArgs> FocusAsync;
-			Events::Event<Events::EventArgs> LostFocusAsync;
+			Events::Event<Events::EventArgs> WindowRenderAsync;
+			Events::Event<Events::ResizeArgs> WindowResizeAsync;
+			Events::Event<Events::EventArgs> WindowFocusedAsync;
+			Events::Event<Events::EventArgs> WindowLostFocusAsync;
 			Events::Event<Events::KeyboardArgs> KeyPressAsync;
 			Events::Event<Events::KeyboardArgs> KeyReleaseAsync;
 			Events::Event<Events::MouseButtArgs> MouseButtonPressAsync;
@@ -57,17 +70,18 @@ namespace GameFramework {
 			Events::Event<Events::JoystickArgs> JoystickConnectAsync;
 			Events::Event<Events::JoystickArgs> JoystickDisconnectAsync;			
 #pragma endregion
-#pragma region OnEventsProcuderes
-			void OnRender();
-			void OnKeyPress();
-			void OnMouseMove();
-			void OnMouseClick();
-			void OnJoystick();
-#pragma endregion
 		protected:
-			sf::Event engEvent;
 			std::shared_ptr<std::thread> thread;
 			sf::RenderWindow window;
 		};
+
+
+		template<typename ArgType>
+		inline void Window::OnEvent(Events::Event<ArgType>& sync, Events::Event<ArgType>* async, ArgType & args)
+		{
+			if (async !=nullptr && async->size() > 0)
+				std::thread t(&Events::Event<ArgType>::operator(),async, this, args);
+			sync(this, args);
+		}
 	}
 }

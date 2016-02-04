@@ -44,7 +44,7 @@ namespace GameFramework {
 
 			struct JoystickArgs : EventArgs, sf::Event::JoystickConnectEvent {};
 
-			struct ResizeArgs:EventArgs{};
+			struct ResizeArgs:EventArgs, sf::Event::SizeEvent{};
 		}
 	}
 }

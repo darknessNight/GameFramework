@@ -10,6 +10,8 @@ namespace GameFramework {
 		{
 			if (thread != nullptr && thread->joinable())
 				thread->join();
+			if (window.isOpen())
+				window.close();
 		}
 
 		void Window::Show()
@@ -28,8 +30,7 @@ namespace GameFramework {
 
 		void Window::Close()
 		{
-			if (window.isOpen())
-				window.close();
+			OnClose();
 		}
 
 		void Window::InputLoop()
@@ -40,15 +41,30 @@ namespace GameFramework {
 				while (window.pollEvent(ev))
 				{
 					switch (ev.type) {
-					case sf::Event::KeyPressed:
-						if (ev.key.code != sf::Keyboard::Escape) continue;
+					case sf::Event::EventType::KeyPressed:
+						
 					case sf::Event::Closed:
+
 						window.close();
 					}
 
 				}
 				window.display();
 			}
+		}
+
+		void Window::OnWindowRender()
+		{
+			Events::EventArgs args;
+			OnEvent<Events::EventArgs>(WindowRender, &WindowRenderAsync, args);
+		}
+
+		void Window::OnClose()
+		{
+			Events::EventArgs args;
+			OnEvent<Events::EventArgs>(WindowClose, nullptr, args);
+			if (!args.cancel && window.isOpen())
+				window.close();
 		}
 
 	}
