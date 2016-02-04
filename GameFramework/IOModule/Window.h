@@ -20,6 +20,10 @@ namespace GameFramework {
 			//std::shared_ptr<Timer> CreateTimer();
 			//bool ApplyGraphObj(std::shared_ptr<GraphObject>);
 			//bool ApplyTimer(std::shared_ptr<Timer>);
+#ifdef DEBUG
+			void TestEvents(sf::Event ev);
+#endif // DEBUG
+
 		protected:
 			void InputLoop();
 #pragma region OnEvent Funcs
@@ -29,7 +33,8 @@ namespace GameFramework {
 			void OnMouseButtonPress(Events::MouseButtArgs &args);
 			void OnMouseButtonRelease(Events::MouseButtArgs &args);
 			void OnMouseWheel(Events::MouseWheelArgs &args);*/
-			template <typename ArgType> void OnEvent(Events::Event<ArgType> &sync, Events::Event<ArgType>* async, ArgType &args);
+
+			template <typename ArgType> void OnEvent(Events::Event<ArgType> &sync, Events::Event<ArgType>* async, ArgType args);
 #pragma endregion
 		public:
 #pragma region Events
@@ -51,6 +56,7 @@ namespace GameFramework {
 			Events::Event<Events::JoystickMoveArgs> JoystickMove;
 			Events::Event<Events::JoystickArgs> JoystickConnect;
 			Events::Event<Events::JoystickArgs> JoystickDisconnect;
+			Events::Event<Events::TextTypeArgs> TextType;
 			//async events
 			Events::Event<Events::EventArgs> WindowRenderAsync;
 			Events::Event<Events::ResizeArgs> WindowResizeAsync;
@@ -68,7 +74,8 @@ namespace GameFramework {
 			Events::Event<Events::JoystickButtArgs> JoystickButtonReleaseAsync;
 			Events::Event<Events::JoystickMoveArgs> JoystickMoveAsync;
 			Events::Event<Events::JoystickArgs> JoystickConnectAsync;
-			Events::Event<Events::JoystickArgs> JoystickDisconnectAsync;			
+			Events::Event<Events::JoystickArgs> JoystickDisconnectAsync;	
+			Events::Event<Events::TextTypeArgs> TextTypeAsync;
 #pragma endregion
 		protected:
 			std::shared_ptr<std::thread> thread;
@@ -77,10 +84,12 @@ namespace GameFramework {
 
 
 		template<typename ArgType>
-		inline void Window::OnEvent(Events::Event<ArgType>& sync, Events::Event<ArgType>* async, ArgType & args)
+		inline void Window::OnEvent(Events::Event<ArgType>& sync, Events::Event<ArgType>* async, ArgType args)
 		{
-			if (async !=nullptr && async->size() > 0)
-				std::thread t(&Events::Event<ArgType>::operator(),async, this, args);
+			if (async != nullptr && async->size() > 0) {
+				std::thread t(&Events::Event<ArgType>::operator(), async, this, args);
+				t.detach();//TODO to niehumanitarne porzucaæ w¹tki. Do naprawy
+			}
 			sync(this, args);
 		}
 	}

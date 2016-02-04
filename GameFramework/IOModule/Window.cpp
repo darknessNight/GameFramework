@@ -33,19 +33,74 @@ namespace GameFramework {
 			OnClose();
 		}
 
-		void Window::InputLoop()
+#ifdef DEBUG
+		void Window::TestEvents(sf::Event ev)
+		{
+			Events::EventArgs stdArg;
+			OnEvent<Events::EventArgs>(WindowClose, nullptr, stdArg);
+			OnEvent<Events::EventArgs>(WindowFocused, &WindowFocusedAsync, stdArg);
+			OnEvent<Events::EventArgs>(WindowLostFocus, &WindowLostFocusAsync, stdArg);
+			OnEvent<Events::ResizeArgs>(WindowResize, &WindowResizeAsync, ev.size);
+			OnEvent<Events::JoystickButtArgs>(JoystickButtonPress, &JoystickButtonPressAsync, ev.joystickButton);
+			OnEvent<Events::JoystickButtArgs>(JoystickButtonRelease, &JoystickButtonReleaseAsync, ev.joystickButton);
+			OnEvent<Events::JoystickArgs>(JoystickConnect, &JoystickConnectAsync, ev.joystickConnect);
+			OnEvent<Events::JoystickArgs>(JoystickDisconnect, &JoystickDisconnectAsync, ev.joystickConnect);
+			OnEvent<Events::JoystickMoveArgs>(JoystickMove, &JoystickMoveAsync, ev.joystickMove);
+			OnEvent<Events::KeyboardArgs>(KeyPress, &KeyPressAsync, ev.key);
+			OnEvent<Events::KeyboardArgs>(KeyRelease, &KeyReleaseAsync, ev.key);
+			OnEvent<Events::MouseButtArgs>(MouseButtonPress, &MouseButtonPressAsync, ev.mouseButton);
+			OnEvent<Events::MouseButtArgs>(MouseButtonRelease, &MouseButtonReleaseAsync, ev.mouseButton);
+			OnEvent<Events::EventArgs>(MouseEnter, &MouseEnterAsync, stdArg);
+			OnEvent<Events::EventArgs>(MouseLeft, &MouseLeftAsync, stdArg);
+			OnEvent<Events::MouseWheelArgs>(MouseWheel, &MouseWheelAsync, ev.mouseWheel);
+			OnEvent<Events::TextTypeArgs>(TextType, &TextTypeAsync, ev.text);
+		}
+#endif
+
+		void Window::InputLoop()//TODO bad function, but already I not have any idea.
 		{
 			while (window.isOpen())
 			{
+				Events::EventArgs stdArg;
 				sf::Event ev;
 				while (window.pollEvent(ev))
 				{
 					switch (ev.type) {
+					case sf::Event::EventType::Closed:
+						OnClose(); break;
+					case sf::Event::EventType::GainedFocus:
+						OnEvent<Events::EventArgs>(WindowFocused, &WindowFocusedAsync, stdArg); break;
+					case sf::Event::EventType::LostFocus:
+						OnEvent<Events::EventArgs>(WindowLostFocus, &WindowLostFocusAsync, stdArg); break;
+					case sf::Event::EventType::Resized:
+						OnEvent<Events::ResizeArgs>(WindowResize, &WindowResizeAsync, ev.size); break;
+					case sf::Event::EventType::JoystickButtonPressed:
+						OnEvent<Events::JoystickButtArgs>(JoystickButtonPress, &JoystickButtonPressAsync, ev.joystickButton); break;
+					case sf::Event::EventType::JoystickButtonReleased:
+						OnEvent<Events::JoystickButtArgs>(JoystickButtonRelease, &JoystickButtonReleaseAsync, ev.joystickButton); break;
+					case sf::Event::EventType::JoystickConnected:
+						OnEvent<Events::JoystickArgs>(JoystickConnect, &JoystickConnectAsync, ev.joystickConnect); break;
+					case sf::Event::EventType::JoystickDisconnected:
+						OnEvent<Events::JoystickArgs>(JoystickDisconnect, &JoystickDisconnectAsync, ev.joystickConnect); break;
+					case sf::Event::EventType::JoystickMoved:
+						OnEvent<Events::JoystickMoveArgs>(JoystickMove, &JoystickMoveAsync, ev.joystickMove); break;
 					case sf::Event::EventType::KeyPressed:
-						
-					case sf::Event::Closed:
-
-						window.close();
+						OnEvent<Events::KeyboardArgs>(KeyPress, &KeyPressAsync, ev.key); break;
+					case sf::Event::EventType::KeyReleased:
+						OnEvent<Events::KeyboardArgs>(KeyRelease, &KeyReleaseAsync, ev.key); break;
+					case sf::Event::EventType::MouseButtonPressed:
+						OnEvent<Events::MouseButtArgs>(MouseButtonPress, &MouseButtonPressAsync, ev.mouseButton); break;
+					case sf::Event::EventType::MouseButtonReleased:
+						OnEvent<Events::MouseButtArgs>(MouseButtonRelease, &MouseButtonReleaseAsync, ev.mouseButton); break;
+					case sf::Event::EventType::MouseEntered:
+						OnEvent<Events::EventArgs>(MouseEnter, &MouseEnterAsync, stdArg); break;
+					case sf::Event::EventType::MouseLeft:
+						OnEvent<Events::EventArgs>(MouseLeft, &MouseLeftAsync, stdArg); break;
+					case sf::Event::EventType::MouseMoved:
+					case sf::Event::EventType::MouseWheelScrolled:
+						OnEvent<Events::MouseWheelArgs>(MouseWheel, &MouseWheelAsync, ev.mouseWheel); break;
+					case sf::Event::EventType::TextEntered:
+						OnEvent<Events::TextTypeArgs>(TextType, &TextTypeAsync, ev.text); break;
 					}
 
 				}
@@ -62,6 +117,7 @@ namespace GameFramework {
 		void Window::OnClose()
 		{
 			Events::EventArgs args;
+			args.cancel = false;
 			OnEvent<Events::EventArgs>(WindowClose, nullptr, args);
 			if (!args.cancel && window.isOpen())
 				window.close();
