@@ -5,7 +5,11 @@
 
 std::string Test2() {
 	RPGFramework::IOModule::Window window;
+	window.ShowAsync();
+	using namespace std::literals;
+	std::this_thread::sleep_for(2s);
+	window.Close();
+	window.Close();
 	window.Show();
-
 	return std::string();
 }

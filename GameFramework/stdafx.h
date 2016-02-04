@@ -6,6 +6,7 @@
 #include <string>
 #include <memory>
 #include <functional>
+#include <thread>
 
 #define TESTS_START 2
 #define TESTS_STOP 32000

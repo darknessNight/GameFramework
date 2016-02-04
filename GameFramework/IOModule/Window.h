@@ -7,6 +7,8 @@ namespace RPGFramework {
 	namespace IOModule {
 		class Window {
 		public:
+			Window();
+			~Window();
 			void Show();
 			void ShowAsync();
 			void Close();
@@ -22,7 +24,8 @@ namespace RPGFramework {
 			Events::Event<Events::MouseArgs> MouseButtonDown;
 #pragma endregion
 
-		private:
+		protected:
+			std::shared_ptr<std::thread> thread;
 			sf::RenderWindow window;
 		};
 	}
