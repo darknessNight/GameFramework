@@ -4,7 +4,7 @@
 
 
 std::string Test2() {
-	RPGFramework::IOModule::Window window;
+	GameFramework::IOModule::Window window;
 	window.ShowAsync();
 	using namespace std::literals;
 	std::this_thread::sleep_for(2s);

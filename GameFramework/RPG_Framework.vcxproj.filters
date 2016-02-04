@@ -54,4 +54,9 @@
       <Filter>Header Files\IOModule</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="IOModule\README.md">
+      <Filter>Header Files\IOModule</Filter>
+    </None>
+  </ItemGroup>
 </Project>

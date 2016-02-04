@@ -1,6 +1,6 @@
 #include "Window.h"
 
-namespace RPGFramework {
+namespace GameFramework {
 	namespace IOModule {
 		Window::Window()
 		{

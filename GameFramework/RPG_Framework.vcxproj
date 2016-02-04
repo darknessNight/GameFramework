@@ -164,6 +164,9 @@
     <ClInclude Include="Tests\Test2.h" />
     <ClInclude Include="Tests\Tests.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="IOModule\README.md" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
