@@ -87,6 +87,7 @@
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <AdditionalIncludeDirectories>F:\library\SFML-2.3.2-x86\include;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>x86;DEBUG;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>F:\library\SFML-2.3.2-x86\lib</AdditionalLibraryDirectories>
@@ -102,6 +103,7 @@
       <AdditionalIncludeDirectories>F:\library\SFML-2.3.2-x64\include;</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>
       </MultiProcessorCompilation>
+      <PreprocessorDefinitions>x64;DEBUG;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>F:\library\SFML-2.3.2-x64\lib</AdditionalLibraryDirectories>
@@ -117,6 +119,7 @@
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <AdditionalIncludeDirectories>F:\library\SFML-2.3.2-x86\include;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>x86;RELEASE;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -134,6 +137,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PreprocessorDefinitions>x64;RELEASE;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -144,11 +148,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="IOModule\EventArgs.hpp" />
+    <ClCompile Include="IOModule\Window.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="IOModule\EventArgs.h" />
+    <ClInclude Include="IOModule\Window.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Tests\Test1.h" />
+    <ClInclude Include="Tests\Test2.h" />
+    <ClInclude Include="Tests\Tests.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -16,10 +16,22 @@
     <Filter Include="Tests">
       <UniqueIdentifier>{d211e0f4-a2d8-4e16-8550-753c9a27bff7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\IOModule">
+      <UniqueIdentifier>{2619efa6-0b73-4e04-b0cd-00598c2e5676}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\IOModule">
+      <UniqueIdentifier>{dc30f480-055a-45aa-977c-d9cb7ee19d6d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IOModule\Window.cpp">
+      <Filter>Source Files\IOModule</Filter>
+    </ClCompile>
+    <ClCompile Include="IOModule\EventArgs.hpp">
+      <Filter>Source Files\IOModule</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -28,6 +40,18 @@
     </ClInclude>
     <ClInclude Include="Tests\Test1.h">
       <Filter>Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="Tests\Tests.h">
+      <Filter>Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="Tests\Test2.h">
+      <Filter>Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="IOModule\Window.h">
+      <Filter>Header Files\IOModule</Filter>
+    </ClInclude>
+    <ClInclude Include="IOModule\EventArgs.h">
+      <Filter>Header Files\IOModule</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
