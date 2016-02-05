@@ -32,14 +32,16 @@ std::string Test3() {
 	window.setTitle("Test3");
 	texture1=window.GetTexture({ 100,100 }, 1);
 	texture1->LoadFromFile("./Image.png");
+	texture1->setTransformPoint({ 50,50 });
+	texture1->rotate(-45);
 	texture1->setVisible(true);
 	window.WindowRender += Rotate;
 	window.setVerticalSyncEnabled(true);
-	window.ShowAsync();
-	std::this_thread::sleep_for(10s);
 	window.setCursorVisible(false);
+
 	start = std::chrono::high_resolution_clock::now();
+	window.Show();
 	
-	std::this_thread::sleep_for(1min);
+	
 	return std::string();
 }

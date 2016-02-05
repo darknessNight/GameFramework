@@ -10,8 +10,6 @@ window must be recreated
 
 namespace GF {
 	namespace IOModule {
-		
-
 		class Window :NonCopyable, public AWindow {
 		public:
 			Window();
