@@ -18,9 +18,13 @@ namespace GF {
 		{
 			if (thread != nullptr && std::this_thread::get_id() != thread->get_id() && thread->joinable()) thread->join();
 			window.create(sf::VideoMode(size.x, size.y, 32), title,
-				(fullscreen?sf::Style::Fullscreen:0)| (hasCloseButton?sf::Style::Close:0)|
-				(hasTitlebar?sf::Style::Titlebar:0)|(canResize?sf::Style::Resize:0));
-			opened = false;
+				(fullscreen ? sf::Style::Fullscreen : 0) | (hasCloseButton ? sf::Style::Close : 0) |
+				(hasTitlebar ? sf::Style::Titlebar : 0) | (canResize ? sf::Style::Resize : 0));
+			window.setVerticalSyncEnabled(vsync);
+			if(framerate>0)window.setFramerateLimit(framerate);
+			if (joystickThreshold > 0)window.setJoystickThreshold(joystickThreshold);
+			window.setMouseCursorVisible(cursorVisible);
+			opened = true;
 			InputLoop();
 		}
 
@@ -33,6 +37,13 @@ namespace GF {
 		void Window::Close()
 		{
 			OnClose();
+		}
+
+		std::shared_ptr<Texture2D> Window::GetTexture(Size size, int z_index)
+		{
+			std::shared_ptr<Texture2D> tex(new Texture2D(size));
+			graphObjs.push_back(tex);
+			return tex;
 		}
 
 		std::shared_ptr<ITimer> Window::CreateTimer()
@@ -79,7 +90,7 @@ namespace GF {
 			sf::Event ev;
 			while (window.isOpen())
 			{
-				while (opened&&window.pollEvent(ev))// must use var opened because if window was closed after previous condition and before pollEvent program tried call to nullptr object
+				while (opened && window.pollEvent(ev))// must use var opened because if window was closed after previous condition and before pollEvent program tried call to nullptr object
 				{
 					switch (ev.type) {
 					case sf::Event::EventType::Closed:
@@ -125,9 +136,15 @@ namespace GF {
 
 		void Window::OnWindowRender()
 		{
-			Events::EventArgs args;
-			OnEvent<Events::EventArgs>(WindowRender, &WindowRenderAsync, args);
-			window.display();
+			if (opened && window.isOpen()) {
+				window.clear(sf::Color::Black);
+				Events::EventArgs args;
+				OnEvent<Events::EventArgs>(WindowRender, &WindowRenderAsync, args);
+				for each(std::shared_ptr<GraphObject2D> el in graphObjs)
+					el->render(&window);
+				window.display();
+			}
+
 		}
 
 		void Window::OnClose()
@@ -168,26 +185,31 @@ namespace GF {
 
 		void Window::setCursorVisible(bool flag)
 		{
+			cursorVisible = flag;
 			window.setMouseCursorVisible(flag);
 		}
 
 		void Window::setVerticalSyncEnabled(bool enabled)
 		{
+			vsync = enabled;
 			window.setVerticalSyncEnabled(enabled);
 		}
 
 		void Window::setKeyRepeatEnabled(bool enabled)
 		{
+			keyRepeatEnabled = enabled;
 			window.setKeyRepeatEnabled(enabled);
 		}
 
 		void Window::setFramerateLimit(unsigned int limit)
 		{
+			framerate = limit;
 			window.setFramerateLimit(limit);
 		}
 
 		void Window::setJoystickThreshold(float threshold)
 		{
+			joystickThreshold = threshold;
 			window.setJoystickThreshold(threshold);
 		}
 
@@ -201,12 +223,12 @@ namespace GF {
 			canResize = enabled;
 		}
 
-		void Window::setCloseButton(bool enabled)
+		void Window::setCloseButtonVisible(bool enabled)
 		{
 			hasCloseButton = enabled;
 		}
 
-		void Window::setTitleBar(bool enabled)
+		void Window::setTitleBarVisible(bool enabled)
 		{
 			hasTitlebar = enabled;
 		}

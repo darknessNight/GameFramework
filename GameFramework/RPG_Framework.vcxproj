@@ -129,7 +129,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>F:\library\SFML-2.3.2-x86\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-audio.lib;sfml-graphics.lib;sfml-main.lib;sfml-network.lib;sfml-system.lib;sfml-window.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -148,12 +148,13 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>F:\library\SFML-2.3.2-x64\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-audio.lib;sfml-graphics.lib;sfml-main.lib;sfml-network.lib;sfml-system.lib;sfml-window.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="IOModule\EventArgs.hpp" />
     <ClCompile Include="IOModule\GraphObject.cpp" />
+    <ClCompile Include="IOModule\Texture.cpp" />
     <ClCompile Include="IOModule\Window.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -161,6 +162,7 @@
     <ClInclude Include="IOModule\EventArgs.h" />
     <ClInclude Include="IOModule\GraphObject.h" />
     <ClInclude Include="IOModule\Interfaces.h" />
+    <ClInclude Include="IOModule\Texture.h" />
     <ClInclude Include="IOModule\Window.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Tests\Test1.h" />
@@ -170,6 +172,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="IOModule\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="image.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

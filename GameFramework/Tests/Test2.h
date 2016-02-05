@@ -65,8 +65,9 @@ std::string Test2() {
 		window.JoystickButtonPress += {(Test2Helpers::Test::rzut)&Test2Helpers::Test::JoystickButtonDelTest, &ob2};
 		window.JoystickButtonPress -= {(Test2Helpers::Test::rzut)&Test2Helpers::Test::JoystickButtonDelTest, &ob2};
 		window.JoystickMove += Test2Helpers::JoystickMoveTest;
-
+#ifdef DEBUG
 		window.TestEvents(ev);
+#endif
 		Test2Helpers::Test::DelTestResult();
 
 		window.JoystickButtonPress.clear();
@@ -75,9 +76,9 @@ std::string Test2() {
 		window.JoystickButtonPress += {(Test2Helpers::Test::rzut)&Test2Helpers::Test::JoystickButtonDelTest, &ob1};
 		window.JoystickButtonPress += {(Test2Helpers::Test::rzut)&Test2Helpers::Test::JoystickButtonDelTest, &ob2};
 		window.JoystickButtonPress -= {(Test2Helpers::Test::rzut)&Test2Helpers::Test::JoystickButtonDelTest, &ob2};
-
+#ifdef DEBUG
 		window.TestEvents(ev);
-
+#endif
 		Test2Helpers::Test::DelTestResult();
 		std::this_thread::sleep_for(2s);
 		window.Close();

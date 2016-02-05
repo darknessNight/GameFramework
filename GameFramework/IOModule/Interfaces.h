@@ -11,6 +11,7 @@ namespace GF {
 		typedef sf::Vector2i Pos;
 		typedef sf::Vector2f Posf;
 		typedef sf::Vector2u Size;
+		typedef sf::Vector2f Sizef;
 		typedef sf::Color Color;
 
 		__interface IGraphObject2D {
@@ -18,7 +19,7 @@ namespace GF {
 			void setPos(const Posf p);
 			bool getVisible();
 			const Posf& getPos();
-			const Size& getSize();
+			const Sizef& getSize();
 			void LoadFromFile(std::string path);
 		};
 
@@ -30,7 +31,7 @@ namespace GF {
 			void setAsyncFunction(std::function<void(void)>);*/
 		};
 
-		__interface ITexture2D:public IGraphObject2D {
+		__interface ITexture2D {
 		};
 
 		__interface IImage2D:public IGraphObject2D {
@@ -74,8 +75,8 @@ namespace GF {
 			void setJoystickThreshold(float threshold);
 			void setFullscreen(bool enabled);
 			void setCanResize(bool enabled);
-			void setCloseButton(bool enabled);
-			void setTitleBar(bool enabled);
+			void setCloseButtonVisible(bool enabled);
+			void setTitleBarVisible(bool enabled);
 		};
 
 		class AWindow:public IWindow

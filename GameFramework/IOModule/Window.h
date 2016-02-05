@@ -1,6 +1,12 @@
+/*
+Window class.
+INFO
+framerate and vsync doesn't work after call inputLoop. This options must be changed before create window or after change
+window must be recreated
+*/
 #pragma once
 #include "../stdafx.h"
-#include "Interfaces.h"
+#include "Texture.h"
 
 namespace GF {
 	namespace IOModule {
@@ -13,6 +19,7 @@ namespace GF {
 			void Show();
 			void ShowAsync();
 			void Close();
+			std::shared_ptr<Texture2D> GetTexture(Size size, int z_index);
 			std::shared_ptr<ITimer> CreateTimer();
 			bool ApplyGraphObj(std::shared_ptr<IGraphObject2D>);
 			bool ApplyTimer(std::shared_ptr<ITimer>);
@@ -30,8 +37,8 @@ namespace GF {
 			void setJoystickThreshold(float threshold);
 			void setFullscreen(bool enabled);
 			void setCanResize(bool enabled);
-			void setCloseButton(bool enabled);
-			void setTitleBar(bool enabled);
+			void setCloseButtonVisible(bool enabled);
+			void setTitleBarVisible(bool enabled);
 #ifdef DEBUG
 			void TestEvents(sf::Event &ev);
 #endif // DEBUG
@@ -89,12 +96,18 @@ namespace GF {
 			bool canResize = false;
 			bool hasCloseButton = true;
 			bool hasTitlebar = true;
+			unsigned framerate = 0;
+			bool vsync = false;
 			bool opened=false;
+			bool keyRepeatEnabled = true;
+			bool cursorVisible = true;
+			float joystickThreshold=-1;
 			std::string title = "Window";
 			Pos pos = { 0,0 };
 			Size size = { 800,600 };
 			std::shared_ptr<std::thread> thread;
 			sf::RenderWindow window;
+			std::vector<std::shared_ptr<GraphObject2D>> graphObjs;
 			//consts
 			const Size MIN_SIZE = { 10,10 };
 		};

@@ -2,29 +2,31 @@
 
 namespace GF {
 	namespace IOModule {
-		void GraphObject::setVisible(bool enabled)
+		void GraphObject2D::setVisible(bool enabled)
 		{
 			visible = enabled;
+			sprite.setColor(sf::Color::Green);
+			sprite.setScale({ 2,2 });
 		}
 
-		void GraphObject::setPos(const Posf p)
+		void GraphObject2D::setPos(const Posf p)
 		{
-			pos = p;
+			sprite.setPosition(p);
 		}
 
-		bool GraphObject::getVisible()
+		bool GraphObject2D::getVisible()
 		{
 			return visible;
 		}
 		
-		const Posf& GraphObject::getPos()
+		const Posf& GraphObject2D::getPos()
 		{
-			return pos;
+			return sprite.getPosition();
 		}
 		
-		const Size& GraphObject::getSize()
+		const Sizef& GraphObject2D::getSize()
 		{
-			return size;
+			return sprite.getPosition();
 		}
 	}
 }

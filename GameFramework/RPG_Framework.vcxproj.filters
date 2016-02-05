@@ -36,6 +36,9 @@
     <ClCompile Include="IOModule\GraphObject.cpp">
       <Filter>Source Files\IOModule</Filter>
     </ClCompile>
+    <ClCompile Include="IOModule\Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -65,10 +68,18 @@
     <ClInclude Include="IOModule\GraphObject.h">
       <Filter>Header Files\IOModule</Filter>
     </ClInclude>
+    <ClInclude Include="IOModule\Texture.h">
+      <Filter>Header Files\IOModule</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="IOModule\README.md">
       <Filter>Header Files\IOModule</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="image.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
