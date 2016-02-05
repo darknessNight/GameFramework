@@ -19,10 +19,9 @@ namespace Test3Helpers {
 			frameCount = 0;
 		}
 		else frameCount++;
-		
 		static float t;
-		t += 0.5;
-		texture1->setPos({ sinf(t)*100+100, cosf(t)*100+100 });
+		t += 0.05;
+		texture1->setPos({ sinf(t)*100+400, cosf(t)*100+300 });
 	}
 }
 
@@ -32,14 +31,17 @@ std::string Test3() {
 	window.setTitle("Test3");
 	texture1=window.GetTexture({ 100,100 }, 1);
 	texture1->LoadFromFile("./Image.png");
+	texture1->setTransformPoint({ 50,50 });
+	texture1->rotate(-90);
 	texture1->setVisible(true);
 	window.WindowRender += Rotate;
 	window.setVerticalSyncEnabled(true);
-	window.ShowAsync();
-	std::this_thread::sleep_for(10s);
+	//window.setFramerateLimit(60);
 	window.setCursorVisible(false);
+
 	start = std::chrono::high_resolution_clock::now();
+	window.Show();
 	
-	std::this_thread::sleep_for(1min);
+	
 	return std::string();
 }
