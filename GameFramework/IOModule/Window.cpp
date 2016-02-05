@@ -1,6 +1,6 @@
 #include "Window.h"
 
-namespace GameFramework {
+namespace GF {
 	namespace IOModule {
 		Window::Window()
 		{
@@ -17,7 +17,9 @@ namespace GameFramework {
 		void Window::Show()
 		{
 			if (thread != nullptr && std::this_thread::get_id() != thread->get_id() && thread->joinable()) thread->join();
-			window.create(sf::VideoMode(size.x, size.y, 32), title);
+			window.create(sf::VideoMode(size.x, size.y, 32), title,
+				(fullscreen?sf::Style::Fullscreen:0)| (hasCloseButton?sf::Style::Close:0)|
+				(hasTitlebar?sf::Style::Titlebar:0)|(canResize?sf::Style::Resize:0));
 			opened = false;
 			InputLoop();
 		}
@@ -31,6 +33,21 @@ namespace GameFramework {
 		void Window::Close()
 		{
 			OnClose();
+		}
+
+		std::shared_ptr<ITimer> Window::CreateTimer()
+		{
+			return std::shared_ptr<ITimer>();
+		}
+
+		bool Window::ApplyGraphObj(std::shared_ptr<IGraphObject2D>)
+		{
+			return false;
+		}
+
+		bool Window::ApplyTimer(std::shared_ptr<ITimer>)
+		{
+			return false;
 		}
 
 #ifdef DEBUG
@@ -143,7 +160,7 @@ namespace GameFramework {
 			}
 		}
 
-		void Window::setPosition(const Position pos)
+		void Window::setPosition(const Pos pos)
 		{
 			this->pos = pos;
 			window.setPosition(pos);
@@ -172,6 +189,26 @@ namespace GameFramework {
 		void Window::setJoystickThreshold(float threshold)
 		{
 			window.setJoystickThreshold(threshold);
+		}
+
+		void Window::setFullscreen(bool enabled)
+		{
+			fullscreen = enabled;
+		}
+
+		void Window::setCanResize(bool enabled)
+		{
+			canResize = enabled;
+		}
+
+		void Window::setCloseButton(bool enabled)
+		{
+			hasCloseButton = enabled;
+		}
+
+		void Window::setTitleBar(bool enabled)
+		{
+			hasTitlebar = enabled;
 		}
 
 	}

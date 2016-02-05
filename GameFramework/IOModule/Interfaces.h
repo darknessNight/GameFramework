@@ -1,15 +1,59 @@
 #pragma once
-#include "../stdafx.h"
-#include "Interfaces.h"
-
+#include <SFML\Graphics.hpp>
+#include "EventArgs.hpp"
 namespace GF {
 	namespace IOModule {
-		
+		//TODO zast¹piæ typedef interfejsami
+		typedef sf::Mouse Mouse;
+		typedef sf::Keyboard Keyboard;
+		typedef sf::Joystick Joystick;
+		typedef sf::NonCopyable NonCopyable;
+		typedef sf::Vector2i Pos;
+		typedef sf::Vector2f Posf;
+		typedef sf::Vector2u Size;
+		typedef sf::Color Color;
 
-		class Window :NonCopyable, public AWindow {
-		public:
-			Window();
-			~Window();
+		__interface IGraphObject2D {
+			void setVisible(bool enabled);
+			void setPos(const Posf p);
+			bool getVisible();
+			const Posf& getPos();
+			const Size& getSize();
+			void LoadFromFile(std::string path);
+		};
+
+		__interface ITimer {
+			/*void setInterval(double miliseconds);
+			void start();
+			void stop();
+			void setFunction(std::function<void(void)>);
+			void setAsyncFunction(std::function<void(void)>);*/
+		};
+
+		__interface ITexture2D:public IGraphObject2D {
+		};
+
+		__interface IImage2D:public IGraphObject2D {
+			/*void drawLine(Positionf, Positionf, ITexture);
+			void drawLine(Positionf, Positionf, Color);
+			void drawCircle(Positionf, double r, ITexture);
+			void drawCircle(Positionf, double r, Color);
+			void drawRegularShape(double r, int corners, ITexture);
+			void drawRegularShape(double r, int corners, Color);
+			void drawShape(int count, Positionf points[], ITexture);
+			void drawShape(int count, Positionf points[], Color);*/
+		};
+
+		__interface IMultipleGraphObject2D :public IGraphObject2D {
+
+		};
+
+		__interface ICamera2D {
+			void MoveTo(const Pos);
+			void SetSize(const Size);
+		};
+
+		__interface IWindow {
 			void Show();
 			void ShowAsync();
 			void Close();
@@ -17,9 +61,9 @@ namespace GF {
 			bool ApplyGraphObj(std::shared_ptr<IGraphObject2D>);
 			bool ApplyTimer(std::shared_ptr<ITimer>);
 			//properties
-			const std::string& getTitle() { return title; }
-			const Size& getSize() { return size; }
-			const Pos& getPosition() { return pos; }
+			const std::string& getTitle();
+			const Size& getSize();
+			const Pos& getPosition();
 			void setTitle(const std::string title);
 			void setSize(const Size size);
 			void setPosition(const Pos pos);
@@ -32,17 +76,10 @@ namespace GF {
 			void setCanResize(bool enabled);
 			void setCloseButton(bool enabled);
 			void setTitleBar(bool enabled);
-#ifdef DEBUG
-			void TestEvents(sf::Event &ev);
-#endif // DEBUG
+		};
 
-		protected:
-			void InputLoop();
-#pragma region OnEvent Funcs
-			void OnWindowRender();
-			void OnClose();
-			template <typename ArgType> void OnEvent(Events::Event<ArgType> &sync, Events::Event<ArgType>* async, ArgType args);
-#pragma endregion
+		class AWindow:public IWindow
+		{
 		public:
 #pragma region Events
 			Events::Event<Events::EventArgs> WindowRender;
@@ -84,30 +121,7 @@ namespace GF {
 			Events::Event<Events::JoystickArgs> JoystickDisconnectAsync;
 			Events::Event<Events::TextTypeArgs> TextTypeAsync;
 #pragma endregion
-		protected:
-			bool fullscreen = false;
-			bool canResize = false;
-			bool hasCloseButton = true;
-			bool hasTitlebar = true;
-			bool opened=false;
-			std::string title = "Window";
-			Pos pos = { 0,0 };
-			Size size = { 800,600 };
-			std::shared_ptr<std::thread> thread;
-			sf::RenderWindow window;
-			//consts
-			const Size MIN_SIZE = { 10,10 };
 		};
 
-
-		template<typename ArgType>
-		inline void Window::OnEvent(Events::Event<ArgType>& sync, Events::Event<ArgType>* async, ArgType args)
-		{
-			if (async != nullptr && async->size() > 0) {
-				std::thread t(&Events::Event<ArgType>::operator(), async, this, args);
-				t.detach();//TODO to niehumanitarne porzucaæ w¹tki. Do naprawy
-			}
-			sync(this, args);
-		}
 	}
 }

@@ -1,7 +1,7 @@
 #pragma once
 #include "EventArgs.h"
 
-namespace GameFramework {
+namespace GF {
 	namespace IOModule {
 		namespace Events {
 

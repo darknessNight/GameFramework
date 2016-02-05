@@ -3,7 +3,7 @@
 #include <list>
 #include <SFML\Window.hpp>
 
-namespace GameFramework {
+namespace GF {
 	namespace IOModule {
 		namespace Events {
 			class Object {};

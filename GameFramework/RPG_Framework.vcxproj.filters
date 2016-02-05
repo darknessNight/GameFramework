@@ -33,6 +33,9 @@
     <ClCompile Include="IOModule\EventArgs.hpp">
       <Filter>Source Files\IOModule</Filter>
     </ClCompile>
+    <ClCompile Include="IOModule\GraphObject.cpp">
+      <Filter>Source Files\IOModule</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -51,6 +54,15 @@
       <Filter>Header Files\IOModule</Filter>
     </ClInclude>
     <ClInclude Include="IOModule\EventArgs.h">
+      <Filter>Header Files\IOModule</Filter>
+    </ClInclude>
+    <ClInclude Include="Tests\Test3.h">
+      <Filter>Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="IOModule\Interfaces.h">
+      <Filter>Header Files\IOModule</Filter>
+    </ClInclude>
+    <ClInclude Include="IOModule\GraphObject.h">
       <Filter>Header Files\IOModule</Filter>
     </ClInclude>
   </ItemGroup>

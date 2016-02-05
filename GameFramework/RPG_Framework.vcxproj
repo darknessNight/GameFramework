@@ -153,15 +153,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="IOModule\EventArgs.hpp" />
+    <ClCompile Include="IOModule\GraphObject.cpp" />
     <ClCompile Include="IOModule\Window.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IOModule\EventArgs.h" />
+    <ClInclude Include="IOModule\GraphObject.h" />
+    <ClInclude Include="IOModule\Interfaces.h" />
     <ClInclude Include="IOModule\Window.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Tests\Test1.h" />
     <ClInclude Include="Tests\Test2.h" />
+    <ClInclude Include="Tests\Test3.h" />
     <ClInclude Include="Tests\Tests.h" />
   </ItemGroup>
   <ItemGroup>
