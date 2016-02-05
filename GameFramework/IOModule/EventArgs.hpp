@@ -4,11 +4,26 @@
 namespace GameFramework {
 	namespace IOModule {
 		namespace Events {
+
+			template<typename ArgType>
+			inline void Event<ArgType>::operator+=(Delegate<ArgType> d)
+			{
+				funcs.push_back(d);
+				funcs.unique();
+			}
+
+			template<typename ArgType>
+			inline void Event<ArgType>::operator-=(Delegate<ArgType> d)
+			{
+				funcs.remove(d);
+			}
+
 			template <typename ArgType> inline void Event<ArgType>::operator() (void* sender, ArgType& arg) {
+				arg.sender = sender;
 				arg.cancel = false;
 				arg.timestamp = std::time(nullptr);
 				for (auto i = funcs.begin(); i != funcs.end(); i++) {
-					(i->func)(sender, arg);
+					(*i)(arg);
 					if (arg.cancel) break;
 				}
 			}
@@ -21,15 +36,62 @@ namespace GameFramework {
 				funcs.clear();
 			}
 
-			template <typename ArgType> inline int Event<ArgType>::operator+=(std::function<void(void*, ArgType&)> fun) {
-				funcs.push_back(fun);
-				funcs.unique();
-				return lastId-1;
+			template<class ArgType>
+			inline Delegate<ArgType>::Delegate(void(f)(ArgType &))
+			{
+				id = (int)f;
+				func = std::function<void(ArgType&)>(f);
 			}
 
-			template <typename ArgType> inline void Event<ArgType>::operator-=(int del) {
-				funcs.remove(del);
+			template<class ArgType>
+			inline Delegate<ArgType>::Delegate(void(Object::* f)(ArgType &), Object * obj)
+			{
+				id = (int)obj;
+				primaryFunc = f;
+				func = std::bind(f, obj, std::placeholders::_1);
 			}
+
+			template<class ArgType>
+			inline Delegate<ArgType>::Delegate(std::function<void(ArgType&)> f, int id)
+			{
+				func = f;
+				this->id = id;
+			}
+
+			template<class ArgType>
+			inline Delegate<ArgType>::Delegate(std::function<void(ArgType&)>f, int id, void(Object::* pf)(ArgType &))
+			{
+				this->id = id;
+				primaryFunc = pf;
+				func = f;
+			}
+
+			template<class ArgType>
+			inline Delegate<ArgType>::Delegate(int id)
+			{
+				this->id = id;
+			}
+
+			template<class ArgType>
+			inline Delegate<ArgType>::Delegate(int id, void(Object::*f)(ArgType&))
+			{
+				this->id = id;
+				primaryFunc = f;
+			}
+
+			template<typename ArgType>
+			inline bool Delegate<ArgType>::operator==(const Delegate & com)
+			{
+				return(this->id == com.id && this->primaryFunc == com.primaryFunc);
+			}
+
+			template<typename ArgType>
+			inline void Delegate<ArgType>::operator()(ArgType &a)
+			{
+				func(a);
+			}
+
+
 		}
 	}
 }

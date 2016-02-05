@@ -18,6 +18,7 @@ namespace GameFramework {
 		{
 			if (thread != nullptr && std::this_thread::get_id() != thread->get_id() && thread->joinable()) thread->join();
 			window.create(sf::VideoMode(size.x, size.y, 32), title);
+			opened = false;
 			InputLoop();
 		}
 
@@ -33,7 +34,7 @@ namespace GameFramework {
 		}
 
 #ifdef DEBUG
-		void Window::TestEvents(sf::Event ev)
+		void Window::TestEvents(sf::Event &ev)
 		{
 			Events::EventArgs stdArg;
 			OnEvent<Events::EventArgs>(WindowFocused, &WindowFocusedAsync, stdArg);
@@ -57,11 +58,11 @@ namespace GameFramework {
 
 		void Window::InputLoop()//TODO bad function, but already I not have any idea.
 		{
+			Events::EventArgs stdArg;
+			sf::Event ev;
 			while (window.isOpen())
 			{
-				Events::EventArgs stdArg;
-				sf::Event ev;
-				while (window.pollEvent(ev))
+				while (opened&&window.pollEvent(ev))// must use var opened because if window was closed after previous condition and before pollEvent program tried call to nullptr object
 				{
 					switch (ev.type) {
 					case sf::Event::EventType::Closed:
@@ -100,9 +101,8 @@ namespace GameFramework {
 					case sf::Event::EventType::TextEntered:
 						OnEvent<Events::TextTypeArgs>(TextType, &TextTypeAsync, ev.text); break;
 					}
-
 				}
-				window.display();
+				OnWindowRender();
 			}
 		}
 
@@ -110,15 +110,20 @@ namespace GameFramework {
 		{
 			Events::EventArgs args;
 			OnEvent<Events::EventArgs>(WindowRender, &WindowRenderAsync, args);
+			window.display();
 		}
 
 		void Window::OnClose()
 		{
+			opened = false;
 			Events::EventArgs args;
-			args.cancel = false;
-			OnEvent<Events::EventArgs>(WindowClose, nullptr, args);
+			if (window.isOpen()) {
+				args.cancel = false;
+				OnEvent<Events::EventArgs>(WindowClose, nullptr, args);
+			}
 			if (!args.cancel && window.isOpen())
 				window.close();
+
 		}
 
 		void Window::setTitle(const std::string title)
@@ -133,8 +138,8 @@ namespace GameFramework {
 		{
 			if (size.x >= MIN_SIZE.x&&size.y > MIN_SIZE.y) {
 				this->size = size;
-				if(window.isOpen())
-				window.setSize(size);
+				if (window.isOpen())
+					window.setSize(size);
 			}
 		}
 
@@ -169,5 +174,5 @@ namespace GameFramework {
 			window.setJoystickThreshold(threshold);
 		}
 
-}
+	}
 }

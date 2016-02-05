@@ -36,7 +36,7 @@ namespace GameFramework {
 			void setFramerateLimit(unsigned int limit);
 			void setJoystickThreshold(float threshold);
 #ifdef DEBUG
-			void TestEvents(sf::Event ev);
+			void TestEvents(sf::Event &ev);
 #endif // DEBUG
 
 		protected:
@@ -93,6 +93,7 @@ namespace GameFramework {
 			bool hasCloseButton = true;
 			bool hasTitlebar = true;
 		protected:
+			bool opened=false;
 			std::string title = "Window";
 			Position pos = { 0,0 };
 			Size size = { 800,600 };
