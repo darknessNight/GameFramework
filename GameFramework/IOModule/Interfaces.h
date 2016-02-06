@@ -1,30 +1,82 @@
-/*
-Window class.
-INFO
-framerate and vsync doesn't work after call inputLoop. This options must be changed before create window or after change
-window must be recreated
-*/
 #pragma once
-#include "../stdafx.h"
-#include "Texture.h"
-
+#include <SFML\Graphics.hpp>
+#include "EventArgs.hpp"
 namespace GF {
 	namespace IOModule {
-		class Window :NonCopyable, public AWindow {
-		public:
-			Window();
-			~Window();
+		//TODO zast¹piæ typedef interfejsami
+		typedef sf::Mouse Mouse;
+		typedef sf::Keyboard Keyboard;
+		typedef sf::Joystick Joystick;
+		typedef sf::NonCopyable NonCopyable;
+		typedef sf::Vector2i Pos;
+		typedef sf::Vector2f Posf;
+		typedef sf::Vector2u Size;
+		typedef sf::Vector2f Sizef;
+		typedef sf::Color Color;
+
+		__interface IGraphObject2D {
+			void setVisible(bool enabled);
+			void setPos(const Posf p);
+			void setColor(const Color c);//change color of object (create color mask)
+			void setTransformPoint(Posf p);
+			void setRotation(float angle);//overrive current rotate
+			void setScale(float xScale, float yScale);//override current scale
+			void setScale(Sizef scale);//override current scale
+			bool getVisible();
+			const Posf& getPos();
+			const Sizef& getSize();
+			const Color& getColor();
+			const Posf& getTransformPoint();
+			const float& getRotation();
+			const Sizef& getScale();
+			void rotate(float angle);//add to current rotate angle
+			void scale(float x, float y);//multiple current scale
+			void scale(Sizef scale);//multiple current scale
+			virtual void LoadFromFile(std::string path) = 0;
+		};
+
+		__interface ITimer {
+			/*void setInterval(double miliseconds);
+			void start();
+			void stop();
+			void setFunction(std::function<void(void)>);
+			void setAsyncFunction(std::function<void(void)>);*/
+		};
+
+		__interface ITexture2D {
+		};
+
+		__interface IImage2D:public IGraphObject2D {
+			/*void drawLine(Positionf, Positionf, ITexture);
+			void drawLine(Positionf, Positionf, Color);
+			void drawCircle(Positionf, double r, ITexture);
+			void drawCircle(Positionf, double r, Color);
+			void drawRegularShape(double r, int corners, ITexture);
+			void drawRegularShape(double r, int corners, Color);
+			void drawShape(int count, Positionf points[], ITexture);
+			void drawShape(int count, Positionf points[], Color);*/
+		};
+
+		__interface IMultipleGraphObject2D :public IGraphObject2D {
+
+		};
+
+		__interface ICamera2D {
+			void MoveTo(const Pos);
+			void SetSize(const Size);
+		};
+
+		__interface IWindow {
 			void Show();
 			void ShowAsync();
 			void Close();
-			std::shared_ptr<Texture2D> GetTexture(Size size, int z_index);
 			std::shared_ptr<ITimer> CreateTimer();
 			bool ApplyGraphObj(std::shared_ptr<IGraphObject2D>);
 			bool ApplyTimer(std::shared_ptr<ITimer>);
 			//properties
-			const std::string& getTitle() { return title; }
-			const Size& getSize() { return size; }
-			const Pos& getPosition() { return pos; }
+			const std::string& getTitle();
+			const Size& getSize();
+			const Pos& getPosition();
 			void setTitle(const std::string title);
 			void setSize(const Size size);
 			void setPosition(const Pos pos);
@@ -37,17 +89,10 @@ namespace GF {
 			void setCanResize(bool enabled);
 			void setCloseButtonVisible(bool enabled);
 			void setTitleBarVisible(bool enabled);
-#ifdef DEBUG
-			void TestEvents(sf::Event &ev);
-#endif // DEBUG
+		};
 
-		protected:
-			void InputLoop();
-#pragma region OnEvent Funcs
-			void OnWindowRender();
-			void OnClose();
-			template <typename ArgType> void OnEvent(Events::Event<ArgType> &sync, Events::Event<ArgType>* async, ArgType args);
-#pragma endregion
+		class AWindow:public IWindow
+		{
 		public:
 #pragma region Events
 			Events::Event<Events::EventArgs> WindowRender;
@@ -89,36 +134,7 @@ namespace GF {
 			Events::Event<Events::JoystickArgs> JoystickDisconnectAsync;
 			Events::Event<Events::TextTypeArgs> TextTypeAsync;
 #pragma endregion
-		protected:
-			bool fullscreen = false;
-			bool canResize = false;
-			bool hasCloseButton = true;
-			bool hasTitlebar = true;
-			unsigned framerate = 0;
-			bool vsync = false;
-			bool opened=false;
-			bool keyRepeatEnabled = true;
-			bool cursorVisible = true;
-			float joystickThreshold=-1;
-			std::string title = "Window";
-			Pos pos = { 0,0 };
-			Size size = { 800,600 };
-			std::shared_ptr<std::thread> thread;
-			sf::RenderWindow window;
-			std::vector<std::shared_ptr<GraphObject2D>> graphObjs;
-			//consts
-			const Size MIN_SIZE = { 10,10 };
 		};
 
-
-		template<typename ArgType>
-		inline void Window::OnEvent(Events::Event<ArgType>& sync, Events::Event<ArgType>* async, ArgType args)
-		{
-			if (async != nullptr && async->size() > 0) {
-				std::thread t(&Events::Event<ArgType>::operator(), async, this, args);
-				t.detach();//TODO to niehumanitarne porzucaæ w¹tki. Do naprawy
-			}
-			sync(this, args);
-		}
 	}
 }
