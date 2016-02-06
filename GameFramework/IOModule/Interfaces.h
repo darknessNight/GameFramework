@@ -8,7 +8,7 @@ namespace GF {
 			void setVisible(bool enabled);
 			void setPos(const Posf p);
 			void setColor(const Color c);//change color of object (create color mask)
-			void setTransformPoint(Posf p);
+			void setOrigin(Posf p);
 			void setRotation(float angle);//overrive current rotate
 			void setScale(float xScale, float yScale);//override current scale
 			void setScale(Sizef scale);//override current scale
@@ -38,7 +38,7 @@ namespace GF {
 		__interface ITexture2D {
 		};
 
-		__interface IImage:public IGraphObject2D {
+		__interface IImage {
 			/*void drawLine(Positionf, Positionf, ITexture);
 			void drawLine(Positionf, Positionf, Color);
 			void drawCircle(Positionf, double r, ITexture);
@@ -63,8 +63,8 @@ namespace GF {
 			void ShowAsync();
 			void Close();
 			std::shared_ptr<ITimer> CreateTimer();
-			bool AppendGraphObj(std::shared_ptr<IGraphObject2D>);
-			bool AppendTimer(std::shared_ptr<ITimer>);
+			void AppendGraphObj(std::shared_ptr<IGraphObject2D>);
+			void AppendTimer(std::shared_ptr<ITimer>);
 			//properties
 			const std::string& getTitle();
 			const Size& getSize();

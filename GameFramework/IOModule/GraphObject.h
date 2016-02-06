@@ -11,7 +11,7 @@ namespace GF {
 			void setVisible(bool enabled);
 			void setPos(const Posf p);
 			void setColor(const Color c);//change color of object (create color mask)
-			void setTransformPoint(Posf p);
+			void setOrigin(Posf p);
 			void setRotation(float angle);//overrive current rotate
 			void setScale(float xScale, float yScale);//override current scale
 			void setScale(Sizef scale);//override current scale

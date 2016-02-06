@@ -17,7 +17,7 @@ namespace GF {
 			sprite.setColor(c);
 		}
 
-		void GraphObject2D::setTransformPoint(Posf p)
+		void GraphObject2D::setOrigin(Posf p)
 		{
 			sprite.setOrigin(p);
 		}

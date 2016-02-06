@@ -1,6 +1,10 @@
 #include "Texture.h"
 #include <fstream>
 
+GF::IOModule::Texture2D::Texture2D(const sf::Texture & tex):texture(tex)
+{
+}
+
 GF::IOModule::Texture2D::Texture2D(Size size)
 {
 	if(!texture.create(size.x, size.y))
@@ -18,7 +22,6 @@ void GF::IOModule::Texture2D::loadFromMemory(const void* mem, unsigned size)
 {
 	if (!texture.loadFromMemory(mem, size))
 		throw std::exception("Cannot load from memory");
-	sprite.setTexture(texture);
 }
 
 void GF::IOModule::Texture2D::loadFromStream(std::istream& stream)

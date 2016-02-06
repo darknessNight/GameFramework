@@ -36,45 +36,61 @@ namespace GF {
 
 		void Window::Close()
 		{
-			OnClose();
+			onClose();
 		}
 
-		std::shared_ptr<Texture2D> Window::GetTexture(Size size, int z_index)
+		std::shared_ptr<Texture2D> Window::CreateTexture(Size size, int z_index)
 		{
 			std::shared_ptr<Texture2D> tex(new Texture2D(size));
-			if(z_index<0 || z_index>=graphObjs.size())
-				graphObjs.push_back(tex);
-			else {
-				auto i=graphObjs.begin();
-				i += z_index;
-				i=graphObjs.insert(i, tex);
-			}
+			AppendGraphObj(tex, z_index);
 			return tex;
 		}
 
 		std::shared_ptr<ITimer> Window::CreateTimer()
 		{
+			//TODO
 			return std::shared_ptr<ITimer>();
 		}
 
-		bool Window::AppendGraphObj(std::shared_ptr<IGraphObject2D>)
+		void Window::AppendGraphObj(std::shared_ptr<GraphObject2D> tex, int z_index)
 		{
-			return false;
+			if (z_index < 0 || z_index >= graphObjs.size())
+				graphObjs.push_back(tex);
+			else {
+				auto i = graphObjs.begin();
+				i += z_index;
+				i = graphObjs.insert(i, tex);
+			}
+		}
+
+		void Window::AppendGraphObj(std::shared_ptr<IGraphObject2D> val)
+		{
+			std::shared_ptr<GraphObject2D> ptr((GraphObject2D*)val.get());
+			graphObjs.push_back(ptr);
 		}
 
 		void Window::removeGraphObj(const std::shared_ptr<IGraphObject2D> rem)
 		{
 			for (auto i = graphObjs.begin(); i != graphObjs.end(); i++) {
 				if ((*i) == rem) {
-					i=graphObjs.erase(i);
+					i = graphObjs.erase(i);
 					break;
 				}
 			}
 		}
 
-		bool Window::AppendTimer(std::shared_ptr<ITimer>)
+		void Window::AppendTimer(std::shared_ptr<ITimer>)
 		{
-			return false;
+			//TODO
+		}
+
+		void Window::captureToFile(std::string path)
+		{
+			window.display();
+			sf::Image im(window.capture());
+			if (!im.saveToFile(path))
+				throw std::exception("Cannot save to file");
+
 		}
 
 #ifdef DEBUG
@@ -110,7 +126,7 @@ namespace GF {
 				{
 					switch (ev.type) {
 					case sf::Event::EventType::Closed:
-						OnClose(); break;
+						onClose(); break;
 					case sf::Event::EventType::GainedFocus:
 						OnEvent<Events::EventArgs>(WindowFocused, &WindowFocusedAsync, stdArg); break;
 					case sf::Event::EventType::LostFocus:
@@ -146,25 +162,25 @@ namespace GF {
 						OnEvent<Events::TextTypeArgs>(TextType, &TextTypeAsync, ev.text); break;
 					}
 				}
-				OnWindowRender();
+				onWindowRender();
 			}
 		}
 
-		void Window::OnWindowRender()
+		void Window::onWindowRender()
 		{
 			if (opened && window.isOpen()) {
 				Events::EventArgs args;
 				OnEvent<Events::EventArgs>(WindowRender, &WindowRenderAsync, args);
 				window.clear();
-				for (auto i = graphObjs.begin(); i != graphObjs.end();i++)
-					{
-						(*i)->render(&window);
-					}
+				for (auto i = graphObjs.begin(); i != graphObjs.end(); i++)
+				{
+					(*i)->render(&window);
+				}
 				window.display();
 			}
 		}
 
-		void Window::OnClose()
+		void Window::onClose()
 		{
 			opened = false;
 			Events::EventArgs args;
@@ -175,6 +191,10 @@ namespace GF {
 			if (!args.cancel && window.isOpen())
 				window.close();
 
+		}
+
+		void Window::onClick()
+		{
 		}
 
 		void Window::setTitle(const std::string title)

@@ -2,7 +2,7 @@
 #include <SFML\Graphics.hpp>
 namespace GF {
 	namespace IOModule {
-		//TODO zast¹piæ typedef interfejsami
+		//TODO zast¹piæ typedef typami lub interfejsami
 		typedef sf::Mouse Mouse;
 		typedef sf::Keyboard Keyboard;
 		typedef sf::Joystick Joystick;
@@ -12,5 +12,17 @@ namespace GF {
 		typedef sf::Vector2u Size;
 		typedef sf::Vector2f Sizef;
 		typedef sf::Color Color;
+		typedef sf::Font Font;
+		typedef sf::Shader Shader;
+		typedef sf::BlendMode BlenMode;
+		typedef sf::Text Text;
+		typedef sf::Drawable Drawable;
+		typedef sf::IntRect Rect;
+		typedef sf::FloatRect Rectf;
+		namespace Shapes {
+			typedef sf::CircleShape Circle;
+			typedef sf::RectangleShape Rectangle;
+			typedef sf::ConvexShape ConvexShape;
+		}
 	}
 }

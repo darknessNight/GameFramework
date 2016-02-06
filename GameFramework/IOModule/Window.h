@@ -17,11 +17,13 @@ namespace GF {
 			void Show();
 			void ShowAsync();
 			void Close();
-			std::shared_ptr<Texture2D> GetTexture(Size size, int z_index=-1);
+			std::shared_ptr<Texture2D> CreateTexture(Size size, int z_index=-1);
 			std::shared_ptr<ITimer> CreateTimer();
-			bool AppendGraphObj(std::shared_ptr<IGraphObject2D>);
+			void AppendGraphObj(std::shared_ptr<GraphObject2D>, int z_index);
+			void AppendGraphObj(std::shared_ptr<IGraphObject2D>);
 			void removeGraphObj(const std::shared_ptr<IGraphObject2D>);
-			bool AppendTimer(std::shared_ptr<ITimer>);
+			void AppendTimer(std::shared_ptr<ITimer>);
+			void captureToFile(std::string path);
 			//properties
 			const std::string& getTitle() { return title; }
 			const Size& getSize() { return size; }
@@ -45,8 +47,9 @@ namespace GF {
 		protected:
 			void InputLoop();
 #pragma region OnEvent Funcs
-			void OnWindowRender();
-			void OnClose();
+			void onWindowRender();
+			void onClose();
+			void onClick();//TODO
 			template <typename ArgType> void OnEvent(Events::Event<ArgType> &sync, Events::Event<ArgType>* async, ArgType args);
 #pragma endregion
 		public:
