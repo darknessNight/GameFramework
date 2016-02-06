@@ -84,6 +84,19 @@ namespace GF {
 				throw std::exception("Cannot save to file");
 		}
 
+		const Sizef & Image::getSize()
+		{
+			Sizef size;
+			size.x= texture.getSize().x;
+			size.y= texture.getSize().y;
+			return size;
+		}
+
+		const sf::Texture & Image::getTexture()
+		{
+			return texture.getTexture();
+		}
+
 		void Image::render(sf::RenderTarget * window)
 		{
 			if (visible) {

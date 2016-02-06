@@ -155,6 +155,7 @@
     <ClCompile Include="IOModule\EventArgs.hpp" />
     <ClCompile Include="IOModule\GraphObject.cpp" />
     <ClCompile Include="IOModule\Image.cpp" />
+    <ClCompile Include="IOModule\MultipleGraph.cpp" />
     <ClCompile Include="IOModule\Texture.cpp" />
     <ClCompile Include="IOModule\Window.cpp" />
     <ClCompile Include="main.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="IOModule\GraphObject.h" />
     <ClInclude Include="IOModule\Image.h" />
     <ClInclude Include="IOModule\Interfaces.h" />
+    <ClInclude Include="IOModule\MultipleGraph.h" />
     <ClInclude Include="IOModule\Texture.h" />
     <ClInclude Include="IOModule\Types.h" />
     <ClInclude Include="IOModule\Window.h" />
@@ -175,6 +177,7 @@
     <ClInclude Include="Tests\Tests.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="IOModule\README.md" />
   </ItemGroup>
   <ItemGroup>

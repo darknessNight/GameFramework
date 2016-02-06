@@ -14,6 +14,8 @@ namespace GF {
 			void loadFromMemory(const void* mem, unsigned size);
 			void loadFromStream(std::istream& stream);
 			void setSmooth(bool enabled);
+
+			const sf::Texture& getTexture()override;
 		private:
 			void render(sf::RenderTarget* window) override;
 		private:

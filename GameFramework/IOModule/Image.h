@@ -16,6 +16,8 @@ namespace GF {
 			void draw(Drawable& some);
 			void clear(Color color = Color::Black);
 			void SaveToFile(std::string path);
+			const Sizef& getSize()override;
+			const sf::Texture& getTexture()override;
 		private:
 			void render(sf::RenderTarget* window) override;
 

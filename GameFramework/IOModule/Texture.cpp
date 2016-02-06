@@ -48,6 +48,11 @@ void GF::IOModule::Texture2D::setSmooth(bool enabled)
 	texture.setSmooth(enabled);
 }
 
+const sf::Texture & GF::IOModule::Texture2D::getTexture()
+{
+	return texture;
+}
+
 void GF::IOModule::Texture2D::render(sf::RenderTarget* window)
 {
 	if(visible)

@@ -7,7 +7,7 @@ namespace GF {
 			visible = enabled;
 		}
 
-		void GraphObject2D::setPos(const Posf p)
+		void GraphObject2D::setPosition(const Posf p)
 		{
 			sprite.setPosition(p);
 		}
@@ -42,7 +42,7 @@ namespace GF {
 			return visible;
 		}
 		
-		const Posf& GraphObject2D::getPos()
+		const Posf& GraphObject2D::getPosition()
 		{
 			return sprite.getPosition();
 		}
@@ -55,7 +55,7 @@ namespace GF {
 		{
 			return sprite.getColor();
 		}
-		const Posf & GraphObject2D::getTransformPoint()
+		const Posf & GraphObject2D::getOrigin()
 		{
 			return sprite.getOrigin();
 		}

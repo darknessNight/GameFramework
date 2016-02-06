@@ -6,17 +6,17 @@ namespace GF {
 
 		__interface IGraphObject2D {
 			void setVisible(bool enabled);
-			void setPos(const Posf p);
+			void setPosition(const Posf p);
 			void setColor(const Color c);//change color of object (create color mask)
 			void setOrigin(Posf p);
 			void setRotation(float angle);//overrive current rotate
 			void setScale(float xScale, float yScale);//override current scale
 			void setScale(Sizef scale);//override current scale
 			bool getVisible();
-			const Posf& getPos();
+			const Posf& getPosition();
 			const Sizef& getSize();
 			const Color& getColor();
-			const Posf& getTransformPoint();
+			const Posf& getOrigin();
 			const float& getRotation();
 			const Sizef& getScale();
 			void rotate(float angle);//add to current rotate angle

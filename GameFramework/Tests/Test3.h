@@ -24,7 +24,7 @@ namespace Test3Helpers {
 		}
 		else frameCount++;
 		float f = std::chrono::duration_cast<timeDurMove>(started - std::chrono::high_resolution_clock::now()).count()/1000;
-		texture1->setPos({ sinf(f)*200+400,
+		texture1->setPosition({ sinf(f)*200+400,
 			cosf(f)*200+300 });
 	}
 	void Close(GF::IOModule::Events::KeyboardArgs &args) {
@@ -101,26 +101,26 @@ std::string Test3() {
 		texture2 = window.CreateTexture({ 100,100 },0);
 		texture2->loadFromFile("./Image.png");
 		texture2->scale({ 3,3 });
-		texture2->setPos({ 250, 150 });
+		texture2->setPosition({ 250, 150 });
 		texture2->setVisible(true);
 
 		texture2 = window.CreateTexture({ 100,100 }, 0);
 		texture2->loadFromFile("./Image.png");
-		texture2->setPos({ 10, 10 });
+		texture2->setPosition({ 10, 10 });
 		texture2->setVisible(true);
 		texture2 = window.CreateTexture({ 100,100 }, 0);
 		texture2->loadFromFile("./Image.png");
-		texture2->setPos({ 690, 490 });
+		texture2->setPosition({ 690, 490 });
 		texture2->setVisible(true);
 		texture2 = window.CreateTexture({ 100,100 }, 0);
 		texture2->loadFromFile("./Image.png");
-		texture2->setPos({ 740, 60 });
+		texture2->setPosition({ 740, 60 });
 		texture2->setOrigin({ 50,50 });
 		texture2->setRotation(-90);
 		texture2->setVisible(true);
 		texture2 = window.CreateTexture({ 100,100 }, 0);
 		texture2->loadFromFile("./Image.png");
-		texture2->setPos({ 60, 540 });
+		texture2->setPosition({ 60, 540 });
 		texture2->setOrigin({ 50,50 });
 		texture2->setRotation(-90);
 		texture2->setVisible(true);

@@ -42,6 +42,9 @@
     <ClCompile Include="IOModule\Image.cpp">
       <Filter>Source Files\IOModule</Filter>
     </ClCompile>
+    <ClCompile Include="IOModule\MultipleGraph.cpp">
+      <Filter>Source Files\IOModule</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -83,11 +86,15 @@
     <ClInclude Include="Tests\Test4.h">
       <Filter>Tests</Filter>
     </ClInclude>
+    <ClInclude Include="IOModule\MultipleGraph.h">
+      <Filter>Header Files\IOModule</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="IOModule\README.md">
       <Filter>Header Files\IOModule</Filter>
     </None>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="image.png">
