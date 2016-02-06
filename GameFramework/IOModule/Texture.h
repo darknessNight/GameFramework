@@ -4,15 +4,16 @@
 namespace GF {
 	namespace IOModule {
 		class Texture2D :public GraphObject2D, public ITexture2D{
-			friend IImage2D;
+			friend IImage;
 		public:
 			Texture2D() = delete;
 			Texture2D(Size size);
-			void LoadFromFile(std::string path) override;
+			void loadFromFile(std::string path) override;
+			void loadFromMemory(const void* mem, unsigned size);
+			void loadFromStream(std::istream& stream);
 			void setSmooth(bool enabled);
-			using GraphObject2D::getPos;
 		private:
-			void render(sf::RenderWindow* window) override;
+			void render(sf::RenderTarget* window) override;
 		private:
 			sf::Texture texture;
 		};

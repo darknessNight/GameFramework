@@ -21,7 +21,7 @@ namespace GF {
 				(fullscreen ? sf::Style::Fullscreen : 0) | (hasCloseButton ? sf::Style::Close : 0) |
 				(hasTitlebar ? sf::Style::Titlebar : 0) | (canResize ? sf::Style::Resize : 0));
 			window.setVerticalSyncEnabled(vsync);
-			if(framerate>0)window.setFramerateLimit(framerate);
+			if (framerate > 0)window.setFramerateLimit(framerate);
 			if (joystickThreshold > 0)window.setJoystickThreshold(joystickThreshold);
 			window.setMouseCursorVisible(cursorVisible);
 			opened = true;
@@ -42,7 +42,13 @@ namespace GF {
 		std::shared_ptr<Texture2D> Window::GetTexture(Size size, int z_index)
 		{
 			std::shared_ptr<Texture2D> tex(new Texture2D(size));
-			graphObjs.push_back(tex);
+			if(z_index<0 || z_index>=graphObjs.size())
+				graphObjs.push_back(tex);
+			else {
+				auto i=graphObjs.begin();
+				i += z_index;
+				i=graphObjs.insert(i, tex);
+			}
 			return tex;
 		}
 
@@ -51,12 +57,22 @@ namespace GF {
 			return std::shared_ptr<ITimer>();
 		}
 
-		bool Window::ApplyGraphObj(std::shared_ptr<IGraphObject2D>)
+		bool Window::AppendGraphObj(std::shared_ptr<IGraphObject2D>)
 		{
 			return false;
 		}
 
-		bool Window::ApplyTimer(std::shared_ptr<ITimer>)
+		void Window::removeGraphObj(const std::shared_ptr<IGraphObject2D> rem)
+		{
+			for (auto i = graphObjs.begin(); i != graphObjs.end(); i++) {
+				if ((*i) == rem) {
+					i=graphObjs.erase(i);
+					break;
+				}
+			}
+		}
+
+		bool Window::AppendTimer(std::shared_ptr<ITimer>)
 		{
 			return false;
 		}
@@ -137,14 +153,15 @@ namespace GF {
 		void Window::OnWindowRender()
 		{
 			if (opened && window.isOpen()) {
-				window.clear(sf::Color::Black);
 				Events::EventArgs args;
 				OnEvent<Events::EventArgs>(WindowRender, &WindowRenderAsync, args);
-				for each(std::shared_ptr<GraphObject2D> el in graphObjs)
-					el->render(&window);
+				window.clear();
+				for (auto i = graphObjs.begin(); i != graphObjs.end();i++)
+					{
+						(*i)->render(&window);
+					}
 				window.display();
 			}
-
 		}
 
 		void Window::OnClose()

@@ -1,18 +1,8 @@
 #pragma once
-#include <SFML\Graphics.hpp>
 #include "EventArgs.hpp"
+#include "Types.h"
 namespace GF {
 	namespace IOModule {
-		//TODO zast¹piæ typedef interfejsami
-		typedef sf::Mouse Mouse;
-		typedef sf::Keyboard Keyboard;
-		typedef sf::Joystick Joystick;
-		typedef sf::NonCopyable NonCopyable;
-		typedef sf::Vector2i Pos;
-		typedef sf::Vector2f Posf;
-		typedef sf::Vector2u Size;
-		typedef sf::Vector2f Sizef;
-		typedef sf::Color Color;
 
 		__interface IGraphObject2D {
 			void setVisible(bool enabled);
@@ -32,7 +22,9 @@ namespace GF {
 			void rotate(float angle);//add to current rotate angle
 			void scale(float x, float y);//multiple current scale
 			void scale(Sizef scale);//multiple current scale
-			virtual void LoadFromFile(std::string path) = 0;
+			virtual void loadFromFile(std::string path) = 0;
+			void loadFromMemory(const void* mem, unsigned size);
+			void loadFromStream(std::istream& stream);
 		};
 
 		__interface ITimer {
@@ -46,7 +38,7 @@ namespace GF {
 		__interface ITexture2D {
 		};
 
-		__interface IImage2D:public IGraphObject2D {
+		__interface IImage:public IGraphObject2D {
 			/*void drawLine(Positionf, Positionf, ITexture);
 			void drawLine(Positionf, Positionf, Color);
 			void drawCircle(Positionf, double r, ITexture);
@@ -71,8 +63,8 @@ namespace GF {
 			void ShowAsync();
 			void Close();
 			std::shared_ptr<ITimer> CreateTimer();
-			bool ApplyGraphObj(std::shared_ptr<IGraphObject2D>);
-			bool ApplyTimer(std::shared_ptr<ITimer>);
+			bool AppendGraphObj(std::shared_ptr<IGraphObject2D>);
+			bool AppendTimer(std::shared_ptr<ITimer>);
 			//properties
 			const std::string& getTitle();
 			const Size& getSize();

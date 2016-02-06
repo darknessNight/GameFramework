@@ -25,9 +25,9 @@ namespace GF {
 			void rotate(float angle);//add to current rotate angle
 			void scale(float x, float y);//multiple current scale
 			void scale(Sizef scale);//multiple current scale
-			virtual void LoadFromFile(std::string path) = 0;
+			virtual void loadFromFile(std::string path) = 0;
 		protected:
-			virtual void render(sf::RenderWindow* window) = 0;
+			virtual void render(sf::RenderTarget* window) = 0;
 		public:
 			Events::Event<Events::EventArgs> Render;
 		protected:

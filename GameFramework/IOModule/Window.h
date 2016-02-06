@@ -17,10 +17,11 @@ namespace GF {
 			void Show();
 			void ShowAsync();
 			void Close();
-			std::shared_ptr<Texture2D> GetTexture(Size size, int z_index);
+			std::shared_ptr<Texture2D> GetTexture(Size size, int z_index=-1);
 			std::shared_ptr<ITimer> CreateTimer();
-			bool ApplyGraphObj(std::shared_ptr<IGraphObject2D>);
-			bool ApplyTimer(std::shared_ptr<ITimer>);
+			bool AppendGraphObj(std::shared_ptr<IGraphObject2D>);
+			void removeGraphObj(const std::shared_ptr<IGraphObject2D>);
+			bool AppendTimer(std::shared_ptr<ITimer>);
 			//properties
 			const std::string& getTitle() { return title; }
 			const Size& getSize() { return size; }

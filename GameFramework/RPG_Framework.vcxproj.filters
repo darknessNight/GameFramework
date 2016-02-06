@@ -37,7 +37,10 @@
       <Filter>Source Files\IOModule</Filter>
     </ClCompile>
     <ClCompile Include="IOModule\Texture.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\IOModule</Filter>
+    </ClCompile>
+    <ClCompile Include="IOModule\Image.cpp">
+      <Filter>Source Files\IOModule</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -70,6 +73,15 @@
     </ClInclude>
     <ClInclude Include="IOModule\Texture.h">
       <Filter>Header Files\IOModule</Filter>
+    </ClInclude>
+    <ClInclude Include="IOModule\Image.h">
+      <Filter>Header Files\IOModule</Filter>
+    </ClInclude>
+    <ClInclude Include="IOModule\Types.h">
+      <Filter>Header Files\IOModule</Filter>
+    </ClInclude>
+    <ClInclude Include="Tests\Test4.h">
+      <Filter>Tests</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

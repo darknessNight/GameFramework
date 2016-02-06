@@ -8,7 +8,7 @@
 #include <functional>
 #include <thread>
 
-#define TESTS_START 3
+#define TESTS_START 4
 #define TESTS_STOP 32000
 
 typedef unsigned char byte;
