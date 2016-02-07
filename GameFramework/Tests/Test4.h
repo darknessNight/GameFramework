@@ -10,7 +10,7 @@ namespace Test4Helpers {
 	using namespace std::chrono;
 	using namespace GF::IOModule;
 	long long ind = 0;
-	std::shared_ptr<MultipleGraph2D> multi(new MultipleGraph2D({ 100, 100 }));
+	MultipleGraph2D multi({ 100, 100 });
 	steady_clock::time_point now, last=high_resolution_clock::now();
 	GF::IOModule::Posf pos = { 100,100 };
 	void ControlImage(GF::IOModule::Events::EventArgs& args) {
@@ -35,7 +35,7 @@ namespace Test4Helpers {
 			frameCount = 0;
 
 
-			multi->setActive(ind++%2);
+			multi.setActive(ind++%2);
 		}
 		else frameCount++;
 	}
@@ -61,17 +61,17 @@ std::string Test4() {
 		window.setVerticalSyncEnabled(true);
 		//window.setCursorVisible(false);
 		start = std::chrono::high_resolution_clock::now();
-		texture1 = window.CreateTexture({ 100,100 });
+		texture1 = &*window.CreateTexture({ 100,100 });
 		texture1->setVisible(true);
 		texture1->setOrigin({ 50,50 });
 		texture1->loadFromFile("./Image.png");
 		texture1->setPosition(Test4Helpers::pos);
 		texture1->setVisible(true);
-		std::shared_ptr<Image> img(new Image({ 500,500 }));
-		img->setSmooth(true);
-		img->setPosition({ 150, 50 });
-		img->setVisible(true);
-		window.AppendGraphObj(img, 0);
+		Image img({ 500,500 });
+		img.setSmooth(true);
+		img.setPosition({ 150, 50 });
+		img.setVisible(true);
+		window.AppendGraphObj(GF::Core::make_ptr(img), 0);
 		Shapes::Circle c1, c2;
 		c1.setFillColor(Color::Magenta);
 		c1.setRadius(100);
@@ -93,15 +93,15 @@ std::string Test4() {
 		txt.setRotation(20);
 		txt.setStyle(txt.Italic|txt.Underlined);
 
-		img->draw(rect1);
-		img->draw(c1);
-		img->draw(c2);
-		img->draw(txt);
+		img.draw(rect1);
+		img.draw(c1);
+		img.draw(c2);
+		img.draw(txt);
 
 		
 		using namespace Test4Helpers;
 
-		std::shared_ptr<Image> img2(window.CreateImage({ 100,100 }, 999)), img3(window.CreateImage({ 100,100 },1));
+		GF::Core::MemGuard<Image> img2(window.CreateImage({ 100,100 }, 999)), img3(window.CreateImage({ 100,100 },1));
 		img2->clear(Color::Magenta);
 		img2->setPosition({ 200, 10 });
 		img3->clear(Color::Cyan);
@@ -109,13 +109,13 @@ std::string Test4() {
 		img3->setVisible(true);
 		img3->draw(c1);
 		img3->setPosition({ 300, 10 });
-		multi->append(img3);
-		multi->append(img2);
-		multi->setActive(0);
-		multi->setPosition({ 0,10 });
-		window.AppendGraphObj(multi,0);
+		multi.append(img3);
+		multi.append(img2);
+		multi.setActive(0);
+		multi.setPosition({ 0,10 });
+		window.AppendGraphObj(GF::Core::make_ptr(multi),0);
 		try {
-			multi->append(img);
+			multi.append(GF::Core::make_ptr(img));
 			throw new std::exception("MultipleGraph not throw");
 		}
 		catch (std::exception) {
@@ -125,14 +125,14 @@ std::string Test4() {
 		window.Show();
 
 		
-		multi->clear();
+		multi.clear();
 		window.clearGraphObjs();
 
 		std::cout << "\nDo you see a moving image(on keys) and one switching box and some others images? (Y/N)\n";
 		std::cin >> resp;
 		if (resp != 'y' && resp != 'Y') result += "Cannot load texture from memory\n";
 
-		img->SaveToFile("./Tests/Test4Img.png");
+		img.SaveToFile("./Tests/Test4Img.png");
 	}
 	catch (std::exception e) {
 		return std::string("Catched exception") + e.what();

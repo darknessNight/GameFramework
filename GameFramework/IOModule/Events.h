@@ -1,48 +1,12 @@
 #pragma once
-#include "../stdafx.h"
-#include <list>
+#include "../Core/Events.h"
 #include <SFML\Window.hpp>
 
 namespace GF {
 	namespace IOModule {
 		namespace Events {
-			class Object {};
-
-			template<class ArgType> class Delegate {
-			private:
-				std::function<void(ArgType&)> func;
-				int id;
-				void(Object::*primaryFunc)(ArgType&)=nullptr;
-			public:
-				Delegate(void(f)(ArgType&));
-				Delegate(void(Object::*f)(ArgType&),Object* obj);
-				Delegate(std::function<void(ArgType&)>, int id);
-				Delegate(std::function<void(ArgType&)> , int id, void(Object::*f)(ArgType&));
-				Delegate(int id);
-				Delegate(int id, void(Object::*)(ArgType&));
-				bool operator==(const Delegate& com);
-				void operator()(ArgType&);
-			};
-
-			static unsigned long long int lastId;
+			typedef Core::Events::EventArgs EventArgs;
 #define CREATE_CONVERSION_CONSTRUCT(NAME, TYPE) NAME(TYPE& ev) {*(TYPE*)this = ev;}
-			template<typename ArgType> class Event {//TODO poprawiæ tak, aby nie trzeba przechowywaæ identyfikatora, a zarazem da³o siê u¿ywaæ std::function i std::bind
-			public:
-				void operator+=(Delegate<ArgType>);
-				void operator-=(Delegate<ArgType>);
-				void operator()(void*, ArgType&);
-				unsigned size();
-				void clear();
-			private:
-				std::list <Delegate<ArgType>> funcs;
-			};
-
-			struct EventArgs {
-				void* sender;
-				int timestamp=0;
-				bool cancel=false;
-			};
-
 			struct KeyboardArgs : public EventArgs, public sf::Event::KeyEvent {
 				CREATE_CONVERSION_CONSTRUCT(KeyboardArgs, sf::Event::KeyEvent);
 				typedef sf::Keyboard::Key KeyCode;
@@ -74,13 +38,14 @@ namespace GF {
 				CREATE_CONVERSION_CONSTRUCT(JoystickArgs, sf::Event::JoystickConnectEvent);
 			};
 
-			struct ResizeArgs:public EventArgs, public sf::Event::SizeEvent{
-				CREATE_CONVERSION_CONSTRUCT(ResizeArgs,sf::Event::SizeEvent);
+			struct ResizeArgs :public EventArgs, public sf::Event::SizeEvent {
+				CREATE_CONVERSION_CONSTRUCT(ResizeArgs, sf::Event::SizeEvent);
 			};
 
 			struct TextTypeArgs :public EventArgs, public sf::Event::TextEvent {
-				CREATE_CONVERSION_CONSTRUCT(TextTypeArgs,sf::Event::TextEvent);
+				CREATE_CONVERSION_CONSTRUCT(TextTypeArgs, sf::Event::TextEvent);
 			};
+#undef CREATE_CONVERSION_CONSTRUCT
 		}
 	}
 }

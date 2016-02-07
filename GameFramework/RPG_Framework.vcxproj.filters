@@ -22,15 +22,15 @@
     <Filter Include="Source Files\Tests">
       <UniqueIdentifier>{d211e0f4-a2d8-4e16-8550-753c9a27bff7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Core">
+      <UniqueIdentifier>{dc35f255-df17-4192-af1f-ad83e17c12db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="IOModule\Window.cpp">
-      <Filter>Source Files\IOModule</Filter>
-    </ClCompile>
-    <ClCompile Include="IOModule\EventArgs.hpp">
       <Filter>Source Files\IOModule</Filter>
     </ClCompile>
     <ClCompile Include="IOModule\GraphObject.cpp">
@@ -53,17 +53,8 @@
     <ClInclude Include="Tests\Test1.h">
       <Filter>Source Files\Tests</Filter>
     </ClInclude>
-    <ClInclude Include="Tests\Test2.h">
-      <Filter>Source Files\Tests</Filter>
-    </ClInclude>
     <ClInclude Include="IOModule\Window.h">
       <Filter>Header Files\IOModule</Filter>
-    </ClInclude>
-    <ClInclude Include="IOModule\EventArgs.h">
-      <Filter>Header Files\IOModule</Filter>
-    </ClInclude>
-    <ClInclude Include="Tests\Test3.h">
-      <Filter>Source Files\Tests</Filter>
     </ClInclude>
     <ClInclude Include="IOModule\Interfaces.h">
       <Filter>Header Files\IOModule</Filter>
@@ -80,16 +71,37 @@
     <ClInclude Include="IOModule\Types.h">
       <Filter>Header Files\IOModule</Filter>
     </ClInclude>
-    <ClInclude Include="Tests\Test4.h">
-      <Filter>Source Files\Tests</Filter>
-    </ClInclude>
     <ClInclude Include="IOModule\MultipleGraph.h">
       <Filter>Header Files\IOModule</Filter>
+    </ClInclude>
+    <ClInclude Include="Tests\Tests.h">
+      <Filter>Source Files\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="Tests\Test2.h">
+      <Filter>Source Files\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="Tests\Test3.h">
+      <Filter>Source Files\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="Tests\Test4.h">
+      <Filter>Source Files\Tests</Filter>
     </ClInclude>
     <ClInclude Include="Tests\Test5.h">
       <Filter>Source Files\Tests</Filter>
     </ClInclude>
-    <ClInclude Include="Tests\Tests.h">
+    <ClInclude Include="Core\Types.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="IOModule\Events.h">
+      <Filter>Header Files\IOModule</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Events.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Events.hpp">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Tests\Test6.h">
       <Filter>Source Files\Tests</Filter>
     </ClInclude>
   </ItemGroup>

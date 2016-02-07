@@ -1,6 +1,8 @@
 #pragma once
-#include "EventArgs.hpp"
+#include "../Core/Events.hpp"
+#include "Events.h"
 #include "Types.h"
+
 namespace GF {
 	namespace IOModule {
 
@@ -34,6 +36,7 @@ namespace GF {
 			void setFunction(std::function<void(void)>);
 			void setAsyncFunction(std::function<void(void)>);*/
 		};
+		class TimerA:public ITimer{};
 
 		__interface ITexture2D {
 		};
@@ -48,7 +51,7 @@ namespace GF {
 			void drawShape(int count, Positionf points[], ITexture);
 			void drawShape(int count, Positionf points[], Color);*/
 		};
-
+		
 		__interface IMultipleGraphObject2D :public IGraphObject2D {
 
 		};
@@ -62,9 +65,9 @@ namespace GF {
 			void Show();
 			void ShowAsync();
 			void Close();
-			std::shared_ptr<ITimer> CreateTimer();
-			void AppendGraphObj(std::shared_ptr<IGraphObject2D>);
-			void AppendTimer(std::shared_ptr<ITimer>);
+			//ITimer& CreateTimer();
+			//void AppendGraphObj(IGraphObject2D&);
+			//void AppendTimer(ITimer&);
 			//properties
 			const std::string& getTitle();
 			const Size& getSize();
@@ -87,44 +90,44 @@ namespace GF {
 		{
 		public:
 #pragma region Events
-			Events::Event<Events::EventArgs> WindowRender;
-			Events::Event<Events::ResizeArgs> WindowResize;
-			Events::Event<Events::EventArgs> WindowFocused;
-			Events::Event<Events::EventArgs> WindowLostFocus;
-			Events::Event<Events::EventArgs> WindowClose;
-			Events::Event<Events::KeyboardArgs> KeyPress;
-			Events::Event<Events::KeyboardArgs> KeyRelease;
-			Events::Event<Events::MouseButtArgs> MouseButtonPress;
-			Events::Event<Events::MouseButtArgs> MouseButtonRelease;
-			Events::Event<Events::MouseMoveArgs> MouseMove;
-			Events::Event<Events::MouseWheelArgs> MouseWheel;
-			Events::Event<Events::EventArgs> MouseLeft;
-			Events::Event<Events::EventArgs> MouseEnter;
-			Events::Event<Events::JoystickButtArgs> JoystickButtonPress;
-			Events::Event<Events::JoystickButtArgs> JoystickButtonRelease;
-			Events::Event<Events::JoystickMoveArgs> JoystickMove;
-			Events::Event<Events::JoystickArgs> JoystickConnect;
-			Events::Event<Events::JoystickArgs> JoystickDisconnect;
-			Events::Event<Events::TextTypeArgs> TextType;
+			Core::Events::Event<Events::EventArgs> WindowRender;
+			Core::Events::Event<Events::ResizeArgs> WindowResize;
+			Core::Events::Event<Events::EventArgs> WindowFocused;
+			Core::Events::Event<Events::EventArgs> WindowLostFocus;
+			Core::Events::Event<Events::EventArgs> WindowClose;
+			Core::Events::Event<Events::KeyboardArgs> KeyPress;
+			Core::Events::Event<Events::KeyboardArgs> KeyRelease;
+			Core::Events::Event<Events::MouseButtArgs> MouseButtonPress;
+			Core::Events::Event<Events::MouseButtArgs> MouseButtonRelease;
+			Core::Events::Event<Events::MouseMoveArgs> MouseMove;
+			Core::Events::Event<Events::MouseWheelArgs> MouseWheel;
+			Core::Events::Event<Events::EventArgs> MouseLeft;
+			Core::Events::Event<Events::EventArgs> MouseEnter;
+			Core::Events::Event<Events::JoystickButtArgs> JoystickButtonPress;
+			Core::Events::Event<Events::JoystickButtArgs> JoystickButtonRelease;
+			Core::Events::Event<Events::JoystickMoveArgs> JoystickMove;
+			Core::Events::Event<Events::JoystickArgs> JoystickConnect;
+			Core::Events::Event<Events::JoystickArgs> JoystickDisconnect;
+			Core::Events::Event<Events::TextTypeArgs> TextType;
 			//async events
-			Events::Event<Events::EventArgs> WindowRenderAsync;
-			Events::Event<Events::ResizeArgs> WindowResizeAsync;
-			Events::Event<Events::EventArgs> WindowFocusedAsync;
-			Events::Event<Events::EventArgs> WindowLostFocusAsync;
-			Events::Event<Events::KeyboardArgs> KeyPressAsync;
-			Events::Event<Events::KeyboardArgs> KeyReleaseAsync;
-			Events::Event<Events::MouseButtArgs> MouseButtonPressAsync;
-			Events::Event<Events::MouseButtArgs> MouseButtonReleaseAsync;
-			Events::Event<Events::MouseMoveArgs> MouseMoveAsync;
-			Events::Event<Events::MouseWheelArgs> MouseWheelAsync;
-			Events::Event<Events::EventArgs> MouseLeftAsync;
-			Events::Event<Events::EventArgs> MouseEnterAsync;
-			Events::Event<Events::JoystickButtArgs> JoystickButtonPressAsync;
-			Events::Event<Events::JoystickButtArgs> JoystickButtonReleaseAsync;
-			Events::Event<Events::JoystickMoveArgs> JoystickMoveAsync;
-			Events::Event<Events::JoystickArgs> JoystickConnectAsync;
-			Events::Event<Events::JoystickArgs> JoystickDisconnectAsync;
-			Events::Event<Events::TextTypeArgs> TextTypeAsync;
+			Core::Events::Event<Events::EventArgs> WindowRenderAsync;
+			Core::Events::Event<Events::ResizeArgs> WindowResizeAsync;
+			Core::Events::Event<Events::EventArgs> WindowFocusedAsync;
+			Core::Events::Event<Events::EventArgs> WindowLostFocusAsync;
+			Core::Events::Event<Events::KeyboardArgs> KeyPressAsync;
+			Core::Events::Event<Events::KeyboardArgs> KeyReleaseAsync;
+			Core::Events::Event<Events::MouseButtArgs> MouseButtonPressAsync;
+			Core::Events::Event<Events::MouseButtArgs> MouseButtonReleaseAsync;
+			Core::Events::Event<Events::MouseMoveArgs> MouseMoveAsync;
+			Core::Events::Event<Events::MouseWheelArgs> MouseWheelAsync;
+			Core::Events::Event<Events::EventArgs> MouseLeftAsync;
+			Core::Events::Event<Events::EventArgs> MouseEnterAsync;
+			Core::Events::Event<Events::JoystickButtArgs> JoystickButtonPressAsync;
+			Core::Events::Event<Events::JoystickButtArgs> JoystickButtonReleaseAsync;
+			Core::Events::Event<Events::JoystickMoveArgs> JoystickMoveAsync;
+			Core::Events::Event<Events::JoystickArgs> JoystickConnectAsync;
+			Core::Events::Event<Events::JoystickArgs> JoystickDisconnectAsync;
+			Core::Events::Event<Events::TextTypeArgs> TextTypeAsync;
 #pragma endregion
 		};
 

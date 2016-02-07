@@ -20,7 +20,7 @@ namespace Test2Helpers {
 			results += "Error of args\n";
 	}
 
-	class Test :public Object {
+	class Test :public GF::Core::Object {
 	public:
 		typedef void(Object::*rzut)(JoystickButtArgs&);
 		static int i;

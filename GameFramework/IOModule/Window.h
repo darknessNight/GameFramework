@@ -5,12 +5,14 @@ framerate and vsync doesn't work after call inputLoop. This options must be chan
 window must be recreated
 */
 #pragma once
+
 #include "../stdafx.h"
 #include "Texture.h"
 #include "Image.h"
 
 namespace GF {
 	namespace IOModule {
+
 		class Window :NonCopyable, public AWindow {
 		public:
 			Window();
@@ -18,13 +20,13 @@ namespace GF {
 			void Show();
 			void ShowAsync();
 			void Close();
-			std::shared_ptr<Texture2D> CreateTexture(Size size, int z_index=-1);
-			std::shared_ptr<Image> CreateImage(Size size, int z_index = -1);
-			std::shared_ptr<ITimer> CreateTimer();
-			void AppendGraphObj(std::shared_ptr<GraphObject2D>, int z_index);
-			void AppendGraphObj(std::shared_ptr<IGraphObject2D>);
-			void removeGraphObj(const std::shared_ptr<IGraphObject2D>);
-			void AppendTimer(std::shared_ptr<ITimer>);
+			Core::MemGuard<Texture2D> CreateTexture(Size size, int z_index=-1);
+			Core::MemGuard<Image> CreateImage(Size size, int z_index = -1);
+			//ITimer& CreateTimer();
+			void AppendGraphObj(Core::MemGuard<GraphObject2D>, int z_index);
+			void AppendGraphObj(Core::MemGuard<GraphObject2D>);
+			void removeGraphObj(GraphObject2D&);
+			//void AppendTimer(ITimer&);
 			void captureToFile(std::string path);
 			//properties
 			const std::string& getTitle() { return title; }
@@ -55,48 +57,7 @@ namespace GF {
 			void onWindowRender();
 			void onClose();
 			void onClick();//TODO
-			template <typename ArgType> void OnEvent(Events::Event<ArgType> &sync, Events::Event<ArgType>* async, ArgType args);
-#pragma endregion
-		public:
-#pragma region Events
-			Events::Event<Events::EventArgs> WindowRender;
-			Events::Event<Events::ResizeArgs> WindowResize;
-			Events::Event<Events::EventArgs> WindowFocused;
-			Events::Event<Events::EventArgs> WindowLostFocus;
-			Events::Event<Events::EventArgs> WindowClose;
-			Events::Event<Events::KeyboardArgs> KeyPress;
-			Events::Event<Events::KeyboardArgs> KeyRelease;
-			Events::Event<Events::MouseButtArgs> MouseButtonPress;
-			Events::Event<Events::MouseButtArgs> MouseButtonRelease;
-			Events::Event<Events::MouseMoveArgs> MouseMove;
-			Events::Event<Events::MouseWheelArgs> MouseWheel;
-			Events::Event<Events::EventArgs> MouseLeft;
-			Events::Event<Events::EventArgs> MouseEnter;
-			Events::Event<Events::JoystickButtArgs> JoystickButtonPress;
-			Events::Event<Events::JoystickButtArgs> JoystickButtonRelease;
-			Events::Event<Events::JoystickMoveArgs> JoystickMove;
-			Events::Event<Events::JoystickArgs> JoystickConnect;
-			Events::Event<Events::JoystickArgs> JoystickDisconnect;
-			Events::Event<Events::TextTypeArgs> TextType;
-			//async events
-			Events::Event<Events::EventArgs> WindowRenderAsync;
-			Events::Event<Events::ResizeArgs> WindowResizeAsync;
-			Events::Event<Events::EventArgs> WindowFocusedAsync;
-			Events::Event<Events::EventArgs> WindowLostFocusAsync;
-			Events::Event<Events::KeyboardArgs> KeyPressAsync;
-			Events::Event<Events::KeyboardArgs> KeyReleaseAsync;
-			Events::Event<Events::MouseButtArgs> MouseButtonPressAsync;
-			Events::Event<Events::MouseButtArgs> MouseButtonReleaseAsync;
-			Events::Event<Events::MouseMoveArgs> MouseMoveAsync;
-			Events::Event<Events::MouseWheelArgs> MouseWheelAsync;
-			Events::Event<Events::EventArgs> MouseLeftAsync;
-			Events::Event<Events::EventArgs> MouseEnterAsync;
-			Events::Event<Events::JoystickButtArgs> JoystickButtonPressAsync;
-			Events::Event<Events::JoystickButtArgs> JoystickButtonReleaseAsync;
-			Events::Event<Events::JoystickMoveArgs> JoystickMoveAsync;
-			Events::Event<Events::JoystickArgs> JoystickConnectAsync;
-			Events::Event<Events::JoystickArgs> JoystickDisconnectAsync;
-			Events::Event<Events::TextTypeArgs> TextTypeAsync;
+			template <typename ArgType> void OnEvent(Core::Events::Event<ArgType> &sync, Core::Events::Event<ArgType>* async, ArgType args);
 #pragma endregion
 		protected:
 			std::mutex mutex;
@@ -113,20 +74,20 @@ namespace GF {
 			std::string title = "Window";
 			Pos pos = { 0,0 };
 			Size size = { 800,600 };
-			std::shared_ptr<std::thread> thread;
+			std::thread* thread;
 			sf::RenderWindow window;
-			std::vector<std::shared_ptr<GraphObject2D>> graphObjs;
-			std::vector<const Camera*> camsBefShow;
+			std::vector<Core::MemGuard<GraphObject2D>> graphObjs;
+			std::vector<const Camera*> cams;
 			//consts
 			const Size MIN_SIZE = { 10,10 };
 		};
 
 
 		template<typename ArgType>
-		inline void Window::OnEvent(Events::Event<ArgType>& sync, Events::Event<ArgType>* async, ArgType args)
+		inline void Window::OnEvent(Core::Events::Event<ArgType>& sync, Core::Events::Event<ArgType>* async, ArgType args)
 		{
 			if (async != nullptr && async->size() > 0) {
-				std::thread t(&Events::Event<ArgType>::operator(), async, this, args);
+				std::thread t(&Core::Events::Event<ArgType>::operator(), async, this, args);
 				t.detach();//TODO to niehumanitarne porzucaæ w¹tki. Do naprawy
 			}
 			sync(this, args);

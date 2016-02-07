@@ -1,7 +1,6 @@
 #pragma once
 #include"GraphObject.h"
 #include "Texture.h"
-
 namespace GF {
 	namespace IOModule {
 		class MultipleGraph2D:public GraphObject2D {
@@ -9,8 +8,9 @@ namespace GF {
 			MultipleGraph2D() = delete;
 			MultipleGraph2D(Size);
 			~MultipleGraph2D();
-			void append(std::shared_ptr<GraphObject2D>);
+			void append(Core::MemGuard<GraphObject2D>);
 			void remove(unsigned index);
+			void remove(Core::MemGuard<GraphObject2D>);
 			void clear();
 			void setActive(int i);
 			unsigned size();
@@ -19,7 +19,7 @@ namespace GF {
 			void loadFromFile(std::string path) override;
 			const sf::Texture& getTexture();
 		private:
-			std::vector<std::shared_ptr<GraphObject2D>> objects;
+			std::vector<Core::MemGuard<GraphObject2D>> objects;
 			sf::Texture empty;
 			int active = -1;
 			Size stdSize;

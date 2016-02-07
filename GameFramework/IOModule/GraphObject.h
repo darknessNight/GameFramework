@@ -12,6 +12,7 @@ namespace GF {
 			GraphObject2D() = default;
 			GraphObject2D(const GraphObject2D& ref);
 			void operator=(const GraphObject2D& ref);
+			bool operator==(const GraphObject2D& ref);
 			void setVisible(bool enabled);
 			void setPosition(const Posf p);
 			void setColor(const Color c);//change color of object (create color mask)
@@ -21,7 +22,7 @@ namespace GF {
 			void setScale(Sizef scale);//override current scale
 			bool getVisible();
 			const Posf& getPosition();
-			const Sizef& getSize();
+			virtual const Sizef& getSize();
 			const Color& getColor();
 			const Posf& getOrigin();
 			const float& getRotation();
@@ -35,10 +36,11 @@ namespace GF {
 		private:
 			virtual void render(sf::RenderTarget* window) = 0;
 		public:
-			Events::Event<Events::EventArgs> Render;
+			GF::Core::Events::Event<Events::EventArgs> Render;
+			//int Render;
 		protected:
 			sf::Sprite sprite;
-			std::mutex mutex;
+			//std::mutex mutex;
 			bool visible=false;
 		};
 	}

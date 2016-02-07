@@ -1,6 +1,5 @@
 #pragma once
 #include "GraphObject.h"
-
 namespace GF {
 	namespace IOModule {
 		class Image;

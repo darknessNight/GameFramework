@@ -8,8 +8,8 @@ namespace Test3Helpers {
 	std::chrono::time_point<std::chrono::steady_clock> start;
 	std::chrono::time_point<std::chrono::steady_clock> render;
 	int frameCount=0;
-	std::shared_ptr<GF::IOModule::Texture2D> texture1;
-	std::shared_ptr<GF::IOModule::Texture2D> texture2;
+	GF::IOModule::Texture2D* texture1;
+	GF::IOModule::Texture2D* texture2;
 	typedef std::chrono::duration<double, std::micro> timeDur;
 	typedef std::chrono::duration<double, std::milli> timeDur2;
 	typedef std::chrono::duration<double, std::ratio<1, 1000> > timeDurMove;
@@ -40,7 +40,7 @@ std::string Test3() {
 		using namespace Test3Helpers;
 		GF::IOModule::Window window;
 		window.setTitle("Test3");
-		texture1 = window.CreateTexture({ 100,100 }, 1);
+		texture1 = &*window.CreateTexture({ 100,100 }, 1);
 		texture1->setOrigin({ 50,50 });
 		texture1->rotate(-45);
 		texture1->setVisible(true);
@@ -64,8 +64,8 @@ std::string Test3() {
 		std::cin >> resp;
 		if (resp != 'y' && resp != 'Y') result += "Cannot load texture from stream\n";
 
-		window.removeGraphObj(texture1);
-		texture1 = window.CreateTexture({ 100, 100 }, 1);
+		window.removeGraphObj(*texture1);
+		texture1 = &*window.CreateTexture({ 100, 100 }, 1);
 		texture1->setVisible(true);
 		texture1->setOrigin({ 50,50 });
 
@@ -87,8 +87,8 @@ std::string Test3() {
 		std::cin >> resp;
 		if (resp != 'y' && resp != 'Y') result += "Cannot load texture from memory\n";
 
-		window.removeGraphObj(texture1);
-		texture1 = window.CreateTexture({ 100, 100 }, 1);
+		window.removeGraphObj(*texture1);
+		texture1 = &*window.CreateTexture({ 100, 100 }, 1);
 		texture1->setVisible(true);
 		texture1->setOrigin({ 50,50 });
 		texture1->loadFromFile("./Image.png");
@@ -98,27 +98,27 @@ std::string Test3() {
 		std::cin >> resp;
 		if (resp != 'y' && resp != 'Y') result += "Cannot load texture from file\n";
 
-		texture2 = window.CreateTexture({ 100,100 },0);
+		texture2 = &*window.CreateTexture({ 100,100 },0);
 		texture2->loadFromFile("./Image.png");
 		texture2->scale({ 3,3 });
 		texture2->setPosition({ 250, 150 });
 		texture2->setVisible(true);
 
-		texture2 = window.CreateTexture({ 100,100 }, 0);
+		texture2 = &*window.CreateTexture({ 100,100 }, 0);
 		texture2->loadFromFile("./Image.png");
 		texture2->setPosition({ 10, 10 });
 		texture2->setVisible(true);
-		texture2 = window.CreateTexture({ 100,100 }, 0);
+		texture2 = &*window.CreateTexture({ 100,100 }, 0);
 		texture2->loadFromFile("./Image.png");
 		texture2->setPosition({ 690, 490 });
 		texture2->setVisible(true);
-		texture2 = window.CreateTexture({ 100,100 }, 0);
+		texture2 = &*window.CreateTexture({ 100,100 }, 0);
 		texture2->loadFromFile("./Image.png");
 		texture2->setPosition({ 740, 60 });
 		texture2->setOrigin({ 50,50 });
 		texture2->setRotation(-90);
 		texture2->setVisible(true);
-		texture2 = window.CreateTexture({ 100,100 }, 0);
+		texture2 = &*window.CreateTexture({ 100,100 }, 0);
 		texture2->loadFromFile("./Image.png");
 		texture2->setPosition({ 60, 540 });
 		texture2->setOrigin({ 50,50 });
