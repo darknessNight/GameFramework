@@ -44,7 +44,14 @@ namespace GF {
 
 		std::shared_ptr<Texture2D> Window::CreateTexture(Size size, int z_index)
 		{
-			std::shared_ptr<Texture2D> tex(new Texture2D(size));
+			std::shared_ptr<Texture2D> tex(std::make_shared<Texture2D>(size));
+			AppendGraphObj(tex, z_index);
+			return tex;
+		}
+
+		std::shared_ptr<Image> Window::CreateImage(Size size, int z_index)
+		{
+			std::shared_ptr<Image> tex(std::make_shared<Image>(size));
 			AppendGraphObj(tex, z_index);
 			return tex;
 		}

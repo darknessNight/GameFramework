@@ -7,6 +7,7 @@ window must be recreated
 #pragma once
 #include "../stdafx.h"
 #include "Texture.h"
+#include "Image.h"
 
 namespace GF {
 	namespace IOModule {
@@ -18,6 +19,7 @@ namespace GF {
 			void ShowAsync();
 			void Close();
 			std::shared_ptr<Texture2D> CreateTexture(Size size, int z_index=-1);
+			std::shared_ptr<Image> CreateImage(Size size, int z_index = -1);
 			std::shared_ptr<ITimer> CreateTimer();
 			void AppendGraphObj(std::shared_ptr<GraphObject2D>, int z_index);
 			void AppendGraphObj(std::shared_ptr<IGraphObject2D>);

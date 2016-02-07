@@ -101,7 +101,7 @@ std::string Test4() {
 		
 		using namespace Test4Helpers;
 
-		std::shared_ptr<Image> img2(std::make_shared<Image, Size>({ 100,100 })), img3(std::make_shared<Image, Size>({ 100,100 }));
+		std::shared_ptr<Image> img2(window.CreateImage({ 100,100 }, 999)), img3(window.CreateImage({ 100,100 },1));
 		img2->clear(Color::Magenta);
 		img2->setPosition({ 200, 10 });
 		img3->clear(Color::Cyan);
@@ -109,8 +109,6 @@ std::string Test4() {
 		img3->setVisible(true);
 		img3->draw(c1);
 		img3->setPosition({ 300, 10 });
-		window.AppendGraphObj(img2);
-		window.AppendGraphObj(img3);
 		multi->append(img3);
 		multi->append(img2);
 		multi->setActive(0);
@@ -126,9 +124,9 @@ std::string Test4() {
 
 		window.Show();
 
-		window.clearGraphObjs(); 
-
+		
 		multi->clear();
+		window.clearGraphObjs();
 
 		std::cout << "\nDo you see a moving image(on keys) and one switching box and some others images? (Y/N)\n";
 		std::cin >> resp;
