@@ -3,9 +3,10 @@
 #include "Test2.h"
 #include "Test3.h"
 #include "Test4.h"
+#include "Test5.h"
 
-const int funcsCount = 4;
-std::string(*funcs[funcsCount])() = { Test1, Test2, Test3, Test4 };
+const int funcsCount = 5;
+std::string(*funcs[funcsCount])() = { Test1, Test2, Test3, Test4, Test5 };
 
 std::string Tests(int start, int stop) {
 	std::string ret;

@@ -9,8 +9,9 @@ namespace GF {
 			Image() = delete;
 			Image(const Image&);
 			Image(Size size);
-			void importFromTexture(const Texture2D& texture);
-			const Texture2D& exportTexture();
+			void setCamera(const Camera &cam);
+			void importFromTexture(std::shared_ptr<Texture2D>);
+			std::shared_ptr<Texture2D> exportTexture();
 			void loadFromMemory(const void * mem, unsigned size) override;
 			void loadFromStream(std::istream & stream) override;
 			void loadFromFile(std::string path) override;

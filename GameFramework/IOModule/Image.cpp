@@ -12,20 +12,25 @@ namespace GF {
 				throw std::exception("Cannot create RenderTexture");
 		}
 
-		void Image::importFromTexture(const Texture2D& tex)
+		void Image::setCamera(const Camera& cam)
+		{
+			texture.setView(cam);
+		}
+
+		void Image::importFromTexture(std::shared_ptr<Texture2D> tex)
 		{
 			std::lock_guard<std::mutex> guard(mutex);
 			sf::Sprite sprite;
-			sprite.setTexture(tex.texture);
+			sprite.setTexture(tex->texture);
 			texture.draw(sprite);
 			texture.display();
 		}
 
-		const Texture2D& Image::exportTexture()
+		std::shared_ptr<Texture2D> Image::exportTexture()
 		{
 			std::lock_guard<std::mutex> guard(mutex);
 			texture.display();
-			return Texture2D(texture.getTexture());
+			return std::make_shared<Texture2D>(texture.getTexture());
 		}
 
 		void Image::loadFromMemory(const void * mem, unsigned size)
@@ -72,6 +77,7 @@ namespace GF {
 			sprite.setTexture(tex);
 			std::lock_guard<std::mutex> guard(mutex);
 			texture.draw(sprite);
+			edited = true;
 		}
 
 		void Image::draw(Drawable & some)

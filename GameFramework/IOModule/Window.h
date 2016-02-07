@@ -42,6 +42,7 @@ namespace GF {
 			void setCanResize(bool enabled);
 			void setCloseButtonVisible(bool enabled);
 			void setTitleBarVisible(bool enabled);
+			void setCamera(const Camera& cam);
 
 			void clearGraphObjs();
 #ifdef DEBUG
@@ -115,6 +116,7 @@ namespace GF {
 			std::shared_ptr<std::thread> thread;
 			sf::RenderWindow window;
 			std::vector<std::shared_ptr<GraphObject2D>> graphObjs;
+			std::vector<const Camera*> camsBefShow;
 			//consts
 			const Size MIN_SIZE = { 10,10 };
 		};

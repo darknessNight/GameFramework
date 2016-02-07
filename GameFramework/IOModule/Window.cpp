@@ -135,7 +135,7 @@ namespace GF {
 			Events::EventArgs stdArg;
 			sf::Event ev;
 			bool con;
-			
+
 			while (window.isOpen())
 			{
 				do// must use var opened because if window was closed after previous condition and before pollEvent program tried call to nullptr object
@@ -193,11 +193,22 @@ namespace GF {
 				Events::EventArgs args;
 				OnEvent<Events::EventArgs>(WindowRender, &WindowRenderAsync, args);
 				window.clear();
-				for (auto i = graphObjs.begin(); i != graphObjs.end(); i++)
-				{
-					(*i)->render(&window);
-				}
+				if (camsBefShow.size() > 0)
+					for each (auto cam in camsBefShow)
+					{
+						window.setView(*cam);
+						for (auto i = graphObjs.begin(); i != graphObjs.end(); i++)
+						{
+							(*i)->render(&window);
+						}
+					}
+				else
+					for (auto i = graphObjs.begin(); i != graphObjs.end(); i++)
+					{
+						(*i)->render(&window);
+					}
 				window.display();
+				window.setView(window.getDefaultView());
 			}
 		}
 
@@ -299,6 +310,11 @@ namespace GF {
 		void Window::setTitleBarVisible(bool enabled)
 		{
 			hasTitlebar = enabled;
+		}
+
+		void Window::setCamera(const Camera& cam)
+		{
+			camsBefShow.push_back(&cam);
 		}
 
 		void Window::clearGraphObjs()
