@@ -7,6 +7,7 @@
 #include <memory>
 #include <functional>
 #include <thread>
+#include <mutex>
 
 #define TESTS_START 4
 #define TESTS_STOP 32000

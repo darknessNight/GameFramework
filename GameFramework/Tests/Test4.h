@@ -8,7 +8,9 @@
 namespace Test4Helpers {
 	using namespace Test3Helpers;
 	using namespace std::chrono;
-	std::shared_ptr<GF::IOModule::MultipleGraph2D> multi(new GF::IOModule::MultipleGraph2D({ 100, 100 }));
+	using namespace GF::IOModule;
+	long long ind = 0;
+	std::shared_ptr<MultipleGraph2D> multi(new MultipleGraph2D({ 100, 100 }));
 	steady_clock::time_point now, last=high_resolution_clock::now();
 	GF::IOModule::Posf pos = { 100,100 };
 	void ControlImage(GF::IOModule::Events::EventArgs& args) {
@@ -33,7 +35,7 @@ namespace Test4Helpers {
 			frameCount = 0;
 
 
-			//multi->setActive((int)TIP % 2);
+			multi->setActive(ind++%2);
 		}
 		else frameCount++;
 	}
@@ -53,7 +55,6 @@ std::string Test4() {
 		using namespace Test3Helpers;
 		GF::IOModule::Window window;
 		window.setTitle("Test4");
-		window.WindowRender += Rotate;
 		window.KeyPress += Test4Helpers::SaveWindow;
 		window.KeyPress += Close;
 		window.WindowRender += Test4Helpers::ControlImage;
@@ -67,13 +68,14 @@ std::string Test4() {
 		texture1->setPosition(Test4Helpers::pos);
 		texture1->setVisible(true);
 		std::shared_ptr<Image> img(new Image({ 500,500 }));
+		img->setSmooth(true);
 		img->setPosition({ 150, 50 });
 		img->setVisible(true);
 		window.AppendGraphObj(img, 0);
 		Shapes::Circle c1, c2;
 		c1.setFillColor(Color::Magenta);
 		c1.setRadius(100);
-		c1.setPosition(200, 200);
+		c1.setPosition(50, 50);
 		c2.setFillColor(Color::Cyan);
 		c2.setRadius(100);
 		c2.setPosition(400, 400);
@@ -95,24 +97,27 @@ std::string Test4() {
 		img->draw(c1);
 		img->draw(c2);
 		img->draw(txt);
-		std::shared_ptr<Image> img2(new Image({ 100,100 })),img3(new Image({ 100,100 })), img4(new Image({ 500,500 }));
 
-		using Test4Helpers::multi;
+		
+		using namespace Test4Helpers;
+
+		std::shared_ptr<Image> img2(std::make_shared<Image, Size>({ 100,100 })), img3(std::make_shared<Image, Size>({ 100,100 }));
 		img2->clear(Color::Magenta);
-		img2->setPosition({ 200, 200 });
+		img2->setPosition({ 200, 10 });
 		img3->clear(Color::Cyan);
+		img2->setVisible(true);
+		img3->setVisible(true);
 		img3->draw(c1);
-		img2->setPosition({ 300, 2000 });
-		window.AppendGraphObj(img2,1);
-		//window.AppendGraphObj(img3);
-		//multi->append(img3);
-		//multi->append(img2);
-		//multi->setActive(0);
-		multi->setPosition({ 10,10 });
-		//window.AppendGraphObj(multi);
-
+		img3->setPosition({ 300, 10 });
+		window.AppendGraphObj(img2);
+		window.AppendGraphObj(img3);
+		multi->append(img3);
+		multi->append(img2);
+		multi->setActive(0);
+		multi->setPosition({ 0,10 });
+		window.AppendGraphObj(multi,0);
 		try {
-			multi->append(img4);
+			multi->append(img);
 			throw new std::exception("MultipleGraph not throw");
 		}
 		catch (std::exception) {
@@ -121,7 +126,11 @@ std::string Test4() {
 
 		window.Show();
 
-		std::cout << "\nDo you see a moving image? (Y/N)\n";
+		window.clearGraphObjs(); 
+
+		multi->clear();
+
+		std::cout << "\nDo you see a moving image(on keys) and one switching box and some others images? (Y/N)\n";
 		std::cin >> resp;
 		if (resp != 'y' && resp != 'Y') result += "Cannot load texture from memory\n";
 

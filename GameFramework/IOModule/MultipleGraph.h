@@ -8,8 +8,10 @@ namespace GF {
 		public:
 			MultipleGraph2D() = delete;
 			MultipleGraph2D(Size);
+			~MultipleGraph2D();
 			void append(std::shared_ptr<GraphObject2D>);
 			void remove(unsigned index);
+			void clear();
 			void setActive(int i);
 			unsigned size();
 			void loadFromMemory(const void * mem, unsigned size) override;

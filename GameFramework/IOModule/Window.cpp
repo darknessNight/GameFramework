@@ -8,6 +8,7 @@ namespace GF {
 
 		Window::~Window()
 		{
+			clearGraphObjs();
 			if (thread != nullptr && thread->joinable())
 				thread->join();
 			if (window.isOpen())
@@ -17,6 +18,7 @@ namespace GF {
 		void Window::Show()
 		{
 			if (thread != nullptr && std::this_thread::get_id() != thread->get_id() && thread->joinable()) thread->join();
+			mutex.lock();
 			window.create(sf::VideoMode(size.x, size.y, 32), title,
 				(fullscreen ? sf::Style::Fullscreen : 0) | (hasCloseButton ? sf::Style::Close : 0) |
 				(hasTitlebar ? sf::Style::Titlebar : 0) | (canResize ? sf::Style::Resize : 0));
@@ -24,6 +26,7 @@ namespace GF {
 			if (framerate > 0)window.setFramerateLimit(framerate);
 			if (joystickThreshold > 0)window.setJoystickThreshold(joystickThreshold);
 			window.setMouseCursorVisible(cursorVisible);
+			mutex.unlock();
 			opened = true;
 			InputLoop();
 		}
@@ -54,6 +57,7 @@ namespace GF {
 
 		void Window::AppendGraphObj(std::shared_ptr<GraphObject2D> tex, int z_index)
 		{
+			std::lock_guard<std::mutex> guard(mutex);
 			if (z_index < 0 || z_index >= graphObjs.size())
 				graphObjs.push_back(tex);
 			else {
@@ -65,12 +69,14 @@ namespace GF {
 
 		void Window::AppendGraphObj(std::shared_ptr<IGraphObject2D> val)
 		{
+			std::lock_guard<std::mutex> guard(mutex);
 			std::shared_ptr<GraphObject2D> ptr((GraphObject2D*)val.get());
 			graphObjs.push_back(ptr);
 		}
 
 		void Window::removeGraphObj(const std::shared_ptr<IGraphObject2D> rem)
 		{
+			std::lock_guard<std::mutex> guard(mutex);
 			for (auto i = graphObjs.begin(); i != graphObjs.end(); i++) {
 				if ((*i) == rem) {
 					i = graphObjs.erase(i);
@@ -86,6 +92,7 @@ namespace GF {
 
 		void Window::captureToFile(std::string path)
 		{
+			std::lock_guard<std::mutex> guard(mutex);
 			window.display();
 			sf::Image im(window.capture());
 			if (!im.saveToFile(path))
@@ -120,10 +127,15 @@ namespace GF {
 		{
 			Events::EventArgs stdArg;
 			sf::Event ev;
+			bool con;
+			
 			while (window.isOpen())
 			{
-				while (opened && window.pollEvent(ev))// must use var opened because if window was closed after previous condition and before pollEvent program tried call to nullptr object
+				do// must use var opened because if window was closed after previous condition and before pollEvent program tried call to nullptr object
 				{
+					mutex.lock();
+					con = window.pollEvent(ev);
+					mutex.unlock();
 					switch (ev.type) {
 					case sf::Event::EventType::Closed:
 						onClose(); break;
@@ -161,7 +173,8 @@ namespace GF {
 					case sf::Event::EventType::TextEntered:
 						OnEvent<Events::TextTypeArgs>(TextType, &TextTypeAsync, ev.text); break;
 					}
-				}
+				} while (opened && con);
+
 				onWindowRender();
 			}
 		}
@@ -169,6 +182,7 @@ namespace GF {
 		void Window::onWindowRender()
 		{
 			if (opened && window.isOpen()) {
+				std::lock_guard<std::mutex> guard(mutex);
 				Events::EventArgs args;
 				OnEvent<Events::EventArgs>(WindowRender, &WindowRenderAsync, args);
 				window.clear();
@@ -188,8 +202,10 @@ namespace GF {
 				args.cancel = false;
 				OnEvent<Events::EventArgs>(WindowClose, nullptr, args);
 			}
-			if (!args.cancel && window.isOpen())
+			if (!args.cancel && window.isOpen()) {
+				std::lock_guard<std::mutex> guard(mutex);
 				window.close();
+			}
 
 		}
 
@@ -200,6 +216,7 @@ namespace GF {
 		void Window::setTitle(const std::string title)
 		{
 			if (title.size() > 0) {
+				std::lock_guard<std::mutex> guard(mutex);
 				this->title = title;
 				if (window.isOpen()) window.setTitle(title);
 			}
@@ -208,6 +225,7 @@ namespace GF {
 		void Window::setSize(const Size size)
 		{
 			if (size.x >= MIN_SIZE.x&&size.y > MIN_SIZE.y) {
+				std::lock_guard<std::mutex> guard(mutex);
 				this->size = size;
 				if (window.isOpen())
 					window.setSize(size);
@@ -216,36 +234,42 @@ namespace GF {
 
 		void Window::setPosition(const Pos pos)
 		{
+			std::lock_guard<std::mutex> guard(mutex);
 			this->pos = pos;
 			window.setPosition(pos);
 		}
 
 		void Window::setCursorVisible(bool flag)
 		{
+			std::lock_guard<std::mutex> guard(mutex);
 			cursorVisible = flag;
 			window.setMouseCursorVisible(flag);
 		}
 
 		void Window::setVerticalSyncEnabled(bool enabled)
 		{
+			std::lock_guard<std::mutex> guard(mutex);
 			vsync = enabled;
 			window.setVerticalSyncEnabled(enabled);
 		}
 
 		void Window::setKeyRepeatEnabled(bool enabled)
 		{
+			std::lock_guard<std::mutex> guard(mutex);
 			keyRepeatEnabled = enabled;
 			window.setKeyRepeatEnabled(enabled);
 		}
 
 		void Window::setFramerateLimit(unsigned int limit)
 		{
+			std::lock_guard<std::mutex> guard(mutex);
 			framerate = limit;
 			window.setFramerateLimit(limit);
 		}
 
 		void Window::setJoystickThreshold(float threshold)
 		{
+			std::lock_guard<std::mutex> guard(mutex);
 			joystickThreshold = threshold;
 			window.setJoystickThreshold(threshold);
 		}
@@ -268,6 +292,12 @@ namespace GF {
 		void Window::setTitleBarVisible(bool enabled)
 		{
 			hasTitlebar = enabled;
+		}
+
+		void Window::clearGraphObjs()
+		{
+			std::lock_guard<std::mutex> guard(mutex);
+			graphObjs.clear();
 		}
 
 	}

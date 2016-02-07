@@ -40,6 +40,8 @@ namespace GF {
 			void setCanResize(bool enabled);
 			void setCloseButtonVisible(bool enabled);
 			void setTitleBarVisible(bool enabled);
+
+			void clearGraphObjs();
 #ifdef DEBUG
 			void TestEvents(sf::Event &ev);
 #endif // DEBUG
@@ -94,6 +96,7 @@ namespace GF {
 			Events::Event<Events::TextTypeArgs> TextTypeAsync;
 #pragma endregion
 		protected:
+			std::mutex mutex;
 			bool fullscreen = false;
 			bool canResize = false;
 			bool hasCloseButton = true;

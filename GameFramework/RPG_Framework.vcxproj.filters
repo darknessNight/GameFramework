@@ -94,7 +94,6 @@
     <None Include="IOModule\README.md">
       <Filter>Header Files\IOModule</Filter>
     </None>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="image.png">

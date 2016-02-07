@@ -9,6 +9,9 @@ namespace GF {
 		class GraphObject2D :public IGraphObject2D {
 			friend Window;
 		public:
+			GraphObject2D() = default;
+			GraphObject2D(const GraphObject2D& ref);
+			void operator=(const GraphObject2D& ref);
 			void setVisible(bool enabled);
 			void setPosition(const Posf p);
 			void setColor(const Color c);//change color of object (create color mask)
@@ -28,14 +31,14 @@ namespace GF {
 			void scale(Sizef scale);//multiple current scale
 			virtual void loadFromFile(std::string path) = 0;
 			//--
-			virtual const sf::Texture& getTexture() = 0;;
+			virtual const sf::Texture& getTexture() = 0;
 		private:
 			virtual void render(sf::RenderTarget* window) = 0;
 		public:
 			Events::Event<Events::EventArgs> Render;
 		protected:
 			sf::Sprite sprite;
-			bool changed = false;
+			std::mutex mutex;
 			bool visible=false;
 		};
 	}

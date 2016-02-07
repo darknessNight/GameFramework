@@ -2,6 +2,18 @@
 
 namespace GF {
 	namespace IOModule {
+		GraphObject2D::GraphObject2D(const GraphObject2D & ref)
+		{
+			operator=(ref);
+		}
+
+		void GraphObject2D::operator=(const GraphObject2D & ref)
+		{
+			this->sprite = ref.sprite;
+			this->visible = ref.visible;
+			this->Render = ref.Render;
+		}
+
 		void GraphObject2D::setVisible(bool enabled)
 		{
 			visible = enabled;

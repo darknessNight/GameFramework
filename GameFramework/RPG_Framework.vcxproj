@@ -89,6 +89,7 @@
       <AdditionalIncludeDirectories>F:\library\SFML-2.3.2-x86\include;</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>x86;DEBUG;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>F:\library\SFML-2.3.2-x86\lib</AdditionalLibraryDirectories>
@@ -106,6 +107,8 @@
       </MultiProcessorCompilation>
       <PreprocessorDefinitions>x64;DEBUG;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <MinimalRebuild>false</MinimalRebuild>
+      <SmallerTypeCheck>false</SmallerTypeCheck>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>F:\library\SFML-2.3.2-x64\lib</AdditionalLibraryDirectories>
@@ -177,7 +180,6 @@
     <ClInclude Include="Tests\Tests.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
     <None Include="IOModule\README.md" />
   </ItemGroup>
   <ItemGroup>
