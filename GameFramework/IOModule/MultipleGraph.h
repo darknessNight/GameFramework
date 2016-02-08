@@ -3,7 +3,7 @@
 #include "Texture.h"
 namespace GF {
 	namespace IOModule {
-		class MultipleGraph2D:public GraphObject2D {
+		class MultipleGraph2D:public GraphObject2D{
 		public:
 			MultipleGraph2D() = delete;
 			MultipleGraph2D(Size);
@@ -19,14 +19,12 @@ namespace GF {
 			void loadFromFile(std::string path) override;
 			const sf::Texture& getTexture();
 		private:
+			virtual void render(sf::RenderTarget * window) override;
+		private:
 			std::vector<Core::MemGuard<GraphObject2D>> objects;
 			sf::Texture empty;
 			int active = -1;
 			Size stdSize;
-
-			// Inherited via GraphObject2D
-			
-			virtual void render(sf::RenderTarget * window) override;
 		};
 	}
 }

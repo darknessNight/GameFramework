@@ -1,6 +1,8 @@
 #pragma once
 #include "../stdafx.h"
 #include "SFML\Graphics.hpp"
+#include "Tests.h"
+
 
 std::string Test1() {
 	std::clog << "Test1";

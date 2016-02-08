@@ -45,13 +45,40 @@
     <ClCompile Include="IOModule\MultipleGraph.cpp">
       <Filter>Source Files\IOModule</Filter>
     </ClCompile>
+    <ClCompile Include="Tests\Test1.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Tests\Test2.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Tests\Test3.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Tests\Test4.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Tests\Test5.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Tests\Test6.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Tests\Tests.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="IOModule\Sounds.cpp">
+      <Filter>Source Files\IOModule</Filter>
+    </ClCompile>
+    <ClCompile Include="MemGuard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IOModule\Sound.cpp">
+      <Filter>Source Files\IOModule</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Tests\Test1.h">
-      <Filter>Source Files\Tests</Filter>
     </ClInclude>
     <ClInclude Include="IOModule\Window.h">
       <Filter>Header Files\IOModule</Filter>
@@ -77,18 +104,6 @@
     <ClInclude Include="Tests\Tests.h">
       <Filter>Source Files\Tests</Filter>
     </ClInclude>
-    <ClInclude Include="Tests\Test2.h">
-      <Filter>Source Files\Tests</Filter>
-    </ClInclude>
-    <ClInclude Include="Tests\Test3.h">
-      <Filter>Source Files\Tests</Filter>
-    </ClInclude>
-    <ClInclude Include="Tests\Test4.h">
-      <Filter>Source Files\Tests</Filter>
-    </ClInclude>
-    <ClInclude Include="Tests\Test5.h">
-      <Filter>Source Files\Tests</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Types.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
@@ -101,8 +116,14 @@
     <ClInclude Include="Core\Events.hpp">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Tests\Test6.h">
-      <Filter>Source Files\Tests</Filter>
+    <ClInclude Include="IOModule\Sound.h">
+      <Filter>Header Files\IOModule</Filter>
+    </ClInclude>
+    <ClInclude Include="IOModule\Sounds.h">
+      <Filter>Header Files\IOModule</Filter>
+    </ClInclude>
+    <ClInclude Include="MemGuard.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

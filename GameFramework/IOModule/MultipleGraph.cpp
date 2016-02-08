@@ -9,13 +9,13 @@ namespace GF {
 
 		MultipleGraph2D::~MultipleGraph2D()
 		{
-			//std::lock_guard<std::mutex> guard(mutex);
+			
 			objects.clear();
 		}
 
 		void MultipleGraph2D::append(Core::MemGuard<GraphObject2D> el)
 		{
-			//std::lock_guard<std::mutex> guard(mutex);
+			
 			Posf tmp=el->getSize();
 			if (el->getSize().x != stdSize.x || el->getSize().y != stdSize.y) {
 				throw std::exception("Target size is incompatibile");
@@ -25,7 +25,7 @@ namespace GF {
 
 		void MultipleGraph2D::remove(unsigned index)
 		{
-			//std::lock_guard<std::mutex> guard(mutex);
+			
 			if (index < objects.size()) {
 				auto i = objects.begin();
 				i += index;
@@ -36,9 +36,9 @@ namespace GF {
 
 		void MultipleGraph2D::remove(Core::MemGuard<GraphObject2D> el)
 		{
-			//std::lock_guard<std::mutex> guard(mutex);
+			
 			for (auto i = objects.begin(); i != objects.end();i++) {
-				if ((**i) == *el) {
+				if ((*i) == el) {
 					i = objects.erase(i);
 					break;
 				}
@@ -48,16 +48,16 @@ namespace GF {
 
 		void MultipleGraph2D::clear()
 		{
-			//std::lock_guard<std::mutex> guard(mutex);
+			
 			objects.clear();
 		}
 
 		void MultipleGraph2D::setActive(int i)
 		{
-			//std::lock_guard<std::mutex> guard(mutex);
+			
 			active = i;
 			if (i < objects.size() && i >= 0) {
-				sprite.setTexture(objects[i]->getTexture());
+				sprite.setTexture(((GraphObject2D*)&*objects[i])->getTexture());
 			}
 			else {
 				sprite.setTexture(empty);
@@ -67,42 +67,42 @@ namespace GF {
 
 		unsigned MultipleGraph2D::size()
 		{
-			//std::lock_guard<std::mutex> guard(mutex);
+			
 			return objects.size();
 		}
 
 		void MultipleGraph2D::loadFromMemory(const void * mem, unsigned size)
 		{
-			//std::lock_guard<std::mutex> guard(mutex);
+			
 			if (active >= 0)
 				objects[active]->loadFromMemory(mem, size);
 		}
 
 		void MultipleGraph2D::loadFromStream(std::istream & stream)
 		{
-			//std::lock_guard<std::mutex> guard(mutex);
+			
 			if (active >= 0)
 				objects[active]->loadFromStream(stream);
 		}
 
 		void MultipleGraph2D::loadFromFile(std::string path)
 		{
-			//std::lock_guard<std::mutex> guard(mutex);
+			
 			if (active >= 0)
 				objects[active]->loadFromFile(path);
 		}
 
 		const sf::Texture & MultipleGraph2D::getTexture()
 		{
-			//std::lock_guard<std::mutex> guard(mutex);
+			
 			if (active >= 0)
-			return objects[active]->getTexture();
+			return ((GraphObject2D*)&*objects[active])->getTexture();
 			else return empty;
 		}
 
 		void MultipleGraph2D::render(sf::RenderTarget * window)
 		{
-			//std::lock_guard<std::mutex> guard(mutex);
+			
 			if(active>=0)
 				window->draw(sprite);
 		}

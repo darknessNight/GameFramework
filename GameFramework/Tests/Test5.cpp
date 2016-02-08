@@ -2,6 +2,7 @@
 #include "../IOModule/Window.h"
 #include "../IOModule/Image.h"
 #include "../IOModule/MultipleGraph.h"
+#include "../IOModule/Sound.h"
 #include <fstream>
 
 namespace Test5Helpers {
@@ -24,7 +25,7 @@ namespace Test5Helpers {
 	GF::IOModule::Posf pos = { 0,0 }, pos2 = { 0,0 };
 	void ControlImage(GF::IOModule::Events::EventArgs& args) {
 		now = high_resolution_clock::now();
-		float TIP = duration_cast<milliseconds>(now - last).count() / 2.0;
+		float TIP = duration_cast<milliseconds>(now - last).count() / 2.0f;
 		last = now;
 		if (GF::IOModule::Keyboard::isKeyPressed(GF::IOModule::Keyboard::W)) pos.y -= TIP;
 		if (GF::IOModule::Keyboard::isKeyPressed(GF::IOModule::Keyboard::S))pos.y += TIP;
@@ -101,8 +102,8 @@ std::string Test5() {
 		cam2.setSize({ 600,900 });
 		cam2.setViewport({ 0.51f,0,0.5f,1 });
 
-		window.setCamera(cam2);
-		window.setCamera(cam1);
+		window.appendCamera(cam2);
+		window.appendCamera(cam1);
 
 		img1 = window.CreateImage({ 192,256 },99);
 		img2 = window.CreateImage({ 128,192 },99);
@@ -112,8 +113,8 @@ std::string Test5() {
 		img1->setScale({ 0.75f,0.75f });
 		img1->setOrigin({ 24,24 });
 		img2->setOrigin({ 24,24 });
-		img1->setCamera(pm1);
-		img2->setCamera(pm2);
+		img1->appendCamera(pm1);
+		img2->appendCamera(pm2);
 		img1->setSmooth(true);
 		img2->setSmooth(true);
 		img1->loadFromFile("./alex.png");
@@ -121,7 +122,8 @@ std::string Test5() {
 		img1->setVisible(true);
 		img2->setVisible(true);
 
-		multi.append(img1->exportTexture());
+		GF::Core::MemGuard<Texture2D> tmpT=img1->exportTexture();
+		multi.append(tmpT);
 
 		Sounds::Music music;
 		music.openFromFile("./music.ogg");
@@ -130,9 +132,9 @@ std::string Test5() {
 		window.Show();
 		music.stop();
 
-		std::cout << "\nDo you can control charakters(on keys) and moving background when charakters moving? (Y/N)\n";
+		std::cout << "\nDo you can control characters(on keys) and moving background when characters moving? (Y/N)\n";
 		std::cin >> resp;
-		if (resp != 'y' && resp != 'Y') result += "Chakters or camera error\n";
+		if (resp != 'y' && resp != 'Y') result += "Characters or camera error\n";
 		std::cout << "\nDo you hear a music? (Y/N)\n";
 		std::cin >> resp;
 		if (resp != 'y' && resp != 'Y') result += "Music plaing error\n";

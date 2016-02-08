@@ -11,9 +11,10 @@ namespace GF {
 		{
 			opened = false;
 			clearGraphObjs();
-			if (thread != nullptr)
-				if(thread->joinable())
-				thread->join();
+			if (thread != nullptr) {
+				if (thread->joinable())
+					thread->join();
+			}
 			if (window.isOpen())
 				window.close();
 			
@@ -78,7 +79,7 @@ namespace GF {
 			return tex;
 		}
 
-		void Window::AppendGraphObj(Core::MemGuard<GraphObject2D> tex, int z_index)
+		void Window::appendGraphObj(Core::MemGuard<GraphObject2D> tex, int z_index)
 		{
 			//std::lock_guard<std::mutex> guard(mutex);
 			if (z_index < 0 || z_index >= graphObjs.size())
@@ -90,17 +91,17 @@ namespace GF {
 			}
 		}
 
-		void Window::AppendGraphObj(Core::MemGuard<GraphObject2D> val)
+		void Window::appendGraphObj(Core::MemGuard<GraphObject2D> val)
 		{
 			//std::lock_guard<std::mutex> guard(mutex);
 			graphObjs.push_back(val);
 		}
 
-		void Window::removeGraphObj(GraphObject2D& rem)
+		void Window::removeGraphObj(Core::MemGuard<GraphObject2D> rem)
 		{
 			//std::lock_guard<std::mutex> guard(mutex);
 			for (auto i = graphObjs.begin(); i != graphObjs.end(); i++) {
-				if (rem == *(*i)) {
+				if (rem == (*i)) {
 					i = graphObjs.erase(i);
 					break;
 				}
@@ -330,9 +331,24 @@ namespace GF {
 			hasTitlebar = enabled;
 		}
 
-		void Window::setCamera(const Camera& cam)
+		void Window::appendCamera(const Camera& cam)
 		{
 			cams.push_back(&cam);
+		}
+
+		void Window::removeCamera(const Camera & cam)
+		{
+			for (auto i = cams.begin(); i != cams.end(); i++) {
+				if (const_cast<Camera*>(&cam) == (*i)) {
+					i = cams.erase(i);
+					break;
+				}
+			}
+		}
+
+		void Window::clearCameras()
+		{
+			cams.clear();
 		}
 
 		void Window::clearGraphObjs()

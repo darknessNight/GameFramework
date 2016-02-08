@@ -1,6 +1,5 @@
 #pragma once
 #include <SFML\Graphics.hpp>
-#include <SFML\Audio.hpp>
 namespace GF {
 	namespace IOModule {
 		//TODO zast¹piæ typedef typami lub interfejsami
@@ -21,15 +20,11 @@ namespace GF {
 		typedef sf::IntRect Rect;
 		typedef sf::FloatRect Rectf;
 		typedef sf::View Camera;
+		typedef sf::Time Time;
 		namespace Shapes {
 			typedef sf::CircleShape Circle;
 			typedef sf::RectangleShape Rectangle;
 			typedef sf::ConvexShape ConvexShape;
-		}
-
-		namespace Sounds {
-			typedef sf::Music Music;
-			typedef sf::Sound Effect;
 		}
 	}
 }

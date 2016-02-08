@@ -158,9 +158,13 @@
     <ClCompile Include="IOModule\GraphObject.cpp" />
     <ClCompile Include="IOModule\Image.cpp" />
     <ClCompile Include="IOModule\MultipleGraph.cpp" />
+    <ClCompile Include="IOModule\Sound.cpp" />
+    <ClCompile Include="IOModule\Sounds.cpp" />
     <ClCompile Include="IOModule\Texture.cpp" />
     <ClCompile Include="IOModule\Window.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MemGuard.cpp" />
+    <ClCompile Include="Tests\Tests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Events.h" />
@@ -171,16 +175,29 @@
     <ClInclude Include="IOModule\Image.h" />
     <ClInclude Include="IOModule\Interfaces.h" />
     <ClInclude Include="IOModule\MultipleGraph.h" />
+    <ClInclude Include="IOModule\Sound.h" />
+    <ClInclude Include="IOModule\Sounds.h" />
     <ClInclude Include="IOModule\Texture.h" />
     <ClInclude Include="IOModule\Types.h" />
     <ClInclude Include="IOModule\Window.h" />
+    <ClInclude Include="MemGuard.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="Tests\Test1.h" />
-    <ClInclude Include="Tests\Test2.h" />
-    <ClInclude Include="Tests\Test3.h" />
-    <ClInclude Include="Tests\Test4.h" />
-    <ClInclude Include="Tests\Test5.h" />
-    <ClInclude Include="Tests\Test6.h" />
+    <ClCompile Include="Tests\Test1.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Tests\Test2.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Tests\Test3.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Tests\Test4.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Tests\Test5.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Tests\Test6.cpp" />
     <ClInclude Include="Tests\Tests.h" />
   </ItemGroup>
   <ItemGroup>

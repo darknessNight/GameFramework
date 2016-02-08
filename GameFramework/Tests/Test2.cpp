@@ -1,6 +1,8 @@
 #pragma once
 #include "../stdafx.h"
 #include "../IOModule/Window.h"
+#include "Tests.h"
+
 using namespace GF::IOModule::Events;
 using namespace std::literals;
 namespace Test2Helpers {

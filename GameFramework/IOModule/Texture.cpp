@@ -1,6 +1,6 @@
 #include "Texture.h"
 #include <fstream>
-
+using namespace GF::IOModule;
 GF::IOModule::Texture2D::Texture2D(const sf::Texture & tex):texture(tex)
 {
 	sprite.setTexture(texture);
@@ -8,29 +8,26 @@ GF::IOModule::Texture2D::Texture2D(const sf::Texture & tex):texture(tex)
 
 GF::IOModule::Texture2D::Texture2D(Size size)
 {
-	//std::lock_guard<std::mutex> guard(mutex);
 	if(!texture.create(size.x, size.y))
 		throw std::exception("Cannot create Texture");
 	sprite.setTexture(texture);
 }
 
-void GF::IOModule::Texture2D::loadFromFile(std::string path)
+inline void GF::IOModule::Texture2D::loadFromFile(std::string path)
 {
-	//std::lock_guard<std::mutex> guard(mutex);
 	if(!texture.loadFromFile(path))
 		throw std::exception("Cannot load from file");
 }
 
-void GF::IOModule::Texture2D::loadFromMemory(const void* mem, unsigned size)
+inline void GF::IOModule::Texture2D::loadFromMemory(const void* mem, unsigned size)
 {
-	//std::lock_guard<std::mutex> guard(mutex);
 	if (!texture.loadFromMemory(mem, size))
 		throw std::exception("Cannot load from memory");
 }
 
 void GF::IOModule::Texture2D::loadFromStream(std::istream& stream)
 {
-	//std::lock_guard<std::mutex> guard(mutex);
+
 	if (stream.good()) {
 		stream.seekg(0, stream.end);
 		unsigned size = stream.tellg();
@@ -48,21 +45,33 @@ void GF::IOModule::Texture2D::loadFromStream(std::istream& stream)
 	}
 }
 
-void GF::IOModule::Texture2D::setSmooth(bool enabled)
+inline void GF::IOModule::Texture2D::setSmooth(bool enabled)
 {
-	//std::lock_guard<std::mutex> guard(mutex);
 	texture.setSmooth(enabled);
 }
 
-const sf::Texture & GF::IOModule::Texture2D::getTexture()
+inline void GF::IOModule::Texture2D::setRepeat(bool enabled)
 {
-	//std::lock_guard<std::mutex> guard(mutex);
+	texture.setRepeated(enabled);
+}
+
+inline bool GF::IOModule::Texture2D::getSmooth()
+{
+	return texture.isSmooth();
+}
+
+inline bool GF::IOModule::Texture2D::getRepeat()
+{
+	return texture.isRepeated();
+}
+
+inline const sf::Texture & GF::IOModule::Texture2D::getTexture()
+{
 	return texture;
 }
 
-void GF::IOModule::Texture2D::render(sf::RenderTarget* window)
+inline void GF::IOModule::Texture2D::render(sf::RenderTarget* window)
 {
-	//std::lock_guard<std::mutex> guard(mutex);
 	if(visible)
 		window->draw(sprite);
 }

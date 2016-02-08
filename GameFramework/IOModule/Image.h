@@ -4,12 +4,12 @@
 
 namespace GF {
 	namespace IOModule {
-		class Image :public GraphObject2D{
+		class Image :public GraphObject2D {
 		public:
 			Image() = delete;
 			Image(const Image&);
 			Image(Size size);
-			void setCamera(const Camera &cam);
+			void appendCamera(const Camera &cam);
 			void importFromTexture(Core::MemGuard<Texture2D>);
 			Core::MemGuard<Texture2D> exportTexture();
 			void loadFromMemory(const void * mem, unsigned size) override;
@@ -19,6 +19,8 @@ namespace GF {
 			void draw(Drawable& some);
 			void clear(Color color = Color::Black);
 			void setSmooth(bool enable);
+			void setRepeat(bool enable);
+			bool getRepeat();
 			bool getSmooth();
 			const Sizef& getSize()override;
 			const sf::Texture& getTexture()override;
