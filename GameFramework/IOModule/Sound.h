@@ -1,11 +1,11 @@
 #pragma once
 #include "../Core/Types.h"
 #include "Sounds.h"
+#include "SoundPlaylists.h"
 
 namespace GF {
 	namespace IOModule {
 		class SoundCore {
-			static int mainVolume;
 		public:
 			static void setMusicVolume(unsigned);
 			static void setVoiceVolume(unsigned);
@@ -30,8 +30,8 @@ namespace GF {
 			static Core::MemGuard<Sounds::Effect> createEffect();
 		private:
 			static std::vector < Core::MemGuard<Sounds::Music>> musics;
-			static std::vector < Core::MemGuard<Sounds::Music>> voices;
-			static std::vector < Core::MemGuard<Sounds::Music>> effects;
+			static std::vector < Core::MemGuard<Sounds::Voice>> voices;
+			static std::vector < Core::MemGuard<Sounds::Effect>> effects;
 			static float volume;
 		};
 	}

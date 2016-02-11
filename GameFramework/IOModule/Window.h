@@ -100,9 +100,12 @@ namespace GF {
 #pragma region OnEvent Funcs
 			void onWindowRender();
 			void onClose();
-			void onClick();//TODO
+			void onClick(Events::MouseButtArgs);
+			void onReleaseMouse(Events::MouseButtArgs);
 			template <typename ArgType> void OnEvent(Core::Events::Event<ArgType> &sync, Core::Events::Event<ArgType>* async, ArgType args);
 #pragma endregion
+		public:
+			bool cliableElements = false;
 		protected:
 			std::mutex mutex;
 			bool fullscreen = false;
@@ -120,6 +123,7 @@ namespace GF {
 			Size size = { 800,600 };
 			Core::MemGuard<std::thread> thread;
 			sf::RenderWindow window;
+			Core::MemGuard<GraphObject2D> draggedItem;
 			std::vector<Core::MemGuard<GraphObject2D>> graphObjs;
 			std::vector<const Camera*> cams;
 			//consts

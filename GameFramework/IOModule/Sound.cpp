@@ -1,6 +1,13 @@
 #include "Sound.h"
 
-int GF::IOModule::SoundCore::mainVolume = 0;
+namespace GF {
+	namespace IOModule {
+		float SoundCore::volume = 1.00;
+		std::vector < Core::MemGuard<Sounds::Music>> SoundCore::musics;
+		std::vector < Core::MemGuard<Sounds::Voice>> SoundCore::voices;
+		std::vector < Core::MemGuard<Sounds::Effect>> SoundCore::effects;
+	}
+}
 
 void GF::IOModule::SoundCore::setMusicVolume(unsigned v)
 {

@@ -6,7 +6,7 @@ namespace GF {
 	namespace IOModule {
 		namespace Events {
 			typedef Core::Events::EventArgs EventArgs;
-#define CREATE_CONVERSION_CONSTRUCT(NAME, TYPE) NAME(TYPE& ev) {*(TYPE*)this = ev;}
+#define CREATE_CONVERSION_CONSTRUCT(NAME, TYPE) NAME(TYPE& ev) {*(TYPE*)this = ev;} NAME()=default;
 			struct KeyboardArgs : public EventArgs, public sf::Event::KeyEvent {
 				CREATE_CONVERSION_CONSTRUCT(KeyboardArgs, sf::Event::KeyEvent);
 				typedef sf::Keyboard::Key KeyCode;

@@ -75,13 +75,16 @@
     <ClCompile Include="IOModule\Sound.cpp">
       <Filter>Source Files\IOModule</Filter>
     </ClCompile>
+    <ClCompile Include="IOModule\SoundPlaylists.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Tests\Test7.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IOModule\Window.h">
-      <Filter>Header Files\IOModule</Filter>
     </ClInclude>
     <ClInclude Include="IOModule\Interfaces.h">
       <Filter>Header Files\IOModule</Filter>
@@ -124,6 +127,18 @@
     </ClInclude>
     <ClInclude Include="MemGuard.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IOModule\SoundPlaylists.h">
+      <Filter>Header Files\IOModule</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\MemGuard.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="IOModule\Window.h">
+      <Filter>Header Files\IOModule</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\MemGuard.hpp">
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

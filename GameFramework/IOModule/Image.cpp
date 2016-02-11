@@ -127,10 +127,10 @@ namespace GF {
 			if (visible) {
 				if (edited) {
 					texture.display();
-					sprite.setTexture(texture.getTexture());
+					sf::Sprite::setTexture(texture.getTexture());
 					edited = false;
 				}
-				window->draw(sprite);
+				window->draw(*this);
 			}
 		}
 

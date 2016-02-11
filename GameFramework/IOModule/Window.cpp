@@ -1,5 +1,4 @@
 #include "Window.h"
-#include "../stdafx.h"
 
 namespace GF {
 	namespace IOModule {
@@ -51,7 +50,7 @@ namespace GF {
 		{
 			Core::MemGuard<Texture2D> tex;
 			tex=new Texture2D(size);
-			//std::lock_guard<std::mutex> guard(mutex);
+			
 			if (z_index < 0 || z_index >= graphObjs.size()) {
 				Core::MemGuard<GraphObject2D> tmp(tex);
 				graphObjs.push_back(tmp);
@@ -68,7 +67,7 @@ namespace GF {
 		{
 			Core::MemGuard<Image> tex;
 			tex=new Image(size);
-			//std::lock_guard<std::mutex> guard(mutex);
+			
 			if (z_index < 0 || z_index >= graphObjs.size())
 				graphObjs.push_back(tex);
 			else {
@@ -81,7 +80,7 @@ namespace GF {
 
 		void Window::appendGraphObj(Core::MemGuard<GraphObject2D> tex, int z_index)
 		{
-			//std::lock_guard<std::mutex> guard(mutex);
+			
 			if (z_index < 0 || z_index >= graphObjs.size())
 				graphObjs.push_back(tex);
 			else {
@@ -93,13 +92,13 @@ namespace GF {
 
 		void Window::appendGraphObj(Core::MemGuard<GraphObject2D> val)
 		{
-			//std::lock_guard<std::mutex> guard(mutex);
+			
 			graphObjs.push_back(val);
 		}
 
 		void Window::removeGraphObj(Core::MemGuard<GraphObject2D> rem)
 		{
-			//std::lock_guard<std::mutex> guard(mutex);
+			
 			for (auto i = graphObjs.begin(); i != graphObjs.end(); i++) {
 				if (rem == (*i)) {
 					i = graphObjs.erase(i);
@@ -110,7 +109,7 @@ namespace GF {
 
 		void Window::captureToFile(std::string path)
 		{
-			//std::lock_guard<std::mutex> guard(mutex);
+			
 			window.display();
 			sf::Image im(window.capture());
 			if (!im.saveToFile(path))
@@ -132,8 +131,8 @@ namespace GF {
 			OnEvent<Events::JoystickMoveArgs>(JoystickMove, &JoystickMoveAsync, ev.joystickMove);
 			OnEvent<Events::KeyboardArgs>(KeyPress, &KeyPressAsync, ev.key);
 			OnEvent<Events::KeyboardArgs>(KeyRelease, &KeyReleaseAsync, ev.key);
-			OnEvent<Events::MouseButtArgs>(MouseButtonPress, &MouseButtonPressAsync, ev.mouseButton);
-			OnEvent<Events::MouseButtArgs>(MouseButtonRelease, &MouseButtonReleaseAsync, ev.mouseButton);
+			onClick(ev.mouseButton);
+			onReleaseMouse(ev.mouseButton);
 			OnEvent<Events::EventArgs>(MouseEnter, &MouseEnterAsync, stdArg);
 			OnEvent<Events::EventArgs>(MouseLeft, &MouseLeftAsync, stdArg);
 			OnEvent<Events::MouseWheelArgs>(MouseWheel, &MouseWheelAsync, ev.mouseWheel);
@@ -179,9 +178,9 @@ namespace GF {
 					case sf::Event::EventType::KeyReleased:
 						OnEvent<Events::KeyboardArgs>(KeyRelease, &KeyReleaseAsync, ev.key); break;
 					case sf::Event::EventType::MouseButtonPressed:
-						OnEvent<Events::MouseButtArgs>(MouseButtonPress, &MouseButtonPressAsync, ev.mouseButton); break;
+						onClick(ev.mouseButton); break;
 					case sf::Event::EventType::MouseButtonReleased:
-						OnEvent<Events::MouseButtArgs>(MouseButtonRelease, &MouseButtonReleaseAsync, ev.mouseButton); break;
+						onReleaseMouse(ev.mouseButton); break;
 					case sf::Event::EventType::MouseEntered:
 						OnEvent<Events::EventArgs>(MouseEnter, &MouseEnterAsync, stdArg); break;
 					case sf::Event::EventType::MouseLeft:
@@ -208,7 +207,7 @@ namespace GF {
 		void Window::onWindowRender()
 		{
 			if (opened && window.isOpen()) {
-				//std::lock_guard<std::mutex> guard(mutex);
+				
 				Events::EventArgs args;
 				OnEvent<Events::EventArgs>(WindowRender, &WindowRenderAsync, args);
 				window.clear();
@@ -246,14 +245,33 @@ namespace GF {
 
 		}
 
-		void Window::onClick()
+		void Window::onClick(Events::MouseButtArgs args)
 		{
+			if (cliableElements) {
+				Posf pos = { static_cast<float>(args.x), static_cast<float>(args.y) };
+				for (auto el = graphObjs.rend(); el != graphObjs.rbegin(); el++) {
+					if ((*el)->checkClicked(pos)) {
+						draggedItem = (*el);
+						break;
+					}
+				}
+			}
+			OnEvent(MouseButtonPress, &MouseButtonPressAsync, args);
+		}
+
+		void Window::onReleaseMouse(Events::MouseButtArgs args)
+		{
+			if (draggedItem != nullptr) {
+				draggedItem->mouseRelease(args);
+				draggedItem = nullptr;
+			}
+			OnEvent(MouseButtonRelease, &MouseButtonReleaseAsync, args);
 		}
 
 		void Window::setTitle(const std::string title)
 		{
 			if (title.size() > 0) {
-				//std::lock_guard<std::mutex> guard(mutex);
+				
 				this->title = title;
 				if (window.isOpen()) window.setTitle(title);
 			}
@@ -262,7 +280,7 @@ namespace GF {
 		void Window::setSize(const Size size)
 		{
 			if (size.x >= MIN_SIZE.x&&size.y > MIN_SIZE.y) {
-				//std::lock_guard<std::mutex> guard(mutex);
+				
 				this->size = size;
 				if (window.isOpen())
 					window.setSize(size);
@@ -271,42 +289,42 @@ namespace GF {
 
 		void Window::setPosition(const Pos pos)
 		{
-			//std::lock_guard<std::mutex> guard(mutex);
+			
 			this->pos = pos;
 			window.setPosition(pos);
 		}
 
 		void Window::setCursorVisible(bool flag)
 		{
-			//std::lock_guard<std::mutex> guard(mutex);
+			
 			cursorVisible = flag;
 			window.setMouseCursorVisible(flag);
 		}
 
 		void Window::setVerticalSyncEnabled(bool enabled)
 		{
-			//std::lock_guard<std::mutex> guard(mutex);
+			
 			vsync = enabled;
 			window.setVerticalSyncEnabled(enabled);
 		}
 
 		void Window::setKeyRepeatEnabled(bool enabled)
 		{
-			//std::lock_guard<std::mutex> guard(mutex);
+			
 			keyRepeatEnabled = enabled;
 			window.setKeyRepeatEnabled(enabled);
 		}
 
 		void Window::setFramerateLimit(unsigned int limit)
 		{
-			//std::lock_guard<std::mutex> guard(mutex);
+			
 			framerate = limit;
 			window.setFramerateLimit(limit);
 		}
 
 		void Window::setJoystickThreshold(float threshold)
 		{
-			//std::lock_guard<std::mutex> guard(mutex);
+			
 			joystickThreshold = threshold;
 			window.setJoystickThreshold(threshold);
 		}

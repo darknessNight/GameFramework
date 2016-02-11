@@ -1,25 +1,25 @@
 #include "Texture.h"
 #include <fstream>
 using namespace GF::IOModule;
-GF::IOModule::Texture2D::Texture2D(const sf::Texture & tex):texture(tex)
+GF::IOModule::Texture2D::Texture2D(const SharedTexture & tex):texture(tex)
 {
-	sprite.setTexture(texture);
+	sf::Sprite::setTexture(texture);
 }
 
 GF::IOModule::Texture2D::Texture2D(Size size)
 {
 	if(!texture.create(size.x, size.y))
 		throw std::exception("Cannot create Texture");
-	sprite.setTexture(texture);
+	sf::Sprite::setTexture(texture);
 }
 
-inline void GF::IOModule::Texture2D::loadFromFile(std::string path)
+void GF::IOModule::Texture2D::loadFromFile(std::string path)
 {
 	if(!texture.loadFromFile(path))
 		throw std::exception("Cannot load from file");
 }
 
-inline void GF::IOModule::Texture2D::loadFromMemory(const void* mem, unsigned size)
+void GF::IOModule::Texture2D::loadFromMemory(const void* mem, unsigned size)
 {
 	if (!texture.loadFromMemory(mem, size))
 		throw std::exception("Cannot load from memory");
@@ -68,10 +68,4 @@ inline bool GF::IOModule::Texture2D::getRepeat()
 inline const sf::Texture & GF::IOModule::Texture2D::getTexture()
 {
 	return texture;
-}
-
-inline void GF::IOModule::Texture2D::render(sf::RenderTarget* window)
-{
-	if(visible)
-		window->draw(sprite);
 }

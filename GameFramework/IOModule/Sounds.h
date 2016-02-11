@@ -11,18 +11,31 @@ namespace GF {
 			class SoundBase {
 			public:
 				typedef sf::Sound::Status Status;
-				virtual void start();
-				virtual void stop();
+				virtual void play()=0;
+				virtual void pause()=0;
+				virtual void stop()=0;
+				virtual void setVolume(float)=0;
+				virtual Status getStatus()=0;
 			};
 
-			template <bool voice> class Sound :public sf::Music, public SoundBase{
+			template <bool voice> class Sound :public sf::Music, public SoundBase {
 				friend SoundCore;
 			public:
+				bool operator==(const Sound<!voice> &rhs) {
+					return *(sf::Music*)(this) == *(sf::Music*)&rhs;
+				}
+
+				void play()override { sf::Music::play(); }
+				void pause()override { sf::Music::pause(); };
+				void stop()override { sf::Music::stop(); };
+				void setVolume(float val)override { sf::Music::setVolume(val); }
+				SoundBase::Status getStatus()override { return sf::Music::getStatus(); }
+
 				Sound() {
 					setVolume(volume);
 				}
 			private:
-				static int volume;
+				static float volume;
 			};
 
 			typedef Sound<false> Music;
@@ -30,10 +43,16 @@ namespace GF {
 
 			typedef sf::SoundBufferRecorder Recorder;
 
-			class Effect: sf::Sound, public SoundBase {
+			class Effect : sf::Sound, public SoundBase {
 				friend SoundCore;
 			public:
+				void play()override;
+				void pause()override;
+				void stop()override;
+				void setVolume(float val)override;
+				SoundBase::Status getStatus()override;
 				Effect();
+				Effect& getCopy();
 				void copyFormRecorder(const Recorder& rec);
 				bool loadFromFile(const std::string &filename);
 				bool loadFromMemory(const void *data, std::size_t sizeInBytes);
@@ -48,34 +67,10 @@ namespace GF {
 
 				using sf::Sound::setBuffer;
 				using sf::Sound::getBuffer;
-				
+
 			private:
-				static int volume;
+				static float volume;
 				sf::SoundBuffer sound;
-			};
-
-
-			class Playlist {//TODO add automatic go to next
-			public:
-				void play();
-				void stop();
-				void next();
-				void prev();
-				unsigned size();
-				void select(unsigned);
-				void clear();
-				void setLoop(bool);
-				bool getLoop();
-				void append(std::string path);
-				void remove(std::string);
-				void remove(unsigned);
-				void setVolume(unsigned);
-			private:
-				std::thread th;
-				std::vector<std::string> list;
-				int current = 0;
-				sf::Music music;
-				bool loop = true;
 			};
 		}
 	}

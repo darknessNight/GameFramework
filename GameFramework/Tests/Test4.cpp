@@ -120,7 +120,6 @@ std::string Test4() {
 		window.appendGraphObj(GF::Core::make_ptr(multi), 0);
 		try {
 			multi.append(GF::Core::make_ptr(img));
-			throw new std::exception("MultipleGraph not throw");
 		}
 		catch (std::exception) {
 			std::clog << "Throwed";

@@ -15,11 +15,6 @@ namespace GF {
 
 		void MultipleGraph2D::append(Core::MemGuard<GraphObject2D> el)
 		{
-			
-			Posf tmp=el->getSize();
-			if (el->getSize().x != stdSize.x || el->getSize().y != stdSize.y) {
-				throw std::exception("Target size is incompatibile");
-			}
 			objects.push_back(el);
 		}
 
@@ -57,10 +52,10 @@ namespace GF {
 			
 			active = i;
 			if (i < objects.size() && i >= 0) {
-				sprite.setTexture(((GraphObject2D*)&*objects[i])->getTexture());
+				setTexture(((GraphObject2D*)&*objects[i])->getTexture());
 			}
 			else {
-				sprite.setTexture(empty);
+				setTexture(empty);
 				active = -1;
 			}
 		}
@@ -71,40 +66,12 @@ namespace GF {
 			return objects.size();
 		}
 
-		void MultipleGraph2D::loadFromMemory(const void * mem, unsigned size)
-		{
-			
-			if (active >= 0)
-				objects[active]->loadFromMemory(mem, size);
-		}
-
-		void MultipleGraph2D::loadFromStream(std::istream & stream)
-		{
-			
-			if (active >= 0)
-				objects[active]->loadFromStream(stream);
-		}
-
-		void MultipleGraph2D::loadFromFile(std::string path)
-		{
-			
-			if (active >= 0)
-				objects[active]->loadFromFile(path);
-		}
-
-		const sf::Texture & MultipleGraph2D::getTexture()
+		const SharedTexture & MultipleGraph2D::getTexture()
 		{
 			
 			if (active >= 0)
 			return ((GraphObject2D*)&*objects[active])->getTexture();
 			else return empty;
-		}
-
-		void MultipleGraph2D::render(sf::RenderTarget * window)
-		{
-			
-			if(active>=0)
-				window->draw(sprite);
 		}
 	}
 }

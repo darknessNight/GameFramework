@@ -5,7 +5,5 @@
 //virtual .* (.*?)\(.*
 namespace GF {
 	namespace IOModule {
-
-
 	}
 }

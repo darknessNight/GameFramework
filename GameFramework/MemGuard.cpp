@@ -8,7 +8,7 @@ class MemoryGuard{
 public:
 	MemoryGuard();
 	~MemoryGuard();
-	void delDynVar(void* p);
+	bool delDynVar(void* p);
 	void addDynVar(void* p, size_t size, const char* file, unsigned line);
 private:
 	void ToScreen();
@@ -33,15 +33,15 @@ private:
 
 
 void operator delete[](void* p) {
-	guard.delDynVar(p);
-	free(p);
+	if(guard.delDynVar(p))
+		free(p);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------
 
 
 void operator delete(void* p) {
-	guard.delDynVar(p);
-	free(p);
+	if(guard.delDynVar(p))
+		free(p);
 }
 //-----------------------------------------------------------------------------------------------------------------------------------
 
@@ -124,6 +124,8 @@ MemoryGuard::~MemoryGuard(){
 	free(dynVarsFile);
 	free(dynVarsLine);
 	free(dynVarsBytes);
+
+	dynVars = nullptr;
 }
 //-----------------------------------------------------------------------------------------------------------------------------------
 
@@ -164,27 +166,30 @@ void MemoryGuard::ToFile(){
 //-----------------------------------------------------------------------------------------------------------------------------------
 
 
-void MemoryGuard::delDynVar(void* p){
+bool MemoryGuard::delDynVar(void* p){
+	if (dynVars == nullptr) return false;
 	dynVar--;
 	for (int i = 0; i < maxEls; i++){
 		if (dynVars[i] == (unsigned)p){
 			dynVars[i] = 0;
-			return;
+			return true;
 		}
 	}
+	return false;
 }
 //-----------------------------------------------------------------------------------------------------------------------------------
 
 
 void MemoryGuard::addDynVar(void* p, size_t size, const char* file, unsigned line){
+	if (dynVars == nullptr) 
+		return;
 	dynVar++;
 
 	if (dynVar > maxEls){
 		printf("%s %d %s\n", "Ilosc zainicjowanych zmiennych przekroczyla",maxEls,"program zakonczy dzialanie natychmiastowo");
-		system("cls");
+		system("pause");
 		exit(0);
 	}
-
 	dynVarBytes += size;
 	for (int i = 0; i < maxEls; i++){
 		if (dynVars[i]==0){

@@ -159,16 +159,20 @@
     <ClCompile Include="IOModule\Image.cpp" />
     <ClCompile Include="IOModule\MultipleGraph.cpp" />
     <ClCompile Include="IOModule\Sound.cpp" />
+    <ClCompile Include="IOModule\SoundPlaylists.cpp" />
     <ClCompile Include="IOModule\Sounds.cpp" />
     <ClCompile Include="IOModule\Texture.cpp" />
     <ClCompile Include="IOModule\Window.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MemGuard.cpp" />
+    <ClCompile Include="Tests\Test7.cpp" />
     <ClCompile Include="Tests\Tests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Events.h" />
     <ClInclude Include="Core\Events.hpp" />
+    <ClInclude Include="Core\MemGuard.h" />
+    <ClInclude Include="Core\MemGuard.hpp" />
     <ClInclude Include="Core\Types.h" />
     <ClInclude Include="IOModule\Events.h" />
     <ClInclude Include="IOModule\GraphObject.h" />
@@ -176,6 +180,7 @@
     <ClInclude Include="IOModule\Interfaces.h" />
     <ClInclude Include="IOModule\MultipleGraph.h" />
     <ClInclude Include="IOModule\Sound.h" />
+    <ClInclude Include="IOModule\SoundPlaylists.h" />
     <ClInclude Include="IOModule\Sounds.h" />
     <ClInclude Include="IOModule\Texture.h" />
     <ClInclude Include="IOModule\Types.h" />

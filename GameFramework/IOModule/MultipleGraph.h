@@ -14,12 +14,7 @@ namespace GF {
 			void clear();
 			void setActive(int i);
 			unsigned size();
-			void loadFromMemory(const void * mem, unsigned size) override;
-			void loadFromStream(std::istream & stream) override;
-			void loadFromFile(std::string path) override;
 			const sf::Texture& getTexture();
-		private:
-			virtual void render(sf::RenderTarget * window) override;
 		private:
 			std::vector<Core::MemGuard<GraphObject2D>> objects;
 			sf::Texture empty;

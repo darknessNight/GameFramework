@@ -1,5 +1,7 @@
 #pragma once
 
+#include "MemGuard.h"
+
 #include <iostream>
 #include <tchar.h>
 #include <cmath>
@@ -8,8 +10,6 @@
 #include <functional>
 #include <thread>
 #include <mutex>
-
-#include "MemGuard.h"
 
 //#define TEST_ALL
 
