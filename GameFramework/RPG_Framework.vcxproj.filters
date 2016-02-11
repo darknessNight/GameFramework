@@ -81,6 +81,9 @@
     <ClCompile Include="IOModule\SoundPlaylists.cpp">
       <Filter>Source Files\IOModule</Filter>
     </ClCompile>
+    <ClCompile Include="Tests\Test8.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">

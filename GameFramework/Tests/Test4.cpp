@@ -1,3 +1,6 @@
+/*Checking Imaging element
+*/
+
 #pragma once
 #include "../IOModule/Window.h"
 #include "../IOModule/Image.h"
@@ -61,9 +64,9 @@ std::string Test4() {
 		char resp = 0;
 		GF::IOModule::Window window;
 		window.setTitle("Test4");
-		window.KeyPress += SaveWindow;
-		window.KeyPress += Close;
-		window.WindowRender += ControlImage;
+		window.KeyPressed += SaveWindow;
+		window.KeyPressed += Close;
+		window.Render += ControlImage;
 		window.setVerticalSyncEnabled(true);
 		//window.setCursorVisible(false);
 		start = std::chrono::high_resolution_clock::now();

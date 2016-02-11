@@ -27,20 +27,27 @@ namespace GF {
 		protected:
 			virtual void render(sf::RenderTarget* window);
 			virtual bool checkClicked(Posf);
-			virtual void mouseRelease(Events::MouseButtArgs);
+			virtual void mouseRelease(Events::MouseButtonArgs);
 			virtual void mouseMove(Events::MouseMoveArgs);
 		public:
 			GF::Core::Events::Event<Events::EventArgs> Render;
-			GF::Core::Events::Event<Events::MouseButtArgs> MousePress;
-			GF::Core::Events::Event<Events::MouseButtArgs> MouseRelease;
+			GF::Core::Events::Event<Events::MouseButtonArgs> MousePress;
+			GF::Core::Events::Event<Events::MouseButtonArgs> MouseRelease;
 			GF::Core::Events::Event<Events::MouseMoveArgs> MouseMove;
+
+			GF::Core::Events::Event<Events::EventArgs> GainedFocus;
+			GF::Core::Events::Event<Events::EventArgs> LostFocus;
+
+			GF::Core::Events::Event<Events::KeyboardArgs> KeyPressed;
+			GF::Core::Events::Event<Events::KeyboardArgs> KeyRelease;
+			GF::Core::Events::Event<Events::TextTypeArgs> TextType;
 		public:
 			unsigned caMask = 0xFFFFFF00;
 			bool clickable = false;
 			Rectf caArea;
 		protected:
 			sf::RenderStates rs=sf::RenderStates::Default;
-			bool visible=true;
+			bool visible=false;
 		};
 	}
 }

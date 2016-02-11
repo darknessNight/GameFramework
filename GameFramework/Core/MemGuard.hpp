@@ -97,14 +97,32 @@ namespace GF {
 			return *this;
 		}
 
+		template<typename T> bool MemGuard<T>::operator!=(const T * ref) const
+		{
+			return ref != val;
+		}
+
+		template<typename T> bool MemGuard<T>::operator==(const T * ref) const
+		{
+			return ref==val;
+		}
+
+		template<typename T> bool MemGuard<T>::operator!=(const MemGuard<T>& ref) const
+		{
+			return this->val != ref.val;
+		}
+
 		template <typename T> bool MemGuard<T>::operator==(const MemGuard<T> &ref) const {
-			std::lock_guard<std::mutex> guard(thsafe);
 			return this->val == ref.val;
 		}
 
 		template <typename T> template<typename From> bool MemGuard<T>::operator==(const MemGuard<From> &ref) {
-			std::lock_guard<std::mutex> guard(thsafe);
 			return (void*)ref.getPtr() == (void*)val;
+		}
+
+		template<typename T> template<typename From> bool MemGuard<T>::operator!=(const MemGuard<From>& ref)
+		{
+			return (void*)ref.getPtr() != (void*)val;
 		}
 
 		template <typename T> void MemGuard<T>::deletePtr() {

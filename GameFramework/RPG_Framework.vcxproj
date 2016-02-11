@@ -89,7 +89,7 @@
       <AdditionalIncludeDirectories>F:\library\SFML-2.3.2-x86\include;</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>x86;DEBUG;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
-      <MinimalRebuild>false</MinimalRebuild>
+      <MinimalRebuild>true</MinimalRebuild>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>F:\library\SFML-2.3.2-x86\lib</AdditionalLibraryDirectories>
@@ -107,7 +107,7 @@
       </MultiProcessorCompilation>
       <PreprocessorDefinitions>x64;DEBUG;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
-      <MinimalRebuild>false</MinimalRebuild>
+      <MinimalRebuild>true</MinimalRebuild>
       <SmallerTypeCheck>false</SmallerTypeCheck>
     </ClCompile>
     <Link>
@@ -166,6 +166,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MemGuard.cpp" />
     <ClCompile Include="Tests\Test7.cpp" />
+    <ClCompile Include="Tests\Test8.cpp" />
     <ClCompile Include="Tests\Tests.cpp" />
   </ItemGroup>
   <ItemGroup>

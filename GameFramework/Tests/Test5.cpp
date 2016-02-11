@@ -1,3 +1,5 @@
+/* Checking cameras and crop images
+*/
 #pragma once
 #include "../IOModule/Window.h"
 #include "../IOModule/Image.h"
@@ -83,9 +85,9 @@ std::string Test5() {
 		char resp = 0;
 		GF::IOModule::Window window;
 		window.setTitle("Test5");
-		window.KeyPress += SaveWindow;
-		window.KeyPress += Close;
-		window.WindowRender += ControlImage;
+		window.KeyPressed += SaveWindow;
+		window.KeyPressed += Close;
+		window.Render += ControlImage;
 		window.setVerticalSyncEnabled(true);
 		start = std::chrono::high_resolution_clock::now();
 
@@ -93,7 +95,8 @@ std::string Test5() {
 		GF::Core::MemGuard<Texture2D> tmp = window.CreateTexture({ 1280,1024 });
 		texture1->setVisible(true);
 		texture1->setOrigin({ 50,50 });
-		texture1->loadFromFile("./img2.jpg");
+		if(!texture1->loadFromFile("./img2.jpg"))
+		throw std::exception("Cannot read image from file");
 		texture1->setPosition(pos);
 		texture1->setVisible(true);
 
@@ -117,8 +120,10 @@ std::string Test5() {
 		img2->appendCamera(pm2);
 		img1->setSmooth(true);
 		img2->setSmooth(true);
-		img1->loadFromFile("./alex.png");
-		img2->loadFromFile("./sephiroth.png");
+		if (!img1->loadFromFile("./alex.png"))
+			throw std::exception("Cannot read image from file");
+		if(!img2->loadFromFile("./sephiroth.png"))
+		throw std::exception("Cannot read image from file");
 		img1->setVisible(true);
 		img2->setVisible(true);
 

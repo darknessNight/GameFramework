@@ -84,7 +84,7 @@ namespace GF {
 				pos.y >= caArea.top && pos.y <= ye) {
 				unsigned c = getTexture().copyToImage().getPixel(pos.x - caArea.left, pos.y - caArea.top).toInteger();
 				if (c&caMask != 0) {
-					Events::MouseButtArgs args;
+					Events::MouseButtonArgs args;
 					args.x = pos.x;
 					args.y = pos.y;
 					MousePress(this, args);
@@ -94,7 +94,7 @@ namespace GF {
 			return false;
 		}
 
-		void GraphObject2D::mouseRelease(Events::MouseButtArgs args)
+		void GraphObject2D::mouseRelease(Events::MouseButtonArgs args)
 		{
 			MouseRelease(this, args);
 		}

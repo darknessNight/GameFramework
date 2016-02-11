@@ -1,3 +1,5 @@
+/*Checking ways of loading textures
+*/
 #pragma once
 #include "../IOModule/Window.h"
 #include <fstream>
@@ -40,8 +42,8 @@ std::string Test3() {
 		texture1->setOrigin({ 50,50 });
 		texture1->rotate(-45);
 		texture1->setVisible(true);
-		window.WindowRender += Rotate;
-		window.KeyPress += Close;
+		window.Render += Rotate;
+		window.KeyPressed += Close;
 		//window.setVerticalSyncEnabled(true);
 		window.setCursorVisible(false);
 		start = std::chrono::high_resolution_clock::now();

@@ -1,3 +1,5 @@
+/*Checking basic event support
+*/
 #pragma once
 #include "../stdafx.h"
 #include "../IOModule/Window.h"
@@ -9,11 +11,11 @@ namespace Test2Helpers {
 	std::string results;
 	bool testDelTest2 = false;
 
-	void JoystickButtonDelTest(GF::IOModule::Events::JoystickButtArgs &args) {
+	void JoystickButtonDelTest(GF::IOModule::Events::JoystickButtonArgs &args) {
 		results += "Don't delete event\n";
 	}
 
-	void JoystickButtonDelTest2(GF::IOModule::Events::JoystickButtArgs &args) {
+	void JoystickButtonDelTest2(GF::IOModule::Events::JoystickButtonArgs &args) {
 		testDelTest2 = true;
 	}
 
@@ -24,9 +26,9 @@ namespace Test2Helpers {
 
 	class Test :public GF::Core::Object {
 	public:
-		typedef void(Object::*rzut)(JoystickButtArgs&);
+		typedef void(Object::*rzut)(JoystickButtonArgs&);
 		static int i;
-		void JoystickButtonDelTest(GF::IOModule::Events::JoystickButtArgs &args) {
+		void JoystickButtonDelTest(GF::IOModule::Events::JoystickButtonArgs &args) {
 			if (i > 0)results += "Don't delete event v2\n";
 			i++;
 		}
@@ -60,24 +62,24 @@ std::string Test2() {
 
 
 		//tests for adding and deleting events' functions
-		window.JoystickButtonPress += Test2Helpers::JoystickButtonDelTest;
-		window.JoystickButtonPress -= Test2Helpers::JoystickButtonDelTest;
-		window.JoystickButtonPress += Test2Helpers::JoystickButtonDelTest2;
-		window.JoystickButtonPress += {(Test2Helpers::Test::rzut)&Test2Helpers::Test::JoystickButtonDelTest, &ob1};
-		window.JoystickButtonPress += {(Test2Helpers::Test::rzut)&Test2Helpers::Test::JoystickButtonDelTest, &ob2};
-		window.JoystickButtonPress -= {(Test2Helpers::Test::rzut)&Test2Helpers::Test::JoystickButtonDelTest, &ob2};
+		window.JoystickButtonPressed += Test2Helpers::JoystickButtonDelTest;
+		window.JoystickButtonPressed -= Test2Helpers::JoystickButtonDelTest;
+		window.JoystickButtonPressed += Test2Helpers::JoystickButtonDelTest2;
+		window.JoystickButtonPressed += {(Test2Helpers::Test::rzut)&Test2Helpers::Test::JoystickButtonDelTest, &ob1};
+		window.JoystickButtonPressed += {(Test2Helpers::Test::rzut)&Test2Helpers::Test::JoystickButtonDelTest, &ob2};
+		window.JoystickButtonPressed -= {(Test2Helpers::Test::rzut)&Test2Helpers::Test::JoystickButtonDelTest, &ob2};
 		window.JoystickMove += Test2Helpers::JoystickMoveTest;
 #ifdef DEBUG
 		window.TestEvents(ev);
 #endif
 		Test2Helpers::Test::DelTestResult();
 
-		window.JoystickButtonPress.clear();
+		window.JoystickButtonPressed.clear();
 
-		window.JoystickButtonPressAsync += Test2Helpers::JoystickButtonDelTest2;
-		window.JoystickButtonPress += {(Test2Helpers::Test::rzut)&Test2Helpers::Test::JoystickButtonDelTest, &ob1};
-		window.JoystickButtonPress += {(Test2Helpers::Test::rzut)&Test2Helpers::Test::JoystickButtonDelTest, &ob2};
-		window.JoystickButtonPress -= {(Test2Helpers::Test::rzut)&Test2Helpers::Test::JoystickButtonDelTest, &ob2};
+		window.JoystickButtonPressedAsync += Test2Helpers::JoystickButtonDelTest2;
+		window.JoystickButtonPressed += {(Test2Helpers::Test::rzut)&Test2Helpers::Test::JoystickButtonDelTest, &ob1};
+		window.JoystickButtonPressed += {(Test2Helpers::Test::rzut)&Test2Helpers::Test::JoystickButtonDelTest, &ob2};
+		window.JoystickButtonPressed -= {(Test2Helpers::Test::rzut)&Test2Helpers::Test::JoystickButtonDelTest, &ob2};
 #ifdef DEBUG
 		window.TestEvents(ev);
 #endif

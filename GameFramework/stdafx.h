@@ -11,7 +11,7 @@
 #include <thread>
 #include <mutex>
 
-//#define TEST_ALL
+#define TEST_ALL
 
 #ifdef TEST_ALL
 #define TESTS_START 0

@@ -1,3 +1,5 @@
+/*Test przekazywania zderzeñ myszy do obiektów
+*/
 #pragma once
 #include "../IOModule/Window.h"
 #include "../IOModule/Sound.h"
@@ -9,7 +11,7 @@ namespace Test7Helpers {
 	GF::IOModule::Pos wpos;
 	steady_clock::time_point now, last = high_resolution_clock::now();
 
-	void MClick(GF::IOModule::Events::MouseButtArgs& args) {
+	void MClick(GF::IOModule::Events::MouseButtonArgs& args) {
 		GF::IOModule::Texture2D* send = ((GF::IOModule::Texture2D*)args.sender);
 		pos.x = args.x;
 		pos.y = args.y;
@@ -65,7 +67,7 @@ std::string Test7() {
 		window.clickableElements = true;
 		window.setTitle("Przesuñ obrazek");
 		window.setVerticalSyncEnabled(true);
-		window.WindowRender += MWMove;
+		window.Render += MWMove;
 
 		el = window.CreateTexture({ 100, 100 });
 		el2 = window.CreateTexture({ 100, 100 });
@@ -75,6 +77,8 @@ std::string Test7() {
 		el->clickable = true;
 		el->MousePress += MClick;
 		el->MouseMove += MDrag;
+		el->setVisible(true);
+		el2->setVisible(true);
 
 		el = window.CreateTexture({ 100, 100 });
 		if (!el->loadFromFile("./Image.png"))
@@ -83,12 +87,14 @@ std::string Test7() {
 		el->clickable = true;
 		el->MousePress += MClick;
 		el->MouseMove += MDrag;
+		el->setVisible(true);
 
 		el = window.CreateTexture({ 100, 100 });
 		if (!el->loadFromFile("./Image.png"))
 			throw std::exception("Not laod image");
 		el->setColor(Color::Blue);
 		el->setBlendMode(sf::BlendAdd);
+		el->setVisible(true);
 
 		wpos=window.getPosition();
 		window.Show();

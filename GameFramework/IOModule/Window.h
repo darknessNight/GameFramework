@@ -13,6 +13,22 @@ window must be recreated
 namespace GF {
 	namespace IOModule {
 
+		struct WindowSettings {
+			bool fullscreen = false;
+			bool canResize = false;
+			bool hasCloseButton = true;
+			bool hasTitlebar = true;
+			unsigned framerate = 0;
+			bool vsync = false;
+			bool opened = false;
+			bool keyRepeatEnabled = true;
+			bool cursorVisible = true;
+			float joystickThreshold = -1;
+			std::string title = "Window";
+			Pos pos = { 0,0 };
+			Size size = { 800,600 };
+		};
+
 		class Window :NonCopyable{
 		public:
 			Window();
@@ -55,40 +71,40 @@ namespace GF {
 #endif // DEBUG
 		public:
 #pragma region Events
-			Core::Events::Event<Events::EventArgs> WindowRender;
-			   Core::Events::Event<Events::ResizeArgs> WindowResize;
-			   Core::Events::Event<Events::EventArgs> WindowFocused;
-			   Core::Events::Event<Events::EventArgs> WindowLostFocus;
+			Core::Events::Event<Events::EventArgs> Render;
+			   Core::Events::Event<Events::ResizeArgs> Resize;
+			   Core::Events::Event<Events::EventArgs> GainedFocus;
+			   Core::Events::Event<Events::EventArgs> LostFocus;
 			   Core::Events::Event<Events::EventArgs> WindowClose;
-			   Core::Events::Event<Events::KeyboardArgs> KeyPress;
+			   Core::Events::Event<Events::KeyboardArgs> KeyPressed;
 			   Core::Events::Event<Events::KeyboardArgs> KeyRelease;
-			   Core::Events::Event<Events::MouseButtArgs> MouseButtonPress;
-			   Core::Events::Event<Events::MouseButtArgs> MouseButtonRelease;
+			   Core::Events::Event<Events::MouseButtonArgs> MouseButtonPressed;
+			   Core::Events::Event<Events::MouseButtonArgs> MouseButtonRelease;
 			   Core::Events::Event<Events::MouseMoveArgs> MouseMove;
 			   Core::Events::Event<Events::MouseWheelArgs> MouseWheel;
 			   Core::Events::Event<Events::EventArgs> MouseLeft;
 			   Core::Events::Event<Events::EventArgs> MouseEnter;
-			   Core::Events::Event<Events::JoystickButtArgs> JoystickButtonPress;
-			   Core::Events::Event<Events::JoystickButtArgs> JoystickButtonRelease;
+			   Core::Events::Event<Events::JoystickButtonArgs> JoystickButtonPressed;
+			   Core::Events::Event<Events::JoystickButtonArgs> JoystickButtonRelease;
 			   Core::Events::Event<Events::JoystickMoveArgs> JoystickMove;
 			   Core::Events::Event<Events::JoystickArgs> JoystickConnect;
 			   Core::Events::Event<Events::JoystickArgs> JoystickDisconnect;
 			   Core::Events::Event<Events::TextTypeArgs> TextType;
 			   //async events
-			   Core::Events::Event<Events::EventArgs> WindowRenderAsync;
-			   Core::Events::Event<Events::ResizeArgs> WindowResizeAsync;
-			   Core::Events::Event<Events::EventArgs> WindowFocusedAsync;
-			   Core::Events::Event<Events::EventArgs> WindowLostFocusAsync;
-			   Core::Events::Event<Events::KeyboardArgs> KeyPressAsync;
+			   Core::Events::Event<Events::EventArgs> RenderAsync;
+			   Core::Events::Event<Events::ResizeArgs> ResizeAsync;
+			   Core::Events::Event<Events::EventArgs> GainedFocusAsync;
+			   Core::Events::Event<Events::EventArgs> LostFocusAsync;
+			   Core::Events::Event<Events::KeyboardArgs> KeyPressedAsync;
 			   Core::Events::Event<Events::KeyboardArgs> KeyReleaseAsync;
-			   Core::Events::Event<Events::MouseButtArgs> MouseButtonPressAsync;
-			   Core::Events::Event<Events::MouseButtArgs> MouseButtonReleaseAsync;
+			   Core::Events::Event<Events::MouseButtonArgs> MouseButtonPressedAsync;
+			   Core::Events::Event<Events::MouseButtonArgs> MouseButtonReleaseAsync;
 			   Core::Events::Event<Events::MouseMoveArgs> MouseMoveAsync;
 			   Core::Events::Event<Events::MouseWheelArgs> MouseWheelAsync;
 			   Core::Events::Event<Events::EventArgs> MouseLeftAsync;
 			   Core::Events::Event<Events::EventArgs> MouseEnterAsync;
-			   Core::Events::Event<Events::JoystickButtArgs> JoystickButtonPressAsync;
-			   Core::Events::Event<Events::JoystickButtArgs> JoystickButtonReleaseAsync;
+			   Core::Events::Event<Events::JoystickButtonArgs> JoystickButtonPressedAsync;
+			   Core::Events::Event<Events::JoystickButtonArgs> JoystickButtonReleaseAsync;
 			   Core::Events::Event<Events::JoystickMoveArgs> JoystickMoveAsync;
 			   Core::Events::Event<Events::JoystickArgs> JoystickConnectAsync;
 			   Core::Events::Event<Events::JoystickArgs> JoystickDisconnectAsync;
@@ -100,31 +116,27 @@ namespace GF {
 #pragma region OnEvent Funcs
 			void onWindowRender();
 			void onClose();
-			void onClick(Events::MouseButtArgs);
-			void onReleaseMouse(Events::MouseButtArgs);
+			void onClick(Events::MouseButtonArgs);
+			void onReleaseMouse(Events::MouseButtonArgs);
 			void onMouseMove(Events::MouseMoveArgs);
+			void onTextType(Events::TextTypeArgs);
+			void onKeyPressed(Events::KeyboardArgs);
+			void onKeyRelease(Events::KeyboardArgs);
+
 			template <typename ArgType> void OnEvent(Core::Events::Event<ArgType> &sync, Core::Events::Event<ArgType>* async, ArgType args);
 #pragma endregion
 		public:
 			bool clickableElements = false;
 		protected:
+			WindowSettings settings;
+
 			std::mutex mutexGraph;
-			bool fullscreen = false;
-			bool canResize = false;
-			bool hasCloseButton = true;
-			bool hasTitlebar = true;
-			unsigned framerate = 0;
-			bool vsync = false;
-			bool opened=false;
-			bool keyRepeatEnabled = true;
-			bool cursorVisible = true;
-			float joystickThreshold=-1;
-			std::string title = "Window";
-			Pos pos = { 0,0 };
-			Size size = { 800,600 };
 			Core::MemGuard<std::thread> thread;
 			sf::RenderWindow window;
+
 			Core::MemGuard<GraphObject2D> draggedItem;
+			Core::MemGuard<GraphObject2D> focusedItem;
+
 			std::vector<Core::MemGuard<GraphObject2D>> graphObjs;
 			std::vector<const Camera*> cams;
 			//consts

@@ -8,7 +8,7 @@ namespace GF {
 
 		Window::~Window()
 		{
-			opened = false;
+			settings.opened = false;
 			clearGraphObjs();
 			if (thread != nullptr) {
 				if (thread->joinable())
@@ -22,14 +22,14 @@ namespace GF {
 		{
 			if (thread != nullptr && std::this_thread::get_id() != thread->get_id() && thread->joinable()) thread->join();
 			mutexGraph.lock();
-			window.create(sf::VideoMode(size.x, size.y, 32), title,
-				(fullscreen ? sf::Style::Fullscreen : 0) | (hasCloseButton ? sf::Style::Close : 0) |
-				(hasTitlebar ? sf::Style::Titlebar : 0) | (canResize ? sf::Style::Resize : 0));
-			window.setVerticalSyncEnabled(vsync);
-			if (framerate > 0)window.setFramerateLimit(framerate);
-			if (joystickThreshold > 0)window.setJoystickThreshold(joystickThreshold);
-			window.setMouseCursorVisible(cursorVisible);
-			opened = true;
+			window.create(sf::VideoMode(settings.size.x, settings.size.y, 32), settings.title,
+				(settings.fullscreen ? sf::Style::Fullscreen : 0) | (settings.hasCloseButton ? sf::Style::Close : 0) |
+				(settings.hasTitlebar ? sf::Style::Titlebar : 0) | (settings.canResize ? sf::Style::Resize : 0));
+			window.setVerticalSyncEnabled(settings.vsync);
+			if (settings.framerate > 0)window.setFramerateLimit(settings.framerate);
+			if (settings.joystickThreshold > 0)window.setJoystickThreshold(settings.joystickThreshold);
+			window.setMouseCursorVisible(settings.cursorVisible);
+			settings.opened = true;
 			mutexGraph.unlock();
 			InputLoop();
 		}
@@ -118,7 +118,7 @@ namespace GF {
 
 		const std::string & Window::getTitle()
 		{
-			return title;
+			return settings.title;
 		}
 
 		const Size & Window::getSize()
@@ -135,22 +135,22 @@ namespace GF {
 		void Window::TestEvents(sf::Event &ev)
 		{
 			Events::EventArgs stdArg;
-			OnEvent<Events::EventArgs>(WindowFocused, &WindowFocusedAsync, stdArg);
-			OnEvent<Events::EventArgs>(WindowLostFocus, &WindowLostFocusAsync, stdArg);
-			OnEvent<Events::ResizeArgs>(WindowResize, &WindowResizeAsync, ev.size);
-			OnEvent<Events::JoystickButtArgs>(JoystickButtonPress, &JoystickButtonPressAsync, ev.joystickButton);
-			OnEvent<Events::JoystickButtArgs>(JoystickButtonRelease, &JoystickButtonReleaseAsync, ev.joystickButton);
+			OnEvent<Events::EventArgs>(GainedFocus, &GainedFocusAsync, stdArg);
+			OnEvent<Events::EventArgs>(LostFocus, &LostFocusAsync, stdArg);
+			OnEvent<Events::ResizeArgs>(Resize, &ResizeAsync, ev.size);
+			OnEvent<Events::JoystickButtonArgs>(JoystickButtonPressed, &JoystickButtonPressedAsync, ev.joystickButton);
+			OnEvent<Events::JoystickButtonArgs>(JoystickButtonRelease, &JoystickButtonReleaseAsync, ev.joystickButton);
 			OnEvent<Events::JoystickArgs>(JoystickConnect, &JoystickConnectAsync, ev.joystickConnect);
 			OnEvent<Events::JoystickArgs>(JoystickDisconnect, &JoystickDisconnectAsync, ev.joystickConnect);
 			OnEvent<Events::JoystickMoveArgs>(JoystickMove, &JoystickMoveAsync, ev.joystickMove);
-			OnEvent<Events::KeyboardArgs>(KeyPress, &KeyPressAsync, ev.key);
-			OnEvent<Events::KeyboardArgs>(KeyRelease, &KeyReleaseAsync, ev.key);
+			onKeyPressed(ev.key);
+			onKeyRelease(ev.key);
 			onClick(ev.mouseButton);
 			onReleaseMouse(ev.mouseButton);
 			OnEvent<Events::EventArgs>(MouseEnter, &MouseEnterAsync, stdArg);
 			OnEvent<Events::EventArgs>(MouseLeft, &MouseLeftAsync, stdArg);
 			OnEvent<Events::MouseWheelArgs>(MouseWheel, &MouseWheelAsync, ev.mouseWheel);
-			OnEvent<Events::TextTypeArgs>(TextType, &TextTypeAsync, ev.text);
+			onTextType(ev.text);
 		}
 #endif
 
@@ -160,7 +160,7 @@ namespace GF {
 			sf::Event ev;
 			bool con;
 
-			while (opened && window.isOpen())
+			while (settings.opened && window.isOpen())
 			{
 				mutexGraph.lock();
 				con = window.pollEvent(ev);
@@ -171,15 +171,15 @@ namespace GF {
 					case sf::Event::EventType::Closed:
 						onClose(); break;
 					case sf::Event::EventType::GainedFocus:
-						OnEvent<Events::EventArgs>(WindowFocused, &WindowFocusedAsync, stdArg); break;
+						OnEvent<Events::EventArgs>(GainedFocus, &GainedFocusAsync, stdArg); break;
 					case sf::Event::EventType::LostFocus:
-						OnEvent<Events::EventArgs>(WindowLostFocus, &WindowLostFocusAsync, stdArg); break;
+						OnEvent<Events::EventArgs>(LostFocus, &LostFocusAsync, stdArg); break;
 					case sf::Event::EventType::Resized:
-						OnEvent<Events::ResizeArgs>(WindowResize, &WindowResizeAsync, ev.size); break;
+						OnEvent<Events::ResizeArgs>(Resize, &ResizeAsync, ev.size); break;
 					case sf::Event::EventType::JoystickButtonPressed:
-						OnEvent<Events::JoystickButtArgs>(JoystickButtonPress, &JoystickButtonPressAsync, ev.joystickButton); break;
+						OnEvent<Events::JoystickButtonArgs>(JoystickButtonPressed, &JoystickButtonPressedAsync, ev.joystickButton); break;
 					case sf::Event::EventType::JoystickButtonReleased:
-						OnEvent<Events::JoystickButtArgs>(JoystickButtonRelease, &JoystickButtonReleaseAsync, ev.joystickButton); break;
+						OnEvent<Events::JoystickButtonArgs>(JoystickButtonRelease, &JoystickButtonReleaseAsync, ev.joystickButton); break;
 					case sf::Event::EventType::JoystickConnected:
 						OnEvent<Events::JoystickArgs>(JoystickConnect, &JoystickConnectAsync, ev.joystickConnect); break;
 					case sf::Event::EventType::JoystickDisconnected:
@@ -187,9 +187,9 @@ namespace GF {
 					case sf::Event::EventType::JoystickMoved:
 						OnEvent<Events::JoystickMoveArgs>(JoystickMove, &JoystickMoveAsync, ev.joystickMove); break;
 					case sf::Event::EventType::KeyPressed:
-						OnEvent<Events::KeyboardArgs>(KeyPress, &KeyPressAsync, ev.key); break;
+						onKeyPressed(ev.key); break;
 					case sf::Event::EventType::KeyReleased:
-						OnEvent<Events::KeyboardArgs>(KeyRelease, &KeyReleaseAsync, ev.key); break;
+						onKeyRelease(ev.key); break;
 					case sf::Event::EventType::MouseButtonPressed:
 						onClick(ev.mouseButton); break;
 					case sf::Event::EventType::MouseButtonReleased:
@@ -203,23 +203,22 @@ namespace GF {
 					case sf::Event::EventType::MouseWheelScrolled:
 						OnEvent<Events::MouseWheelArgs>(MouseWheel, &MouseWheelAsync, ev.mouseWheel); break;
 					case sf::Event::EventType::TextEntered:
-						OnEvent<Events::TextTypeArgs>(TextType, &TextTypeAsync, ev.text); break;
+						onTextType(ev.text); break;
 					}
 					mutexGraph.lock();
 					con = window.pollEvent(ev);
 					mutexGraph.unlock();
 				};
-
 				onWindowRender();
 			}
 		}
 
 		void Window::onWindowRender()
 		{
-			if (opened && window.isOpen()) {
+			if (settings.opened && window.isOpen()) {
 				
 				Events::EventArgs args;
-				OnEvent<Events::EventArgs>(WindowRender, &WindowRenderAsync, args);
+				OnEvent<Events::EventArgs>(Render, &RenderAsync, args);
 				window.clear();
 				std::lock_guard<std::mutex> guard(mutexGraph);
 				if (cams.size() > 0)
@@ -243,7 +242,7 @@ namespace GF {
 
 		void Window::onClose()
 		{
-			opened = false;
+			settings.opened = false;
 			Events::EventArgs args;
 			std::lock_guard<std::mutex> guard(mutexGraph);
 			if (window.isOpen()) {
@@ -253,25 +252,34 @@ namespace GF {
 			if (!args.cancel && window.isOpen()) {
 				window.close();
 			}
-
 		}
 
-		void Window::onClick(Events::MouseButtArgs args)
+		void Window::onClick(Events::MouseButtonArgs args)
 		{
 			if (clickableElements) {
 				std::lock_guard<std::mutex> guard(mutexGraph);
+				Core::MemGuard<GraphObject2D> lastFocus = focusedItem;
+				draggedItem = focusedItem = nullptr;
 				Posf pos = { static_cast<float>(args.x), static_cast<float>(args.y) };
 				for (auto el = graphObjs.rbegin(); el != graphObjs.rend(); el++) {
 					if ((*el)->checkClicked(pos)) {
 						draggedItem = (*el);
+						focusedItem = (*el);
+						if (focusedItem != lastFocus) {
+							Events::EventArgs stdArgs;
+							if(lastFocus!=nullptr)
+								lastFocus->LostFocus(lastFocus.getPtr(), stdArgs);
+							if(focusedItem!=nullptr)
+								focusedItem->GainedFocus(focusedItem.getPtr(), stdArgs);
+						}
 						break;
 					}
 				}
 			}
-			OnEvent(MouseButtonPress, &MouseButtonPressAsync, args);
+			OnEvent(MouseButtonPressed, &MouseButtonPressedAsync, args);
 		}
 
-		void Window::onReleaseMouse(Events::MouseButtArgs args)
+		void Window::onReleaseMouse(Events::MouseButtonArgs args)
 		{
 			if (draggedItem != nullptr) {
 				draggedItem->mouseRelease(args);
@@ -288,11 +296,32 @@ namespace GF {
 			OnEvent(MouseMove, &MouseMoveAsync, args);
 		}
 
+		void Window::onTextType(Events::TextTypeArgs args)
+		{
+			if (focusedItem != nullptr)
+				focusedItem->TextType(focusedItem.getPtr(), args);
+			OnEvent(TextType, &TextTypeAsync, args);
+		}
+
+		void Window::onKeyPressed(Events::KeyboardArgs args)
+		{
+			if (focusedItem != nullptr)
+				focusedItem->KeyPressed(focusedItem.getPtr(), args);
+			OnEvent(KeyPressed, &KeyPressedAsync, args);
+		}
+
+		void Window::onKeyRelease(Events::KeyboardArgs args)
+		{
+			if (focusedItem != nullptr)
+				focusedItem->KeyRelease(focusedItem.getPtr(), args);
+			OnEvent(KeyRelease, &KeyReleaseAsync, args);
+		}
+
 		void Window::setTitle(const std::string title)
 		{
 			if (title.size() > 0) {
 				
-				this->title = title;
+				settings.title = title;
 				if (window.isOpen()) window.setTitle(title);
 			}
 		}
@@ -301,7 +330,7 @@ namespace GF {
 		{
 			if (size.x >= MIN_SIZE.x&&size.y > MIN_SIZE.y) {
 				
-				this->size = size;
+				settings.size = size;
 				if (window.isOpen())
 					window.setSize(size);
 			}
@@ -310,63 +339,63 @@ namespace GF {
 		void Window::setPosition(const Pos pos)
 		{
 			
-			this->pos = pos;
+			settings.pos = pos;
 			window.setPosition(pos);
 		}
 
 		void Window::setCursorVisible(bool flag)
 		{
 			
-			cursorVisible = flag;
+			settings.cursorVisible = flag;
 			window.setMouseCursorVisible(flag);
 		}
 
 		void Window::setVerticalSyncEnabled(bool enabled)
 		{
 			
-			vsync = enabled;
+			settings.vsync = enabled;
 			window.setVerticalSyncEnabled(enabled);
 		}
 
 		void Window::setKeyRepeatEnabled(bool enabled)
 		{
 			
-			keyRepeatEnabled = enabled;
+			settings.keyRepeatEnabled = enabled;
 			window.setKeyRepeatEnabled(enabled);
 		}
 
 		void Window::setFramerateLimit(unsigned int limit)
 		{
 			
-			framerate = limit;
+			settings.framerate = limit;
 			window.setFramerateLimit(limit);
 		}
 
 		void Window::setJoystickThreshold(float threshold)
 		{
 			
-			joystickThreshold = threshold;
+			settings.joystickThreshold = threshold;
 			window.setJoystickThreshold(threshold);
 		}
 
 		void Window::setFullscreen(bool enabled)
 		{
-			fullscreen = enabled;
+			settings.fullscreen = enabled;
 		}
 
 		void Window::setCanResize(bool enabled)
 		{
-			canResize = enabled;
+			settings.canResize = enabled;
 		}
 
 		void Window::setCloseButtonVisible(bool enabled)
 		{
-			hasCloseButton = enabled;
+			settings.hasCloseButton = enabled;
 		}
 
 		void Window::setTitleBarVisible(bool enabled)
 		{
-			hasTitlebar = enabled;
+			settings.hasTitlebar = enabled;
 		}
 
 		void Window::appendCamera(const Camera& cam)

@@ -12,8 +12,8 @@ namespace GF {
 				typedef sf::Keyboard::Key KeyCode;
 			};
 
-			struct MouseButtArgs : public EventArgs, public sf::Event::MouseButtonEvent {
-				CREATE_CONVERSION_CONSTRUCT(MouseButtArgs, sf::Event::MouseButtonEvent);
+			struct MouseButtonArgs : public EventArgs, public sf::Event::MouseButtonEvent {
+				CREATE_CONVERSION_CONSTRUCT(MouseButtonArgs, sf::Event::MouseButtonEvent);
 				typedef sf::Mouse::Button ButtonCode;
 			};
 
@@ -25,8 +25,8 @@ namespace GF {
 				CREATE_CONVERSION_CONSTRUCT(MouseWheelArgs, sf::Event::MouseWheelEvent);
 			};
 
-			struct JoystickButtArgs : public EventArgs, public sf::Event::JoystickButtonEvent {
-				CREATE_CONVERSION_CONSTRUCT(JoystickButtArgs, sf::Event::JoystickButtonEvent);
+			struct JoystickButtonArgs : public EventArgs, public sf::Event::JoystickButtonEvent {
+				CREATE_CONVERSION_CONSTRUCT(JoystickButtonArgs, sf::Event::JoystickButtonEvent);
 			};
 
 			struct JoystickMoveArgs : public EventArgs, public sf::Event::JoystickMoveEvent {

@@ -28,8 +28,12 @@ namespace GF {
 			MemGuard<T>& operator=(const MemGuard<T> &ref);
 			template<typename From> MemGuard<T>& operator=(const MemGuard<From> &ref);
 			MemGuard<T>& operator=(std::nullptr_t);
+			bool operator!=(const T* ref) const;
+			bool operator==(const T* ref) const;
+			bool operator!=(const MemGuard<T> &ref) const;
 			bool operator==(const MemGuard<T> &ref) const;
 			template<typename From> bool operator==(const MemGuard<From> &ref);
+			template<typename From> bool operator!=(const MemGuard<From> &ref);
 			void deletePtr();
 			T* free();
 			T* getPtr()const;
