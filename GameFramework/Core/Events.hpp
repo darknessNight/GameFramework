@@ -45,14 +45,14 @@ namespace GF {
 			template<class ArgType>
 			inline Delegate<ArgType>::Delegate(void(f)(ArgType &))
 			{
-				id = (int)f;
+				id = (long long)f;
 				func = std::function<void(ArgType&)>(f);
 			}
 
 			template<class ArgType>
 			inline Delegate<ArgType>::Delegate(void(Object::* f)(ArgType &), Object * obj)
 			{
-				id = (int)obj;
+				id = (long long)obj;
 				primaryFunc = f;
 				func = std::bind(f, obj, std::placeholders::_1);
 			}

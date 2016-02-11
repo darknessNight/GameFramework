@@ -7,15 +7,16 @@ namespace GF {
 	namespace IOModule {
 		class SoundCore {
 		public:
-			static void setMusicVolume(unsigned);
-			static void setVoiceVolume(unsigned);
-			static void setEffectVolume(unsigned);
-			static void setMainVolume(unsigned);
+			//volumes range <0.0f,100.0f>
+			static void setMusicVolume(float);
+			static void setVoiceVolume(float);
+			static void setEffectVolume(float);
+			static void setMainVolume(float);
 
-			static int getMusicVolume(unsigned);
-			static int getVoiceVolume(unsigned);
-			static int getEffectVolume(unsigned);
-			static int getMainVolume(unsigned);
+			static float getMusicVolume();
+			static float getVoiceVolume();
+			static float getEffectVolume();
+			static float getMainVolume();
 
 			static void applyMusic(Core::MemGuard<Sounds::Music>);
 			static void applyVoice(Core::MemGuard<Sounds::Voice>);

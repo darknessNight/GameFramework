@@ -121,12 +121,12 @@ namespace GF {
 			return settings.title;
 		}
 
-		const Size & Window::getSize()
+		const Size Window::getSize()
 		{
 			return window.getSize();
 		}
 
-		const Pos & Window::getPosition()
+		const Pos Window::getPosition()
 		{
 			return window.getPosition();
 		}

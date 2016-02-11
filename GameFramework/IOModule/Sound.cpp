@@ -9,7 +9,7 @@ namespace GF {
 	}
 }
 
-void GF::IOModule::SoundCore::setMusicVolume(unsigned v)
+void GF::IOModule::SoundCore::setMusicVolume(float v)
 {
 	if (v <= 100) {
 		Sounds::Music::volume = v*volume;
@@ -18,7 +18,7 @@ void GF::IOModule::SoundCore::setMusicVolume(unsigned v)
 	}
 }
 
-void GF::IOModule::SoundCore::setVoiceVolume(unsigned v)
+void GF::IOModule::SoundCore::setVoiceVolume(float v)
 {
 	if (v <= 100) {
 		Sounds::Voice::volume = v*volume;
@@ -28,7 +28,7 @@ void GF::IOModule::SoundCore::setVoiceVolume(unsigned v)
 
 }
 
-void GF::IOModule::SoundCore::setEffectVolume(unsigned v)
+void GF::IOModule::SoundCore::setEffectVolume(float v)
 {
 	if (v <= 100) {
 		Sounds::Effect::volume = v*volume;
@@ -37,11 +37,11 @@ void GF::IOModule::SoundCore::setEffectVolume(unsigned v)
 	}
 }
 
-void GF::IOModule::SoundCore::setMainVolume(unsigned v)
+void GF::IOModule::SoundCore::setMainVolume(float v)
 {
 	if (v <= 100) {
 		float old = v/volume;
-		volume = v / 100.0;
+		volume = v / 100.0f;
 		Sounds::Effect::volume = Sounds::Effect::volume*old;
 		Sounds::Music::volume = Sounds::Music::volume*old;
 		Sounds::Voice::volume = Sounds::Voice::volume*old;
@@ -54,22 +54,22 @@ void GF::IOModule::SoundCore::setMainVolume(unsigned v)
 	}
 }
 
-int GF::IOModule::SoundCore::getMusicVolume(unsigned)
+float GF::IOModule::SoundCore::getMusicVolume()
 {
 	return Sounds::Music::volume / volume;
 }
 
-int GF::IOModule::SoundCore::getVoiceVolume(unsigned)
+float GF::IOModule::SoundCore::getVoiceVolume()
 {
 	return Sounds::Voice::volume / volume;
 }
 
-int GF::IOModule::SoundCore::getEffectVolume(unsigned)
+float GF::IOModule::SoundCore::getEffectVolume()
 {
 	return Sounds::Effect::volume / volume;
 }
 
-int GF::IOModule::SoundCore::getMainVolume(unsigned)
+float GF::IOModule::SoundCore::getMainVolume()
 {
 	return volume * 100;
 }

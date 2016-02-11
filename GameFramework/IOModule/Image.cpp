@@ -73,7 +73,7 @@ namespace GF {
 			sf::Texture tex;
 			if (stream.good()) {
 				stream.seekg(0, stream.end);
-				unsigned size = stream.tellg();
+				long long size = stream.tellg();
 				stream.seekg(0, stream.beg);
 
 				char *buff = new char[size + 1];
@@ -91,6 +91,7 @@ namespace GF {
 				unlock();
 				return true;
 			}
+			return false;
 		}
 
 		bool Image::loadFromFile(std::string path)
@@ -145,7 +146,7 @@ namespace GF {
 				throw std::exception("Cannot save to file");
 		}
 
-		const Sizef & Image::getSize()
+		const Sizef Image::getSize()
 		{
 			Sizef size;
 			size.x = texture.getSize().x;

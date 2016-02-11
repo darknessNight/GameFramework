@@ -61,7 +61,7 @@ namespace GF {
 			rs.shader = &shader;
 		}
 
-		const Sizef& GraphObject2D::getSize()
+		const Sizef GraphObject2D::getSize()
 		{
 			return{ static_cast<float>(getTextureRect().width), static_cast<float>(getTextureRect().width) };
 		}
@@ -83,7 +83,7 @@ namespace GF {
 			if (pos.x >= caArea.left && pos.x <= xe &&
 				pos.y >= caArea.top && pos.y <= ye) {
 				unsigned c = getTexture().copyToImage().getPixel(pos.x - caArea.left, pos.y - caArea.top).toInteger();
-				if (c&caMask != 0) {
+				if (c & caMask != 0) {
 					Events::MouseButtonArgs args;
 					args.x = pos.x;
 					args.y = pos.y;

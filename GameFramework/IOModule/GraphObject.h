@@ -23,7 +23,7 @@ namespace GF {
 			void setShader(const Shader&);
 
 			virtual const SharedTexture& getTexture() = 0;
-			virtual const Sizef& getSize();
+			virtual const Sizef getSize();
 		protected:
 			virtual void render(sf::RenderTarget* window);
 			virtual bool checkClicked(Posf);

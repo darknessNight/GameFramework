@@ -30,7 +30,7 @@ bool GF::IOModule::Texture2D::loadFromStream(std::istream& stream)
 
 	if (stream.good()) {
 		stream.seekg(0, stream.end);
-		unsigned size = stream.tellg();
+		long long size = stream.tellg();
 		stream.seekg(0, stream.beg);
 
 		char *buff=new char[size+1];
@@ -44,6 +44,7 @@ bool GF::IOModule::Texture2D::loadFromStream(std::istream& stream)
 		delete[] buff;
 		return true;
 	}
+	return false;
 }
 
 inline void GF::IOModule::Texture2D::setSmooth(bool enabled)

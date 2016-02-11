@@ -10,7 +10,7 @@ namespace GF {
 			template<class ArgType> class Delegate {
 			private:
 				std::function<void(ArgType&)> func;
-				int id;
+				long long id;
 				void(Object::*primaryFunc)(ArgType&)=nullptr;
 			public:
 				Delegate(void(f)(ArgType&));
@@ -37,7 +37,7 @@ namespace GF {
 
 			struct EventArgs {
 				void* sender;
-				int timestamp=0;
+				long long timestamp=0;
 				bool cancel=false;
 			};
 

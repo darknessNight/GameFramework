@@ -170,7 +170,7 @@ bool MemoryGuard::delDynVar(void* p){
 	if (dynVars == nullptr) return false;
 	dynVar--;
 	for (int i = 0; i < maxEls; i++){
-		if (dynVars[i] == (unsigned)p){
+		if (dynVars[i] == (int)p){
 			dynVars[i] = 0;
 			return true;
 		}

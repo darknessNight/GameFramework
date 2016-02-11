@@ -22,7 +22,7 @@ namespace GF {
 			void setRepeat(bool enable);
 			bool getRepeat();
 			bool getSmooth();
-			const Sizef& getSize();
+			const Sizef getSize();
 			const SharedTexture& getTexture()override;
 			void setSharedTexture(SharedTexture&)=delete;
 		private:

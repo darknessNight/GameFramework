@@ -51,8 +51,8 @@ namespace GF {
 			void captureToFile(std::string path);
 			//properties
 			const std::string& getTitle();
-			const Size& getSize();
-			const Pos& getPosition();
+			const Size getSize();
+			const Pos getPosition();
 			void setTitle(const std::string title);
 			void setSize(const Size size);
 			void setPosition(const Pos pos);
