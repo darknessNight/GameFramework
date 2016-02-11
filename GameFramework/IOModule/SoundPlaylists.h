@@ -27,7 +27,7 @@ namespace GF {
 				std::thread th;
 			};
 
-			class PlaylistFile : public Playlist {//TODO add automatic go to next
+			class PlaylistFile : public Playlist {
 			public:
 				~PlaylistFile();
 				void play() override;
@@ -50,7 +50,7 @@ namespace GF {
 
 			class PlaylistSound : public PlaylistFile {
 			public:
-				using PlaylistFile::~PlaylistFile;
+				~PlaylistSound();
 				void play() override;
 				void stop()override;
 				void pause()override;

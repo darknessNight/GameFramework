@@ -24,6 +24,12 @@ void GF::IOModule::Sounds::Playlist::setCheckInterval(unsigned val)
 {
 	interval = val;
 }
+
+GF::IOModule::Sounds::PlaylistSound::~PlaylistSound()
+{
+	stop();
+}
+
 GF::IOModule::Sounds::PlaylistFile::~PlaylistFile()
 {
 	stop();

@@ -3,6 +3,11 @@
 
 namespace GF {
 	namespace Core {
+		template<typename T> void MemGuard<T>::init()
+		{
+			copies = new int;
+			(*copies) = 1;
+		}
 		template<typename T>
 		MemGuard<T>::MemGuard(T * val)
 		{
@@ -10,8 +15,7 @@ namespace GF {
 		}
 
 		template<typename T>
-		MemGuard<T>::MemGuard(T & val)
-		{
+		MemGuard<T>::MemGuard(T & val){
 			operator=(val);
 		}
 
@@ -23,6 +27,7 @@ namespace GF {
 		}
 
 		template <typename T> MemGuard<T>::~MemGuard() {
+			std::lock_guard<std::mutex> guard(thsafe);
 			deletePtr();
 		}
 
@@ -31,33 +36,37 @@ namespace GF {
 		}
 
 		template <typename T> T& MemGuard<T>::operator*() {
+			std::lock_guard<std::mutex> guard(thsafe);
 			return *val;
 		}
 
 		template <typename T> T* MemGuard<T>::operator->() {
+			std::lock_guard<std::mutex> guard(thsafe);
 			return val;
 		}
 
 		template <typename T> MemGuard<T>& MemGuard<T>::operator=(T* val) {
+			std::lock_guard<std::mutex> guard(thsafe);
 			deletePtr();
-			copies = new int;
-			(*copies) = 1;
+			init();
 			this->val = val;
 			deleting = true;
 			return *this;
 		}
 
 		template <typename T> MemGuard<T>& MemGuard<T>::operator=(T& val) {
+			std::lock_guard<std::mutex> guard(thsafe);
 			deletePtr();
-			copies = new int;
-			(*copies) = 1;
+			init();
 			this->val = &val;
 			deleting = false;
 			return *this;
 		}
 
 		template <typename T> MemGuard<T>& MemGuard<T>::operator=(const MemGuard<T> &ref) {
+			std::lock_guard<std::mutex> guard(thsafe);
 			deletePtr();
+
 			copies = ref.copies;
 			if (copies != nullptr)
 			(*copies)++;
@@ -67,9 +76,9 @@ namespace GF {
 		}
 
 		template <typename T> template<typename From> MemGuard<T>& MemGuard<T>::operator=(const MemGuard<From> &ref) {
-			if (copies != nullptr && copies != ref.getCount()) {
-				deletePtr();
-			}
+			std::lock_guard<std::mutex> guard(thsafe);
+			deletePtr();
+
 			copies = const_cast<int*>(ref.getCount());
 			if(copies!=nullptr)
 				(*copies)++;
@@ -79,6 +88,7 @@ namespace GF {
 		}
 
 		template <typename T> MemGuard<T>& MemGuard<T>::operator=(std::nullptr_t) {
+			std::lock_guard<std::mutex> guard(thsafe);
 			deletePtr();
 			if (copies != nullptr)
 			copies = nullptr;
@@ -88,10 +98,12 @@ namespace GF {
 		}
 
 		template <typename T> bool MemGuard<T>::operator==(const MemGuard<T> &ref) const {
+			std::lock_guard<std::mutex> guard(thsafe);
 			return this->val == ref.val;
 		}
 
 		template <typename T> template<typename From> bool MemGuard<T>::operator==(const MemGuard<From> &ref) {
+			std::lock_guard<std::mutex> guard(thsafe);
 			return (void*)ref.getPtr() == (void*)val;
 		}
 
@@ -108,12 +120,13 @@ namespace GF {
 		}
 
 		template <typename T> T* MemGuard<T>::free() {
+			std::lock_guard<std::mutex> guard(thsafe);
 			if (copies != nullptr)
 			delete copies;
 			return val;
 		}
 
-		template <typename T> const T* MemGuard<T>::getPtr()const {
+		template <typename T> T* MemGuard<T>::getPtr()const {
 			return val;
 		}
 

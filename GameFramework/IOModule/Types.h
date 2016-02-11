@@ -3,7 +3,6 @@
 #include <SFML\Graphics.hpp>
 namespace GF {
 	namespace IOModule {
-		//TODO zast¹piæ typedef typami lub interfejsami
 		typedef sf::Mouse Mouse;
 		typedef sf::Keyboard Keyboard;
 		typedef sf::Joystick Joystick;
@@ -21,7 +20,11 @@ namespace GF {
 		typedef sf::Color Color;
 		typedef sf::Font Font;
 		typedef sf::Shader Shader;
-		typedef sf::BlendMode BlenMode;
+		typedef sf::BlendMode BlendMode;
+		static BlendMode BlendAplha= sf::BlendAlpha;
+		static BlendMode BlendAdd=sf::BlendAdd;
+		static BlendMode BlendMultipy=sf::BlendMultiply;
+		static BlendMode BlendNone=sf::BlendNone;
 		typedef sf::Text Text;
 		typedef sf::View Camera;
 		typedef sf::Time Time;

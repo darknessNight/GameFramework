@@ -13,7 +13,7 @@ window must be recreated
 namespace GF {
 	namespace IOModule {
 
-		class Window :NonCopyable{//add thread safe
+		class Window :NonCopyable{
 		public:
 			Window();
 			~Window();
@@ -34,9 +34,9 @@ namespace GF {
 
 			void captureToFile(std::string path);
 			//properties
-			const std::string& getTitle() { return title; }
-			const Size& getSize() { return size; }
-			const Pos& getPosition() { return pos; }
+			const std::string& getTitle();
+			const Size& getSize();
+			const Pos& getPosition();
 			void setTitle(const std::string title);
 			void setSize(const Size size);
 			void setPosition(const Pos pos);
@@ -102,12 +102,13 @@ namespace GF {
 			void onClose();
 			void onClick(Events::MouseButtArgs);
 			void onReleaseMouse(Events::MouseButtArgs);
+			void onMouseMove(Events::MouseMoveArgs);
 			template <typename ArgType> void OnEvent(Core::Events::Event<ArgType> &sync, Core::Events::Event<ArgType>* async, ArgType args);
 #pragma endregion
 		public:
-			bool cliableElements = false;
+			bool clickableElements = false;
 		protected:
-			std::mutex mutex;
+			std::mutex mutexGraph;
 			bool fullscreen = false;
 			bool canResize = false;
 			bool hasCloseButton = true;

@@ -1,6 +1,5 @@
 #pragma once
 #include <SFML/Audio.hpp>
-#include "../stdafx.h"
 #include "../Core/Types.h"
 #include "Types.h"
 
@@ -8,7 +7,7 @@ namespace GF {
 	namespace IOModule {
 		class SoundCore;
 		namespace Sounds {
-			class SoundBase {
+			class SoundBase:public Core::Object{
 			public:
 				typedef sf::Sound::Status Status;
 				virtual void play()=0;

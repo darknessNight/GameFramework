@@ -11,21 +11,21 @@ GF::IOModule::Texture2D::Texture2D(Size size)
 	if(!texture.create(size.x, size.y))
 		throw std::exception("Cannot create Texture");
 	sf::Sprite::setTexture(texture);
+	caArea.height = size.y; caArea.width = size.x;
+
 }
 
-void GF::IOModule::Texture2D::loadFromFile(std::string path)
+bool GF::IOModule::Texture2D::loadFromFile(std::string path)
 {
-	if(!texture.loadFromFile(path))
-		throw std::exception("Cannot load from file");
+	return texture.loadFromFile(path);
 }
 
-void GF::IOModule::Texture2D::loadFromMemory(const void* mem, unsigned size)
+bool GF::IOModule::Texture2D::loadFromMemory(const void* mem, unsigned size)
 {
-	if (!texture.loadFromMemory(mem, size))
-		throw std::exception("Cannot load from memory");
+	return texture.loadFromMemory(mem, size);
 }
 
-void GF::IOModule::Texture2D::loadFromStream(std::istream& stream)
+bool GF::IOModule::Texture2D::loadFromStream(std::istream& stream)
 {
 
 	if (stream.good()) {
@@ -38,10 +38,11 @@ void GF::IOModule::Texture2D::loadFromStream(std::istream& stream)
 
 		if (!stream || !texture.loadFromMemory(buff, size)) {
 			delete[] buff;
-			throw std::exception("Cannot load from stream");
+			return false;
 		}
 
 		delete[] buff;
+		return true;
 	}
 }
 

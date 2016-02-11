@@ -12,9 +12,9 @@ namespace GF {
 			void appendCamera(const Camera &cam);
 			void importFromTexture(Core::MemGuard<Texture2D>);
 			Core::MemGuard<Texture2D> exportTexture();
-			void loadFromMemory(const void * mem, unsigned size);
-			void loadFromStream(std::istream & stream);
-			void loadFromFile(std::string path);
+			bool loadFromMemory(const void * mem, unsigned size);
+			bool loadFromStream(std::istream & stream);
+			bool loadFromFile(std::string path);
 			void SaveToFile(std::string path);
 			void draw(Drawable& some);
 			void clear(Color color = Color::Black);

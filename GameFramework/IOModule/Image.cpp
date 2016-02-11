@@ -4,18 +4,25 @@ namespace GF {
 	namespace IOModule {
 		Image::Image(const Image &ref)
 		{
-			//TODO
+			sf::Sprite sprite;
+			sprite.setTexture(ref.texture.getTexture());
+			texture.draw(sprite);
+			texture.display();
+			edited = true;
 		}
 
 		Image::Image(Size size)
 		{
 			if (!texture.create(size.x, size.y))
 				throw std::exception("Cannot create RenderTexture");
+			caArea.height = size.y; caArea.width = size.x;
+			edited = true;
 		}
 
 		void Image::appendCamera(const Camera& cam)
 		{
 			texture.setView(cam);
+			edited = true;
 		}
 
 		void Image::importFromTexture(Core::MemGuard<Texture2D> tex)
@@ -24,28 +31,32 @@ namespace GF {
 			sf::Sprite sprite;
 			sprite.setTexture(tmp->texture);
 			texture.draw(sprite);
-			texture.display();
+			edited = true;
 		}
 
 		Core::MemGuard<Texture2D> Image::exportTexture()
 		{
 			texture.display();
+			edited = false;
 			Core::MemGuard<Texture2D> ret;
 			ret = new Texture2D(texture.getTexture());
 			return ret;
 		}
 
-		void Image::loadFromMemory(const void * mem, unsigned size)
+		bool Image::loadFromMemory(const void * mem, unsigned size)
 		{
 			sf::Sprite sprite;
 			sf::Texture tex;
-			if (!tex.loadFromMemory(mem, size))
-				throw std::exception("Cannot load from memory");
-			sprite.setTexture(tex);
-			texture.draw(sprite);
+			if (tex.loadFromMemory(mem, size)) {
+				sprite.setTexture(tex);
+				texture.draw(sprite);
+				edited = true;
+				return true;
+			}
+			return false;
 		}
 
-		void Image::loadFromStream(std::istream & stream)
+		bool Image::loadFromStream(std::istream & stream)
 		{
 			sf::Sprite sprite;
 			sf::Texture tex;
@@ -59,24 +70,28 @@ namespace GF {
 
 				if (!stream || !tex.loadFromMemory(buff, size)) {
 					delete[] buff;
-					throw std::exception("Cannot load from stream");
+					return false;
 				}
 				delete[] buff;
 
 				sprite.setTexture(tex);
 				texture.draw(sprite);
+				edited = true;
+				return true;
 			}
 		}
 
-		void Image::loadFromFile(std::string path)
+		bool Image::loadFromFile(std::string path)
 		{
 			sf::Sprite sprite;
 			sf::Texture tex;
-			if (!tex.loadFromFile(path))
-				throw std::exception("Cannot load from file");
-			sprite.setTexture(tex);
-			texture.draw(sprite);
-			edited = true;
+			if (tex.loadFromFile(path)) {
+				sprite.setTexture(tex);
+				texture.draw(sprite);
+				edited = true;
+				return true;
+			}
+			return false;
 		}
 
 		void Image::draw(Drawable & some)
@@ -94,6 +109,7 @@ namespace GF {
 		void Image::setSmooth(bool enable)
 		{
 			texture.setSmooth(enable);
+			edited = true;
 		}
 
 		bool Image::getSmooth()
@@ -130,13 +146,14 @@ namespace GF {
 					sf::Sprite::setTexture(texture.getTexture());
 					edited = false;
 				}
-				window->draw(*this);
+				window->draw(*this, rs);
 			}
 		}
 
 		void Image::setRepeat(bool enabled)
 		{
 			texture.setRepeated(enabled);
+			edited = true;
 		}
 
 		bool Image::getRepeat()

@@ -177,7 +177,6 @@
     <ClInclude Include="IOModule\Events.h" />
     <ClInclude Include="IOModule\GraphObject.h" />
     <ClInclude Include="IOModule\Image.h" />
-    <ClInclude Include="IOModule\Interfaces.h" />
     <ClInclude Include="IOModule\MultipleGraph.h" />
     <ClInclude Include="IOModule\Sound.h" />
     <ClInclude Include="IOModule\SoundPlaylists.h" />

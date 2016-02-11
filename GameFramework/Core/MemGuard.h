@@ -1,12 +1,16 @@
 #pragma once
+#include <mutex>
 
 namespace GF {
 	namespace Core {
 
 		template <typename T> class MemGuard {//TODO add mutex and modyfi for thread safe
-		protected:
+		private:
 			int* copies = nullptr;
 			T* val = nullptr;
+			std::mutex thsafe;
+		private:
+			void init();
 		public:
 			bool deleting = false;
 
@@ -28,7 +32,7 @@ namespace GF {
 			template<typename From> bool operator==(const MemGuard<From> &ref);
 			void deletePtr();
 			T* free();
-			const T* getPtr()const;
+			T* getPtr()const;
 			const int* const getCount()const;
 		};
 

@@ -8,8 +8,8 @@ std::string Tests(int start, int stop) {
 	funcs.push_back(Test3); 
 	funcs.push_back(Test4); 
 	funcs.push_back(Test5);
-	funcs.push_back(Test6);
-	funcs.push_back(Test7);
+	//funcs.push_back(Test6);
+	//funcs.push_back(Test7);
 	//funcs.push_back(Test8);
 
 	std::string ret;
