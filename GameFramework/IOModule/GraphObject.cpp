@@ -2,82 +2,106 @@
 
 namespace GF {
 	namespace IOModule {
+
 		void GraphObject2D::setVisible(bool enabled)
 		{
 			visible = enabled;
-		}
-
-		void GraphObject2D::setPos(const Posf p)
-		{
-			sprite.setPosition(p);
-		}
-
-		void GraphObject2D::setColor(const Color c)
-		{
-			sprite.setColor(c);
-		}
-
-		void GraphObject2D::setTransformPoint(Posf p)
-		{
-			sprite.setOrigin(p);
-		}
-
-		void GraphObject2D::setRotation(float angle)
-		{
-			sprite.setRotation(angle);
-		}
-
-		void GraphObject2D::setScale(float xScale, float yScale)
-		{
-			sprite.setScale(xScale, yScale);
-		}
-
-		void GraphObject2D::setScale(Sizef scale)
-		{
-			sprite.setScale(scale);
 		}
 
 		bool GraphObject2D::getVisible()
 		{
 			return visible;
 		}
-		
-		const Posf& GraphObject2D::getPos()
+
+		void GraphObject2D::setSharedTexture(SharedTexture & texture)
 		{
-			return sprite.getPosition();
+			setTexture(texture);
 		}
-		
-		const Sizef& GraphObject2D::getSize()
+
+		void GraphObject2D::setPosition(Posf pos)
 		{
-			return sprite.getPosition();
+			sf::Sprite::setPosition(pos);
+			caArea.top = pos.y;
+			caArea.left = pos.x;
 		}
-		const Color & GraphObject2D::getColor()
+
+		void GraphObject2D::setPosition(float x, float y)
 		{
-			return sprite.getColor();
+			sf::Sprite::setPosition(x,y);
+			caArea.top = y;
+			caArea.left = x;
 		}
-		const Posf & GraphObject2D::getTransformPoint()
+
+		void GraphObject2D::move(Posf pos)
 		{
-			return sprite.getOrigin();
+			sf::Sprite::move(pos);
+			caArea.top += pos.y;
+			caArea.left += pos.x;
 		}
-		const float & GraphObject2D::getRotation()
+
+		void GraphObject2D::move(float x, float y)
 		{
-			return sprite.getRotation();
+			sf::Sprite::move(x, y);
+			caArea.top += y;
+			caArea.left += x;
 		}
-		const Sizef & GraphObject2D::getScale()
+
+		void GraphObject2D::setBlendMode(BlendMode bm)
 		{
-			return sprite.getScale();
+			rs.blendMode = bm;
 		}
-		void GraphObject2D::rotate(float angle)
+
+		const BlendMode GraphObject2D::getBlendMode()
 		{
-			sprite.rotate(angle);
+			return rs.blendMode;
 		}
-		void GraphObject2D::scale(float x, float y)
+
+		void GraphObject2D::setShader(const Shader & shader)
 		{
-			sprite.scale(x, y);
+			rs.shader = &shader;
 		}
-		void GraphObject2D::scale(Sizef scale)
+
+		const Sizef GraphObject2D::getSize()
 		{
-			sprite.scale(scale);
+			return{ static_cast<float>(getTextureRect().width), static_cast<float>(getTextureRect().width) };
+		}
+
+		void GraphObject2D::render(sf::RenderTarget * window)
+		{
+			if (visible) {
+				Events::EventArgs args;
+				this->Render(this,args);
+				window->draw(*this,rs);
+			}
+		}
+
+		bool GraphObject2D::checkClicked(Posf pos)
+		{
+			if (!clickable || !visible) return false;
+			float xe = caArea.left + caArea.width;
+			float ye = caArea.top + caArea.height;
+			if (pos.x >= caArea.left && pos.x <= xe &&
+				pos.y >= caArea.top && pos.y <= ye) {
+				unsigned c = getTexture().copyToImage().getPixel(pos.x - caArea.left, pos.y - caArea.top).toInteger();
+				if (c & caMask != 0) {
+					Events::MouseButtonArgs args;
+					args.x = pos.x;
+					args.y = pos.y;
+					MousePress(this, args);
+					return true;
+				}
+			}
+			return false;
+		}
+
+		void GraphObject2D::mouseRelease(Events::MouseButtonArgs args)
+		{
+			MouseRelease(this, args);
+		}
+
+		void GraphObject2D::mouseMove(Events::MouseMoveArgs args)
+		{
+			MouseMove(this, args);
 		}
 	}
 }

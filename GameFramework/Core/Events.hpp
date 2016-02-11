@@ -1,8 +1,8 @@
 #pragma once
-#include "EventArgs.h"
+#include "Events.h"
 
 namespace GF {
-	namespace IOModule {
+	namespace Core {
 		namespace Events {
 
 			template<typename ArgType>
@@ -36,17 +36,23 @@ namespace GF {
 				funcs.clear();
 			}
 
+			template<typename ArgType>
+			inline bool Event<ArgType>::operator==(const Event<ArgType>& com)const
+			{
+				return com.funcs == funcs;
+			}
+
 			template<class ArgType>
 			inline Delegate<ArgType>::Delegate(void(f)(ArgType &))
 			{
-				id = (int)f;
+				id = (long long)f;
 				func = std::function<void(ArgType&)>(f);
 			}
 
 			template<class ArgType>
 			inline Delegate<ArgType>::Delegate(void(Object::* f)(ArgType &), Object * obj)
 			{
-				id = (int)obj;
+				id = (long long)obj;
 				primaryFunc = f;
 				func = std::bind(f, obj, std::placeholders::_1);
 			}
@@ -80,18 +86,14 @@ namespace GF {
 			}
 
 			template<typename ArgType>
-			inline bool Delegate<ArgType>::operator==(const Delegate & com)
-			{
-				return(this->id == com.id && this->primaryFunc == com.primaryFunc);
-			}
-
-			template<typename ArgType>
 			inline void Delegate<ArgType>::operator()(ArgType &a)
 			{
 				func(a);
 			}
 
-
+			template<typename ArgType> bool Delegate<ArgType>::operator==(const Delegate<ArgType>& rhs) const {
+				return id == rhs.id&&primaryFunc == rhs.primaryFunc;
+			}
 		}
 	}
 }

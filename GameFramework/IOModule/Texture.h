@@ -1,18 +1,24 @@
 #pragma once
 #include "GraphObject.h"
-
 namespace GF {
 	namespace IOModule {
-		class Texture2D :public GraphObject2D, public ITexture2D{
-			friend IImage2D;
+		class Image;
+		class Texture2D :public GraphObject2D{
+			friend Image;
 		public:
 			Texture2D() = delete;
+			Texture2D(const SharedTexture& tex);
 			Texture2D(Size size);
-			void LoadFromFile(std::string path) override;
+			bool loadFromFile(std::string path);
+			bool loadFromMemory(const void* mem, unsigned size);
+			bool loadFromStream(std::istream& stream);
 			void setSmooth(bool enabled);
-			using GraphObject2D::getPos;
-		private:
-			void render(sf::RenderWindow* window) override;
+			void setRepeat(bool enabled);
+			bool getSmooth();
+			bool getRepeat();
+
+			const SharedTexture& getTexture() override;
+			void setSharedTexture(SharedTexture&)=delete;
 		private:
 			sf::Texture texture;
 		};
