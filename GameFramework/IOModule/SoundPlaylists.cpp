@@ -83,7 +83,7 @@ void GF::IOModule::Sounds::PlaylistFile::select(unsigned i)
 
 	if (i < list.size() && i >= 0) {
 		if (!music.openFromFile(list[i]))
-			throw std::exception("Cannot open music");
+			throw std::runtime_error("Cannot open music");
 	}
 
 	if (s == Status::Playing)
@@ -192,7 +192,8 @@ void GF::IOModule::Sounds::PlaylistSound::select(unsigned i)
 
 	if (i < list.size() && i >= 0 && list[i]!=nullptr) {
 		active = list[i];
-		active->setVolume(volume);
+		void* ptr = active.getPtr();
+		list[i]->setVolume(volume);
 	}
 
 	if (s == Status::Playing)
@@ -207,8 +208,10 @@ void GF::IOModule::Sounds::PlaylistSound::clear()
 
 void GF::IOModule::Sounds::PlaylistSound::append(Core::MemGuard<SoundBase> el)
 {
-	if(el!=nullptr)
+	if (el != nullptr) {
 		list.push_back(el);
+		SoundBase* ptr = el.getPtr();
+	}
 }
 
 void GF::IOModule::Sounds::PlaylistSound::remove(Core::MemGuard<SoundBase> el)

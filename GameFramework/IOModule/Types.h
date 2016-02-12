@@ -21,9 +21,9 @@ namespace GF {
 		typedef sf::Font Font;
 		typedef sf::Shader Shader;
 		typedef sf::BlendMode BlendMode;
-		static BlendMode BlendAplha= sf::BlendAlpha;
+		static BlendMode BlendAlpha= sf::BlendAlpha;
 		static BlendMode BlendAdd=sf::BlendAdd;
-		static BlendMode BlendMultipy=sf::BlendMultiply;
+		static BlendMode BlendMultiply =sf::BlendMultiply;
 		static BlendMode BlendNone=sf::BlendNone;
 		typedef sf::Text Text;
 		typedef sf::View Camera;

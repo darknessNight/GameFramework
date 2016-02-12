@@ -9,7 +9,7 @@ GF::IOModule::Texture2D::Texture2D(const SharedTexture & tex):texture(tex)
 GF::IOModule::Texture2D::Texture2D(Size size)
 {
 	if(!texture.create(size.x, size.y))
-		throw std::exception("Cannot create Texture");
+		throw std::runtime_error("Cannot create Texture");
 	sf::Sprite::setTexture(texture);
 	caArea.height = size.y; caArea.width = size.x;
 

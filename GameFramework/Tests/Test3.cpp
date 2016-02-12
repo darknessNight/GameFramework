@@ -6,7 +6,7 @@
 #include "Tests.h"
 
 namespace Test3Helpers {
-	std::chrono::time_point<std::chrono::steady_clock> started= std::chrono::high_resolution_clock::now();
+	std::chrono::time_point<std::chrono::steady_clock> started = std::chrono::high_resolution_clock::now();
 	std::chrono::time_point<std::chrono::steady_clock> start;
 	std::chrono::time_point<std::chrono::steady_clock> render;
 	int frameCount=0;
@@ -129,7 +129,7 @@ std::string Test3() {
 		if (resp != 'y' && resp != 'Y') result += "Cannot render two or more images\n";
 	}
 	catch (std::exception e) {
-		return std::string("Catched exception") + e.what();
+		return std::string("Catched exception ") + e.what();
 	}
 	return result;
 }

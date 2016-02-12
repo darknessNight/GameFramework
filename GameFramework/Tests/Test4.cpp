@@ -143,10 +143,10 @@ std::string Test4() {
 		img.SaveToFile("./Tests/Test4Img.png");
 	}
 	catch (std::exception e) {
-		return std::string("Catched exception") + e.what();
+		return std::string("Catched exception ") + e.what();
 	}
 	catch (std::exception* e) {
-		return std::string("Catched exception") + e->what();
+		return std::string("Catched exception ") + e->what();
 	}
 	return result;
 }

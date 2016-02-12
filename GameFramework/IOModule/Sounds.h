@@ -24,11 +24,11 @@ namespace GF {
 					return *(sf::Music*)(this) == *(sf::Music*)&rhs;
 				}
 
-				void play()override { sf::Music::play(); }
+				void play()override { sf::Music::play(); };
 				void pause()override { sf::Music::pause(); };
 				void stop()override { sf::Music::stop(); };
-				void setVolume(float val)override { sf::Music::setVolume(val); }
-				SoundBase::Status getStatus()override { return sf::Music::getStatus(); }
+				void setVolume(float val)override { sf::Music::setVolume(val); };
+				SoundBase::Status getStatus()override { return sf::Music::getStatus(); };
 
 				Sound() {
 					setVolume(volume);

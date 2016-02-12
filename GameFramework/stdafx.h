@@ -17,8 +17,8 @@
 #define TESTS_START 0
 #define TESTS_STOP 32000
 #else
-#define TESTS_START 32000
-#define TESTS_STOP 32000
+#define TESTS_START 32768
+#define TESTS_STOP 32768
 #endif
 
 typedef unsigned char byte;

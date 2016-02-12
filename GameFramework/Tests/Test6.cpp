@@ -5,6 +5,7 @@
 #include "../IOModule/Sound.h"
 
 std::string Test6() {
+	char ret;
 	std::string result;
 	using namespace GF::IOModule;
 	using namespace std::literals;
@@ -39,7 +40,6 @@ std::string Test6() {
 	std::this_thread::sleep_for(10s);
 
 	std::clog << "Do you hear three songs?(Y/N)\n";
-	char ret;
 	std::cin >> ret;
 	if (ret != 'y'&& ret != 'Y') {
 		result += "Playing not working";
@@ -56,6 +56,10 @@ std::string Test6() {
 	e1->openFromFile("./Tests/tmusic1.ogg");
 	e2->openFromFile("./Tests/tmusic2.ogg");
 	e3->openFromFile("./Tests/tmusic3.ogg");
+
+	GF::Core::MemGuard<Sounds::SoundBase> sb1;
+	sb1 = e1;
+	sb1->setVolume(10);
 
 	p3.append(e1);
 	p3.append(e2);

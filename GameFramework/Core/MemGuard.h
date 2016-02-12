@@ -4,11 +4,13 @@
 namespace GF {
 	namespace Core {
 
-		template <typename T> class MemGuard {//TODO add mutex and modyfi for thread safe
+		template <typename T> class MemGuard {
 		private:
 			int* copies = nullptr;
 			T* val = nullptr;
 			std::mutex thsafe;
+			std::mutex* userMutex=nullptr;
+			std::thread::id uMutexId;
 		private:
 			void init();
 		public:
@@ -20,8 +22,11 @@ namespace GF {
 			MemGuard(const MemGuard<T>& ref);
 			MemGuard(std::nullptr_t);
 			~MemGuard();
+			void lockPtr();
+			void unlockPtr();
 			template <typename From> MemGuard(const MemGuard<From>& ref);
 			T& operator*();
+			T& operator[](unsigned i);
 			T* operator->();
 			MemGuard<T>& operator=(T* val);
 			MemGuard<T>& operator=(T& val);
@@ -34,10 +39,12 @@ namespace GF {
 			bool operator==(const MemGuard<T> &ref) const;
 			template<typename From> bool operator==(const MemGuard<From> &ref);
 			template<typename From> bool operator!=(const MemGuard<From> &ref);
-			void deletePtr();
 			T* free();
 			T* getPtr()const;
-			const int* const getCount()const;
+			template<typename To> void copy(To* &ptr, int* &copies, std::mutex* &m) const;
+		protected:
+			void deletePtr();
+
 		};
 
 		template <typename T> MemGuard<T> make_ptr(T* val) {

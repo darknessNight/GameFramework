@@ -17,7 +17,7 @@ namespace GF {
 			bool loadFromStream(std::istream & stream);
 			bool loadFromFile(std::string path);
 			void SaveToFile(std::string path);
-			void draw(Drawable& some, BlendMode bm = BlendNone, Shader* shader = nullptr, SharedTexture* texture=nullptr);
+			void draw(Drawable& some, BlendMode bm = BlendAlpha, Shader* shader = nullptr, SharedTexture* texture=nullptr);
 			void clear(Color color = Color::Black);
 			void setSmooth(bool enable);
 			void setRepeat(bool enable);

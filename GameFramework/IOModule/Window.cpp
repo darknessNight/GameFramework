@@ -112,7 +112,7 @@ namespace GF {
 			window.display();
 			sf::Image im(window.capture());
 			if (!im.saveToFile(path))
-				throw std::exception("Cannot save to file");
+				throw std::runtime_error("Cannot save to file");
 
 		}
 

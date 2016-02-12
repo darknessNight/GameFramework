@@ -12,11 +12,14 @@ std::string Tests(int start, int stop) {
 	funcs.push_back(Test7);
 	funcs.push_back(Test8);
 	funcs.push_back(Test9);
+	funcs.push_back(Test10);;
 	//funcs.push_back(Test10);
 
 	std::string ret;
 	std::string results;
 	for (int i = __min(__max(start - 1, 0),funcs.size()-1); i < __min(stop, funcs.size()); i++) {
+		system("cls");
+		std::clog << "Test" << i + 1 << "\n----------------------------------------------\n";
 		ret = funcs[i]();
 		results += "\n Test " + std::to_string(i + 1) + " result: ";
 		if (ret.size() > 0)results += '\n' + ret;

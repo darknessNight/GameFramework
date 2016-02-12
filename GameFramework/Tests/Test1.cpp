@@ -7,7 +7,6 @@
 
 
 std::string Test1() {
-	std::clog << "Test1";
 	sf::RenderWindow okno(sf::VideoMode(800, 600), "Test1");
 	sf::Clock stoper;
 	sf::CircleShape ks1(200,4), ks2(100, 8), ks3(200, 16);

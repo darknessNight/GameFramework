@@ -7,23 +7,42 @@ Test obs³ugi w¹tków.
 #include "../IOModule/Sound.h"
 #include "../Core/Timer.h"
 
-namespace Test9Helpers {
+namespace Test10Helpers {
+	using namespace GF::Core;
+	std::string result;
+	MemGuard<int> str;
+	void ChangeStrEnd() {
+		str.lockPtr();
+		for (int i = 1; i <= 3; i++) {
+			(*str)++;
+			std::this_thread::sleep_for(std::chrono::milliseconds(200));
+		}
+		str.unlockPtr();
+	}
+
+	void ChangeStrStart() {
+		if ((*str) != 3) result += "Mutex blocking in MemGuard doesn't work correctly";
+	}
 }
 
-std::string Test9() {
-	std::string result;
-	int i1;
-	using namespace Test9Helpers;
+std::string Test10() {
+	using namespace Test10Helpers;
 	using namespace GF;
 	using namespace GF::IOModule;
 	using namespace GF::Core;
 	using namespace std::literals;
 	char ret;
 
-	auto incr1 = std::function<void(GF::Core::Events::EventArgs&)>([&](GF::Core::Events::EventArgs&) {i1++; });
-	auto decr1 = std::function<void(GF::Core::Events::EventArgs&)>([&](GF::Core::Events::EventArgs&) {i1--; });
+	char cstr[] = "Ala ma kota, kot ma alê";
 
+	int i = 0;
+	str = i;
 	try {
+		std::thread th1(ChangeStrEnd);
+		std::this_thread::sleep_for(std::chrono::microseconds(100));
+		std::thread th2(ChangeStrStart);
+		th1.join();
+		th2.join();
 	}
 	catch (std::exception e) {
 		result += "Catched error: " + std::string(e.what());

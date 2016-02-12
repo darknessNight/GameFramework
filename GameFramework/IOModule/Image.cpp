@@ -17,7 +17,7 @@ namespace GF {
 		{
 			lock();
 			if (!texture.create(size.x, size.y))
-				throw std::exception("Cannot create RenderTexture");
+				throw std::runtime_error("Cannot create RenderTexture");
 			caArea.height = size.y; caArea.width = size.x;
 			edited = true;
 			unlock();
@@ -147,7 +147,7 @@ namespace GF {
 			sf::Image im(texture.getTexture().copyToImage());
 			unlock();
 			if (!im.saveToFile(path))
-				throw std::exception("Cannot save to file");
+				throw std::runtime_error("Cannot save to file");
 		}
 
 		const Sizef Image::getSize()

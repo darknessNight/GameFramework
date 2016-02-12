@@ -7,6 +7,7 @@ namespace GF {
 		{
 			copies = new int;
 			(*copies) = 1;
+			userMutex = new std::mutex;
 		}
 		template<typename T>
 		MemGuard<T>::MemGuard(T * val)
@@ -31,18 +32,58 @@ namespace GF {
 			deletePtr();
 		}
 
+		template<typename T>
+		inline void MemGuard<T>::lockPtr()
+		{
+			if (userMutex == nullptr) throw std::runtime_error("Nullptr exception");
+			userMutex->lock();
+			uMutexId = std::this_thread::get_id();
+		}
+
+		template<typename T>
+		inline void MemGuard<T>::unlockPtr()
+		{
+			if (userMutex == nullptr) throw std::runtime_error("Nullptr exception");
+			uMutexId = std::thread::id();
+			userMutex->unlock();
+		}
+
 		template <typename T> template <typename From> MemGuard<T>::MemGuard(const MemGuard<From>& ref) {
 			operator=<From>(ref);
 		}
 
 		template <typename T> T& MemGuard<T>::operator*() {
-			std::lock_guard<std::mutex> guard(thsafe);
-			return *val;
+			if (userMutex == nullptr || val==nullptr) throw std::runtime_error("Nullptr exception");
+			if (uMutexId==std::this_thread::get_id())
+				return *val;
+			else {
+				std::lock_guard<std::mutex> guard(thsafe);
+				std::lock_guard<std::mutex> guard2(*userMutex);
+				return *val;
+			}
+		}
+
+		template<typename T> T& MemGuard<T>::operator[](unsigned i)
+		{
+			if (userMutex == nullptr || val == nullptr) throw std::runtime_error("Nullptr exception");
+			if (uMutexId == std::this_thread::get_id())
+				return *(val + i);
+			else {
+				std::lock_guard<std::mutex> guard(thsafe);
+				std::lock_guard<std::mutex> guard2(*userMutex);
+				return *(val + i);
+			}
 		}
 
 		template <typename T> T* MemGuard<T>::operator->() {
-			std::lock_guard<std::mutex> guard(thsafe);
-			return val;
+			if (userMutex == nullptr || val == nullptr) throw std::runtime_error("Nullptr exception");
+			if (uMutexId == std::this_thread::get_id())
+				return val;
+			else {
+				std::lock_guard<std::mutex> guard(thsafe);
+				std::lock_guard<std::mutex> guard2(*userMutex);
+				return val;
+			}
 		}
 
 		template <typename T> MemGuard<T>& MemGuard<T>::operator=(T* val) {
@@ -68,6 +109,7 @@ namespace GF {
 			deletePtr();
 
 			copies = ref.copies;
+			userMutex = ref.userMutex;
 			if (copies != nullptr)
 			(*copies)++;
 			this->val = ref.val;
@@ -78,11 +120,9 @@ namespace GF {
 		template <typename T> template<typename From> MemGuard<T>& MemGuard<T>::operator=(const MemGuard<From> &ref) {
 			std::lock_guard<std::mutex> guard(thsafe);
 			deletePtr();
-
-			copies = const_cast<int*>(ref.getCount());
+			ref.copy(val, copies, userMutex);
 			if(copies!=nullptr)
 				(*copies)++;
-			this->val = static_cast<T*>(const_cast<From*>(ref.getPtr()));
 			deleting = ref.deleting;
 			return *this;
 		}
@@ -132,8 +172,15 @@ namespace GF {
 				delete copies;
 				copies = nullptr;
 				if (deleting && val != nullptr) {
+					if (userMutex != nullptr)
+						userMutex->lock();
 					delete val;
+					if (userMutex != nullptr)
+						userMutex->unlock();
 				}
+				if (userMutex != nullptr)
+					delete userMutex;
+				userMutex = nullptr;
 			}
 		}
 
@@ -148,8 +195,13 @@ namespace GF {
 			return val;
 		}
 
-		template <typename T> const int* const MemGuard<T>::getCount()const {
-			return copies;
+		template<typename T> template<typename To> void MemGuard<T>::copy(To *& ptr, int *& copies, std::mutex *& m) const
+		{
+			ptr = val;
+			copies = this->copies;
+			m = userMutex;
 		}
+
+
 	}
 }

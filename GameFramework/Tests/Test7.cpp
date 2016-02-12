@@ -72,7 +72,7 @@ std::string Test7() {
 		el = window.CreateTexture({ 100, 100 });
 		el2 = window.CreateTexture({ 100, 100 });
 		if (!el->loadFromFile("./Image.png") || !el2->loadFromFile("./Image.png"))
-			throw std::exception("Not laod image");
+			throw std::runtime_error("Not laod image");
 		el->setColor(Color::Red);
 		el->clickable = true;
 		el->MousePress += MClick;
@@ -82,7 +82,7 @@ std::string Test7() {
 
 		el = window.CreateTexture({ 100, 100 });
 		if (!el->loadFromFile("./Image.png"))
-			throw std::exception("Not laod image");
+			throw std::runtime_error("Not laod image");
 		el->setColor(Color::Yellow);
 		el->clickable = true;
 		el->MousePress += MClick;
@@ -91,7 +91,7 @@ std::string Test7() {
 
 		el = window.CreateTexture({ 100, 100 });
 		if (!el->loadFromFile("./Image.png"))
-			throw std::exception("Not laod image");
+			throw std::runtime_error("Not laod image");
 		el->setColor(Color::Blue);
 		el->setBlendMode(sf::BlendAdd);
 		el->setVisible(true);

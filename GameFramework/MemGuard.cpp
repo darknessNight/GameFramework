@@ -2,7 +2,7 @@
 #include "MemGuard.h"
 #include <stdio.h>
 #include <memory>
-
+#include <exception>
 
 class MemoryGuard{
 public:

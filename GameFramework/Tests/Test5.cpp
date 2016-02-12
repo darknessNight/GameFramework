@@ -96,7 +96,7 @@ std::string Test5() {
 		texture1->setVisible(true);
 		texture1->setOrigin({ 50,50 });
 		if(!texture1->loadFromFile("./img2.jpg"))
-		throw std::exception("Cannot read image from file");
+		throw std::runtime_error("Cannot read image from file");
 		texture1->setPosition(pos);
 		texture1->setVisible(true);
 
@@ -121,9 +121,9 @@ std::string Test5() {
 		img1->setSmooth(true);
 		img2->setSmooth(true);
 		if (!img1->loadFromFile("./alex.png"))
-			throw std::exception("Cannot read image from file");
+			throw std::runtime_error("Cannot read image from file");
 		if(!img2->loadFromFile("./sephiroth.png"))
-		throw std::exception("Cannot read image from file");
+			throw std::runtime_error("Cannot read image from file");
 		img1->setVisible(true);
 		img2->setVisible(true);
 
