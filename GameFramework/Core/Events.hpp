@@ -58,6 +58,13 @@ namespace GF {
 			}
 
 			template<class ArgType>
+			inline Delegate<ArgType>::Delegate(std::function<void(ArgType&)>& f)
+			{
+				func = f;
+				id = (long long)&f;
+			}
+
+			template<class ArgType>
 			inline Delegate<ArgType>::Delegate(std::function<void(ArgType&)> f, int id)
 			{
 				func = f;

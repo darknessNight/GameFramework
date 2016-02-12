@@ -1,8 +1,6 @@
 #pragma once
 #include "Types.h"
 #include "Events.h"
-#include "../Core/Events.hpp"
-#include "../Core/MemGuard.hpp"
 
 namespace GF {
 	namespace IOModule {

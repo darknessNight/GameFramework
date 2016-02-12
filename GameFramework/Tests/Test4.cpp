@@ -120,6 +120,8 @@ std::string Test4() {
 		multi.append(img2);
 		multi.setActive(0);
 		multi.setPosition({ 0,10 });
+		multi.setActive(0);    
+		multi.setVisible(true);
 		window.appendGraphObj(GF::Core::make_ptr(multi), 0);
 		try {
 			multi.append(GF::Core::make_ptr(img));

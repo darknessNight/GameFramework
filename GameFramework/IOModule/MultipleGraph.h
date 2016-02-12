@@ -1,6 +1,8 @@
 #pragma once
 #include"GraphObject.h"
 #include "Texture.h"
+#include "../Core/Types.h"
+
 namespace GF {
 	namespace IOModule {
 		class MultipleGraph2D:public GraphObject2D{

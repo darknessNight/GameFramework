@@ -1,10 +1,10 @@
 #pragma once
 #include "../stdafx.h"
-#include "Types.h"
 #include <list>
 
 namespace GF {
 	namespace Core {
+		class Object {};
 		namespace Events {
 
 			template<class ArgType> class Delegate {
@@ -15,6 +15,7 @@ namespace GF {
 			public:
 				Delegate(void(f)(ArgType&));
 				Delegate(void(Object::*f)(ArgType&),Object* obj);
+				Delegate(std::function<void(ArgType&)>&);
 				Delegate(std::function<void(ArgType&)>, int id);
 				Delegate(std::function<void(ArgType&)> , int id, void(Object::*f)(ArgType&));
 				Delegate(int id);

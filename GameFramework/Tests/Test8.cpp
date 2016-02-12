@@ -50,7 +50,7 @@ std::string Test8() {
 	char ret;
 
 	try {
-		/*MemGuard<int> f1;
+		MemGuard<int> f1;
 		f1 = new int;
 		(*f1) = 0;
 
@@ -82,7 +82,7 @@ std::string Test8() {
 			std::thread(func2, f1).detach();
 
 		std::this_thread::sleep_for(5s);
-		if ((*f1) != 00) result += "Access to memory failed v3\n";*/
+		if ((*f1) != 00) result += "Access to memory failed v3\n";
 
 		Window window;
 		window.ShowAsync();

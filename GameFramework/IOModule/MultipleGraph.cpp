@@ -52,10 +52,10 @@ namespace GF {
 			
 			active = i;
 			if (i < objects.size() && i >= 0) {
-				setTexture(((GraphObject2D*)&*objects[i])->getTexture());
+				sf::Sprite::setTexture((objects[i])->getTexture());
 			}
 			else {
-				setTexture(empty);
+				sf::Sprite::setTexture(empty);
 				active = -1;
 			}
 		}

@@ -109,10 +109,14 @@ namespace GF {
 			return false;
 		}
 
-		void Image::draw(Drawable & some)
+		void Image::draw(Drawable & some, BlendMode bm, Shader* shader, SharedTexture* texture)
 		{
 			lock();
-			texture.draw(some);
+			sf::RenderStates rs=sf::RenderStates::Default;
+			rs.blendMode = bm;
+			rs.shader = shader;
+			rs.texture = texture;
+			this->texture.draw(some,rs);
 			edited = true;
 			unlock();
 		}
