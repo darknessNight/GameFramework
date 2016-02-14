@@ -83,25 +83,48 @@ namespace GF {
 			if (pos.x >= caArea.left && pos.x <= xe &&
 				pos.y >= caArea.top && pos.y <= ye) {
 				unsigned c = getTexture().copyToImage().getPixel(pos.x - caArea.left, pos.y - caArea.top).toInteger();
-				if (c & caMask != 0) {
+				if ((long long)(c & caMask) > caThreshold) {
 					Events::MouseButtonArgs args;
 					args.x = pos.x;
 					args.y = pos.y;
-					MousePress(this, args);
+					onMousePress(args);
 					return true;
 				}
 			}
 			return false;
 		}
 
-		void GraphObject2D::mouseRelease(Events::MouseButtonArgs args)
+		void GraphObject2D::onTextType(Events::TextTypeArgs & args)
+		{
+			TextType(this,args);
+		}
+		void GraphObject2D::onKeyPressed(Events::KeyboardArgs & args)
+		{
+			KeyPressed(this, args);
+		}
+		void GraphObject2D::onKeyRelease(Events::KeyboardArgs & args)
+		{
+			KeyRelease(this, args);
+		}
+		void GraphObject2D::onMousePress(Events::MouseButtonArgs & args)
+		{
+			MousePress(this, args);
+		}
+		void GraphObject2D::onMouseRelease(Events::MouseButtonArgs & args)
 		{
 			MouseRelease(this, args);
 		}
-
-		void GraphObject2D::mouseMove(Events::MouseMoveArgs args)
+		void GraphObject2D::onMouseMove(Events::MouseMoveArgs & args)
 		{
 			MouseMove(this, args);
 		}
-	}
+		void GraphObject2D::onGainedFocus(Events::EventArgs & args)
+		{
+			GainedFocus(this, args);
+		}
+		void GraphObject2D::onLostFocus(Events::EventArgs & args)
+		{
+			LostFocus(this, args);
+		}
+}
 }

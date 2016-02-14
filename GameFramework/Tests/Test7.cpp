@@ -69,6 +69,10 @@ std::string Test7() {
 		window.setVerticalSyncEnabled(true);
 		window.Render += MWMove;
 
+		MemGuard<Image> m1 = window.CreateImage({ 1024,576 });
+		m1->setVisible();
+		m1->clear(Color(20,20,20));
+
 		el = window.CreateTexture({ 100, 100 });
 		el2 = window.CreateTexture({ 100, 100 });
 		if (!el->loadFromFile("./Image.png") || !el2->loadFromFile("./Image.png"))

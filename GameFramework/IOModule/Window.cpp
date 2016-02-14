@@ -259,6 +259,7 @@ namespace GF {
 			if (clickableElements) {
 				std::lock_guard<std::mutex> guard(mutexGraph);
 				Core::MemGuard<GraphObject2D> lastFocus = focusedItem;
+				Events::EventArgs stdArgs;
 				draggedItem = focusedItem = nullptr;
 				Posf pos = { static_cast<float>(args.x), static_cast<float>(args.y) };
 				for (auto el = graphObjs.rbegin(); el != graphObjs.rend(); el++) {
@@ -266,15 +267,15 @@ namespace GF {
 						draggedItem = (*el);
 						focusedItem = (*el);
 						if (focusedItem != lastFocus) {
-							Events::EventArgs stdArgs;
-							if(lastFocus!=nullptr)
-								lastFocus->LostFocus(lastFocus.getPtr(), stdArgs);
 							if(focusedItem!=nullptr)
-								focusedItem->GainedFocus(focusedItem.getPtr(), stdArgs);
+								focusedItem->onGainedFocus(stdArgs);
 						}
+						else lastFocus = nullptr;
 						break;
 					}
 				}
+				if (lastFocus != nullptr)
+					lastFocus->onLostFocus(stdArgs);
 			}
 			OnEvent(MouseButtonPressed, &MouseButtonPressedAsync, args);
 		}
@@ -282,7 +283,7 @@ namespace GF {
 		void Window::onReleaseMouse(Events::MouseButtonArgs args)
 		{
 			if (draggedItem != nullptr) {
-				draggedItem->mouseRelease(args);
+				draggedItem->onMouseRelease(args);
 				draggedItem = nullptr;
 			}
 			OnEvent(MouseButtonRelease, &MouseButtonReleaseAsync, args);
@@ -291,7 +292,7 @@ namespace GF {
 		void Window::onMouseMove(Events::MouseMoveArgs args)
 		{
 			if (draggedItem != nullptr) {
-				draggedItem->mouseMove(args);
+				draggedItem->onMouseMove(args);
 			}
 			OnEvent(MouseMove, &MouseMoveAsync, args);
 		}
@@ -299,21 +300,21 @@ namespace GF {
 		void Window::onTextType(Events::TextTypeArgs args)
 		{
 			if (focusedItem != nullptr)
-				focusedItem->TextType(focusedItem.getPtr(), args);
+				focusedItem->onTextType(args);
 			OnEvent(TextType, &TextTypeAsync, args);
 		}
 
 		void Window::onKeyPressed(Events::KeyboardArgs args)
 		{
 			if (focusedItem != nullptr)
-				focusedItem->KeyPressed(focusedItem.getPtr(), args);
+				focusedItem->onKeyPressed(args);
 			OnEvent(KeyPressed, &KeyPressedAsync, args);
 		}
 
 		void Window::onKeyRelease(Events::KeyboardArgs args)
 		{
 			if (focusedItem != nullptr)
-				focusedItem->KeyRelease(focusedItem.getPtr(), args);
+				focusedItem->onKeyRelease(args);
 			OnEvent(KeyRelease, &KeyReleaseAsync, args);
 		}
 

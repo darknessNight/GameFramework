@@ -28,6 +28,18 @@
     <Filter Include="Source Files\Core">
       <UniqueIdentifier>{a788eae0-32e6-4824-a1bf-6565b2533def}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Controller">
+      <UniqueIdentifier>{08faf6f6-a773-4fd8-9d99-ca4c8fc686b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Controller">
+      <UniqueIdentifier>{5a3b2016-849f-4fd9-a099-514dc001f8c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Controller\Controls">
+      <UniqueIdentifier>{d0b6fb62-d291-4daa-9a4d-50e0c21f6fe5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Controller\Controls">
+      <UniqueIdentifier>{d6b06325-b68c-4296-ac90-3c382ef4c21e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -99,6 +111,33 @@
     <ClCompile Include="Tests\Test10.cpp">
       <Filter>Source Files\Tests</Filter>
     </ClCompile>
+    <ClCompile Include="Tests\Test11.cpp">
+      <Filter>Source Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\Controls\Control.cpp">
+      <Filter>Source Files\Controller\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\Controls\Button.cpp">
+      <Filter>Source Files\Controller\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\Controls\Textbox.cpp">
+      <Filter>Source Files\Controller\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\Controls\Trackbar.cpp">
+      <Filter>Source Files\Controller\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\Controls\Progressbar.cpp">
+      <Filter>Source Files\Controller\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\Controls\Checkbox.cpp">
+      <Filter>Source Files\Controller\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\Controls\Label.cpp">
+      <Filter>Source Files\Controller\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\Controls\Radiobutton.cpp">
+      <Filter>Source Files\Controller\Controls</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -157,6 +196,33 @@
     </ClInclude>
     <ClInclude Include="Core\Timer.h">
       <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\Menu.h">
+      <Filter>Header Files\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\Controls\Button.h">
+      <Filter>Header Files\Controller\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\Controls\Textbox.h">
+      <Filter>Header Files\Controller\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\Controls\Progressbar.h">
+      <Filter>Header Files\Controller\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\Controls\Radiobutton.h">
+      <Filter>Header Files\Controller\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\Controls\Checkbox.h">
+      <Filter>Header Files\Controller\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\Controls\Trackbar.h">
+      <Filter>Header Files\Controller\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\Controls\Control.h">
+      <Filter>Header Files\Controller\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\Controls\Label.h">
+      <Filter>Header Files\Controller\Controls</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

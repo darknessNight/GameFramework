@@ -7,7 +7,7 @@ int main()
 {
 //#ifdef DEBUG
 	std::clog << Tests(TESTS_START, TESTS_STOP) << "\n\n\n" << std::endl;
-	//std::clog << Tests(0, TESTS_STOP) << "\n\n\n" << std::endl;
+	//std::clog << Tests(7, TESTS_STOP) << "\n\n\n" << std::endl;
 	system("pause");
 //#endif // DEBUG
 

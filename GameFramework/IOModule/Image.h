@@ -26,11 +26,11 @@ namespace GF {
 			const Sizef getSize();
 			const SharedTexture& getTexture()override;
 			void setSharedTexture(SharedTexture&)=delete;
-		private:
+		protected:
 			void lock();
 			void unlock();
 			void render(sf::RenderTarget* window) override;
-		private:
+		protected:
 			std::mutex mutex;
 			bool edited = false;
 			sf::RenderTexture texture;

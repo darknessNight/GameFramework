@@ -9,7 +9,7 @@ namespace GF {
 			friend Window;
 		public:
 			GraphObject2D() = default;
-			void setVisible(bool enabled);
+			void setVisible(bool enabled=true);
 			bool getVisible();
 			void setSharedTexture(SharedTexture&);
 			void setPosition(Posf);
@@ -25,8 +25,18 @@ namespace GF {
 		protected:
 			virtual void render(sf::RenderTarget* window);
 			virtual bool checkClicked(Posf);
-			virtual void mouseRelease(Events::MouseButtonArgs);
-			virtual void mouseMove(Events::MouseMoveArgs);
+
+
+			virtual void onTextType(Events::TextTypeArgs& args);
+			virtual void onKeyPressed(Events::KeyboardArgs& args);
+			virtual void onKeyRelease(Events::KeyboardArgs& args);
+
+			virtual void onMousePress(Events::MouseButtonArgs &args);
+			virtual void onMouseRelease(Events::MouseButtonArgs &args);
+			virtual void onMouseMove(Events::MouseMoveArgs &args);
+
+			virtual void onGainedFocus(Events::EventArgs &args);
+			virtual void onLostFocus(Events::EventArgs &args);
 		public:
 			GF::Core::Events::Event<Events::EventArgs> Render;
 			GF::Core::Events::Event<Events::MouseButtonArgs> MousePress;
@@ -40,7 +50,8 @@ namespace GF {
 			GF::Core::Events::Event<Events::KeyboardArgs> KeyRelease;
 			GF::Core::Events::Event<Events::TextTypeArgs> TextType;
 		public:
-			unsigned caMask = 0xFFFFFF00;
+			unsigned caMask = 0x000000FF;
+			long long caThreshold = 0;
 			bool clickable = false;
 			Rectf caArea;
 		protected:
