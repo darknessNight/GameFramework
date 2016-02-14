@@ -50,7 +50,7 @@ std::string Test3() {
 
 
 		std::fstream file;
-		file.open("./Image.png", file.in | file.binary);
+		file.open("./Tests/Resources/Image.png", file.in | file.binary);
 		if (file.good()) {
 			texture1->loadFromStream(file);
 		}
@@ -67,7 +67,7 @@ std::string Test3() {
 		texture1->setVisible(true);
 		texture1->setOrigin({ 50,50 });
 
-		file.open("./Image.png", file.in | file.binary);
+		file.open("./Tests/Resources/Image.png", file.in | file.binary);
 		file.seekg(0, file.end);
 		unsigned size = file.tellg();
 		file.seekg(0, file.beg);
@@ -89,7 +89,7 @@ std::string Test3() {
 		texture1 = window.CreateTexture({ 100, 100 }, 1);
 		texture1->setVisible(true);
 		texture1->setOrigin({ 50,50 });
-		texture1->loadFromFile("./Image.png");
+		texture1->loadFromFile("./Tests/Resources/Image.png");
 		window.Show();
 
 		std::cout << "\nDo you see a moving image? (Y/N)\n";
@@ -97,27 +97,27 @@ std::string Test3() {
 		if (resp != 'y' && resp != 'Y') result += "Cannot load texture from file\n";
 
 		texture2 = window.CreateTexture({ 100,100 },0);
-		texture2->loadFromFile("./Image.png");
+		texture2->loadFromFile("./Tests/Resources/Image.png");
 		texture2->scale({ 3,3 });
 		texture2->setPosition({ 250, 150 });
 		texture2->setVisible(true);
 
 		texture2 = window.CreateTexture({ 100,100 }, 0);
-		texture2->loadFromFile("./Image.png");
+		texture2->loadFromFile("./Tests/Resources/Image.png");
 		texture2->setPosition({ 10, 10 });
 		texture2->setVisible(true);
 		texture2 = window.CreateTexture({ 100,100 }, 0);
-		texture2->loadFromFile("./Image.png");
+		texture2->loadFromFile("./Tests/Resources/Image.png");
 		texture2->setPosition({ 690, 490 });
 		texture2->setVisible(true);
 		texture2 = window.CreateTexture({ 100,100 }, 0);
-		texture2->loadFromFile("./Image.png");
+		texture2->loadFromFile("./Tests/Resources/Image.png");
 		texture2->setPosition({ 740, 60 });
 		texture2->setOrigin({ 50,50 });
 		texture2->setRotation(-90);
 		texture2->setVisible(true);
 		texture2 = window.CreateTexture({ 100,100 }, 0);
-		texture2->loadFromFile("./Image.png");
+		texture2->loadFromFile("./Tests/Resources/Image.png");
 		texture2->setPosition({ 60, 540 });
 		texture2->setOrigin({ 50,50 });
 		texture2->setRotation(-90);

@@ -19,7 +19,7 @@ std::string Test1() {
 	okno.setVerticalSyncEnabled(true);
 	sf::Texture text1;
 	text1.create(100, 100);
-	text1.loadFromFile("./Image.png");
+	text1.loadFromFile("./Tests/Resources/Image.png");
 	sf::Sprite sp1,sp2;
 	sp1.setTexture(text1);
 	sp2.setTexture(text1);

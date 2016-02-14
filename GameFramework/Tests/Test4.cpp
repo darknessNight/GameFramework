@@ -74,7 +74,7 @@ std::string Test4() {
 		texture1 = window.CreateTexture({ 100,100 });
 		texture1->setVisible(true);
 		texture1->setOrigin({ 50,50 });
-		texture1->loadFromFile("./Image.png");
+		texture1->loadFromFile("./Tests/Resources/Image.png");
 		texture1->setPosition(pos);
 		texture1->setVisible(true);
 		Image img({ 500,500 });

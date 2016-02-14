@@ -90,8 +90,8 @@ std::string Test8() {
 		MemGuard<Texture2D> t1, t2;
 		t1 = window.CreateTexture({ 100,100 }, 0);
 		t2 = window.CreateTexture({ 100,100 }, 0);
-		t1->loadFromFile("./image.png");
-		t2->loadFromFile("./image.png");
+		t1->loadFromFile("./Tests/Resources/Image.png");
+		t2->loadFromFile("./Tests/Resources/Image.png");
 		t1->setPosition(200, 200);
 		t1->setVisible(true);
 		std::clog << "\nFirst image\n";

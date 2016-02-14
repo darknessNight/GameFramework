@@ -235,10 +235,6 @@
   <ItemGroup>
     <None Include="IOModule\README.md" />
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\Img2.jpg" />
-    <Image Include="image.png" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

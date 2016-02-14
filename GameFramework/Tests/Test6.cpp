@@ -26,9 +26,9 @@ std::string Test6() {
 
 
 	Sounds::PlaylistFile p2;
-	p2.append("./Tests/tmusic1.ogg");
-	p2.append("./Tests/tmusic2.ogg");
-	p2.append("./Tests/tmusic3.ogg");
+	p2.append("./Tests/Resources/tmusic1.ogg");
+	p2.append("./Tests/Resources/tmusic2.ogg");
+	p2.append("./Tests/Resources/tmusic3.ogg");
 
 	if (p2.size() != 3)result += "Not add element to playlist p2:" + std::to_string(p1.size()) + "\n";
 	
@@ -53,9 +53,9 @@ std::string Test6() {
 	e1 = new Sounds::Music;
 	e2 = new Sounds::Music;
 	e3 = new Sounds::Music;
-	e1->openFromFile("./Tests/tmusic1.ogg");
-	e2->openFromFile("./Tests/tmusic2.ogg");
-	e3->openFromFile("./Tests/tmusic3.ogg");
+	e1->openFromFile("./Tests/Resources/tmusic1.ogg");
+	e2->openFromFile("./Tests/Resources/tmusic2.ogg");
+	e3->openFromFile("./Tests/Resources/tmusic3.ogg");
 
 	GF::Core::MemGuard<Sounds::SoundBase> sb1;
 	sb1 = e1;

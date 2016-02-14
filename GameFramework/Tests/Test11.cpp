@@ -79,8 +79,8 @@ std::string Test11() {
 		btn3.setBackColor(Color::Transparent);
 		btn3.setBorderSize(0);
 		SharedTexture t1, t2;
-		t1.loadFromFile("./Tests/btn1.png");
-		t2.loadFromFile("./Tests/btn2.png");
+		t1.loadFromFile("./Tests/Resources/btn1.png");
+		t2.loadFromFile("./Tests/Resources/btn2.png");
 		btn3.setBackTexture(t1);
 		btn3.setActiveBackTexture(t2);
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "Events.h"
+#include <time.h>
 
 namespace GF {
 	namespace Core {
@@ -21,7 +22,7 @@ namespace GF {
 			template <typename ArgType> inline void Event<ArgType>::operator() (void* sender, ArgType& arg) {
 				arg.sender = sender;
 				arg.cancel = false;
-				arg.timestamp = std::time(nullptr);
+				arg.timestamp = time(nullptr);
 				for (auto i = funcs.begin(); i != funcs.end(); i++) {
 					(*i)(arg);
 					if (arg.cancel) break;

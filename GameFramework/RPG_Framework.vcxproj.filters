@@ -40,6 +40,24 @@
     <Filter Include="Source Files\Controller\Controls">
       <UniqueIdentifier>{d6b06325-b68c-4296-ac90-3c382ef4c21e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GameEngine">
+      <UniqueIdentifier>{223fb35d-fd92-432a-a14e-b32d0f87fde3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameEngine">
+      <UniqueIdentifier>{9b05be3c-282c-41a3-9cd4-ddcc35ac285e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\PhisicModule">
+      <UniqueIdentifier>{6d6e9f16-84bb-4f59-8c3e-cd81cc37e820}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PhysicModule">
+      <UniqueIdentifier>{7ae9720b-1153-4045-8ecd-4bde122c58cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ResourceLoader">
+      <UniqueIdentifier>{6220479e-f64e-4ff0-9627-3044c01b767d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ResourceLoader">
+      <UniqueIdentifier>{38c32804-09f5-4672-a412-d8c541123007}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -229,14 +247,6 @@
     <None Include="IOModule\README.md">
       <Filter>Header Files\IOModule</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="image.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="..\Img2.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\Versions" />

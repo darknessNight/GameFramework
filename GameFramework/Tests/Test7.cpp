@@ -75,7 +75,7 @@ std::string Test7() {
 
 		el = window.CreateTexture({ 100, 100 });
 		el2 = window.CreateTexture({ 100, 100 });
-		if (!el->loadFromFile("./Image.png") || !el2->loadFromFile("./Image.png"))
+		if (!el->loadFromFile("./Tests/Resources/Image.png") || !el2->loadFromFile("./Tests/Resources/Image.png"))
 			throw std::runtime_error("Not laod image");
 		el->setColor(Color::Red);
 		el->clickable = true;
@@ -85,7 +85,7 @@ std::string Test7() {
 		el2->setVisible(true);
 
 		el = window.CreateTexture({ 100, 100 });
-		if (!el->loadFromFile("./Image.png"))
+		if (!el->loadFromFile("./Tests/Resources/Image.png"))
 			throw std::runtime_error("Not laod image");
 		el->setColor(Color::Yellow);
 		el->clickable = true;
@@ -94,7 +94,7 @@ std::string Test7() {
 		el->setVisible(true);
 
 		el = window.CreateTexture({ 100, 100 });
-		if (!el->loadFromFile("./Image.png"))
+		if (!el->loadFromFile("./Tests/Resources/Image.png"))
 			throw std::runtime_error("Not laod image");
 		el->setColor(Color::Blue);
 		el->setBlendMode(sf::BlendAdd);

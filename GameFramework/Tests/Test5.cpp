@@ -95,7 +95,7 @@ std::string Test5() {
 		GF::Core::MemGuard<Texture2D> tmp = window.CreateTexture({ 1280,1024 });
 		texture1->setVisible(true);
 		texture1->setOrigin({ 50,50 });
-		if(!texture1->loadFromFile("./img2.jpg"))
+		if(!texture1->loadFromFile("./Tests/Resources/img2.jpg"))
 		throw std::runtime_error("Cannot read image from file");
 		texture1->setPosition(pos);
 		texture1->setVisible(true);
@@ -120,9 +120,9 @@ std::string Test5() {
 		img2->appendCamera(pm2);
 		img1->setSmooth(true);
 		img2->setSmooth(true);
-		if (!img1->loadFromFile("./alex.png"))
+		if (!img1->loadFromFile("./Tests/Resources/alex.png"))
 			throw std::runtime_error("Cannot read image from file");
-		if(!img2->loadFromFile("./sephiroth.png"))
+		if(!img2->loadFromFile("./Tests/Resources/sephiroth.png"))
 			throw std::runtime_error("Cannot read image from file");
 		img1->setVisible(true);
 		img2->setVisible(true);
@@ -131,7 +131,7 @@ std::string Test5() {
 		multi.append(tmpT);
 
 		Sounds::Music music;
-		music.openFromFile("./music.ogg");
+		music.openFromFile("./Tests/Resources/music.ogg");
 		music.setLoop(true);
 		music.play();
 		window.Show();
