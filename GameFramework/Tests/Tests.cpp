@@ -1,4 +1,5 @@
 #include "Tests.h"
+#include <string>
 
 std::vector<std::string(*)()> funcs;
 

@@ -154,7 +154,7 @@ namespace GF {
 		}
 #endif
 
-		void Window::InputLoop()//TODO bad function, but already I not have any idea.
+		void Window::InputLoop()//TODO bad std::function<void(void)>, but already I not have any idea.
 		{
 			Events::EventArgs stdArg;
 			sf::Event ev;

@@ -61,7 +61,7 @@ std::string Test2() {
 		ev.joystickMove.position = 132;
 
 
-		//tests for adding and deleting events' functions
+		//tests for adding and deleting events' std::function<void(void)>s
 		window.JoystickButtonPressed += Test2Helpers::JoystickButtonDelTest;
 		window.JoystickButtonPressed -= Test2Helpers::JoystickButtonDelTest;
 		window.JoystickButtonPressed += Test2Helpers::JoystickButtonDelTest2;
@@ -69,9 +69,9 @@ std::string Test2() {
 		window.JoystickButtonPressed += {(Test2Helpers::Test::rzut)&Test2Helpers::Test::JoystickButtonDelTest, &ob2};
 		window.JoystickButtonPressed -= {(Test2Helpers::Test::rzut)&Test2Helpers::Test::JoystickButtonDelTest, &ob2};
 		window.JoystickMove += Test2Helpers::JoystickMoveTest;
-#ifdef DEBUG
+
 		window.TestEvents(ev);
-#endif
+
 		Test2Helpers::Test::DelTestResult();
 
 		window.JoystickButtonPressed.clear();
@@ -80,9 +80,9 @@ std::string Test2() {
 		window.JoystickButtonPressed += {(Test2Helpers::Test::rzut)&Test2Helpers::Test::JoystickButtonDelTest, &ob1};
 		window.JoystickButtonPressed += {(Test2Helpers::Test::rzut)&Test2Helpers::Test::JoystickButtonDelTest, &ob2};
 		window.JoystickButtonPressed -= {(Test2Helpers::Test::rzut)&Test2Helpers::Test::JoystickButtonDelTest, &ob2};
-#ifdef DEBUG
+
 		window.TestEvents(ev);
-#endif
+
 		Test2Helpers::Test::DelTestResult();
 		std::this_thread::sleep_for(2s);
 		window.Close();

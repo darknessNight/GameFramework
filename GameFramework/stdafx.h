@@ -13,7 +13,7 @@
 #include <time.h>
 
 //#define TEST_ALL
-//#define DEBUG
+//#define #include <functional>
 #ifdef TEST_ALL
 #define TESTS_START 0
 #define TESTS_STOP 32000

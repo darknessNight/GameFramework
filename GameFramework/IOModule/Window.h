@@ -68,7 +68,7 @@ namespace GF {
 
 #ifdef DEBUG
 			void TestEvents(sf::Event &ev);
-#endif // DEBUG
+#endif // #include <functional>
 		public:
 #pragma region Events
 			Core::Events::Event<Events::EventArgs> Render;
