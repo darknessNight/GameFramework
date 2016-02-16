@@ -1,7 +1,7 @@
 /*Checking SFML
 */
 #pragma once
-#include "../stdafx.h"
+#include "../../GameFramework/stdafx.h"
 #include "SFML\Graphics.hpp"
 #include "Tests.h"
 

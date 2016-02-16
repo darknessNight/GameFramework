@@ -1,5 +1,6 @@
 #pragma once
-#include "../IOModule/Window.h"
+#include "../../GameFramework/IOModule/Window.h"
+#include "../../GameFramework/IOModule/Sound.h"
 
 std::string Test1();
 std::string Test2();

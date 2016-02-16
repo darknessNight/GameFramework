@@ -1,10 +1,10 @@
 /* Checking cameras and crop images
 */
 #pragma once
-#include "../IOModule/Window.h"
-#include "../IOModule/Image.h"
-#include "../IOModule/MultipleGraph.h"
-#include "../IOModule/Sound.h"
+#include "../../GameFramework/IOModule/Window.h"
+#include "../../GameFramework/IOModule/Image.h"
+#include "../../GameFramework/IOModule/MultipleGraph.h"
+#include "../../GameFramework/IOModule/Sound.h"
 #include <fstream>
 
 namespace Test5Helpers {

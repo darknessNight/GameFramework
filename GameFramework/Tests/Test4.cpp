@@ -2,9 +2,9 @@
 */
 
 #pragma once
-#include "../IOModule/Window.h"
-#include "../IOModule/Image.h"
-#include "../IOModule/MultipleGraph.h"
+#include "../../GameFramework/IOModule/Window.h"
+#include "../../GameFramework/IOModule/Image.h"
+#include "../../GameFramework/IOModule/MultipleGraph.h"
 #include <fstream>
 #include "Tests.h"
 

@@ -3,9 +3,8 @@ Test obs³ugi Timera.
 */
 
 #pragma once
-#include "../IOModule/Window.h"
-#include "../IOModule/Sound.h"
-#include "../Core/Timer.h"
+#include "../../GameFramework/Core/Timer.h"
+#include "../../GameFramework/IOModule/Window.h"
 
 namespace Test9Helpers {
 }

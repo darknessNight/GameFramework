@@ -3,8 +3,8 @@ Test obs³ugi w¹tków.
 */
 
 #pragma once
-#include "../IOModule/Window.h"
-#include "../IOModule/Sound.h"
+#include "../../GameFramework/IOModule/Window.h"
+#include "../../GameFramework/IOModule/Sound.h"
 
 namespace Test8Helpers {
 	using namespace std::literals;

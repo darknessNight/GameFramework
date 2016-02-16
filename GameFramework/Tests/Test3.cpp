@@ -1,7 +1,7 @@
 /*Checking ways of loading textures
 */
 #pragma once
-#include "../IOModule/Window.h"
+#include "../../GameFramework/IOModule/Window.h"
 #include <fstream>
 #include "Tests.h"
 

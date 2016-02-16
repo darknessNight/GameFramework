@@ -1,8 +1,8 @@
 /*Test przekazywania zderzeñ myszy do obiektów
 */
 #pragma once
-#include "../IOModule/Window.h"
-#include "../IOModule/Sound.h"
+#include "../../GameFramework/IOModule/Window.h"
+#include "../../GameFramework/IOModule/Sound.h"
 
 namespace Test7Helpers {
 	using namespace std::chrono;

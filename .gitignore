@@ -10,6 +10,8 @@
 *.mp3
 *.dll
 
+*.lib
+
 code.txt
 MemoryGuard.conf
 

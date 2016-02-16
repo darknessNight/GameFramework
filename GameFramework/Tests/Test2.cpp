@@ -1,8 +1,8 @@
 /*Checking basic event support
 */
 #pragma once
-#include "../stdafx.h"
-#include "../IOModule/Window.h"
+#include "../../GameFramework/stdafx.h"
+#include "../../GameFramework/IOModule/Window.h"
 #include "Tests.h"
 
 using namespace GF::IOModule::Events;

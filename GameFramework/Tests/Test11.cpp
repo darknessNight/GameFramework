@@ -3,8 +3,8 @@ Test obs³ugi menu
 */
 
 #pragma once
-#include "../Controller/Menu.h"
-#include "../IOModule/Window.h"
+#include "../../GameFramework/Controller/Menu.h"
+#include "../../GameFramework/IOModule/Window.h"
 
 namespace Test11Helpers {
 	using namespace GF::IOModule;

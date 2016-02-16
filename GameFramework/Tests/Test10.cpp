@@ -3,9 +3,9 @@ Test obs³ugi w¹tków.
 */
 
 #pragma once
-#include "../IOModule/Window.h"
-#include "../IOModule/Sound.h"
-#include "../Core/Timer.h"
+#include "../../GameFramework/IOModule/Window.h"
+#include "../../GameFramework/IOModule/Sound.h"
+#include "../../GameFramework/Core/Timer.h"
 
 namespace Test10Helpers {
 	using namespace GF::Core;
