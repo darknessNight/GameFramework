@@ -15,7 +15,7 @@
 //#define TEST_ALL
 //#define #include <functional>
 #ifdef TEST_ALL
-#define TESTS_START 0
+#define TESTS_START 12
 #define TESTS_STOP 32000
 #else
 #define TESTS_START 32768

@@ -14,7 +14,7 @@ namespace GF {
 		public:
 
 			virtual GameObject whatIsOn(Pos pos);
-			virtual Mob scanRect(Rect rect);
+			virtual Mob scanRect(Box rect);
 			virtual void detectOnLine(Pos start, Vector3D vector);
 			virtual void start();
 			virtual void stop();
@@ -27,7 +27,7 @@ namespace GF {
 			std::vector<InteractiveObject*> interactiveObjects;
 			std::vector<Mob> mobs;
 			bool paused;
-			Map map;
+			Map* map;
 		private:
 			int loopRate;
 		};

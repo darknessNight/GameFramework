@@ -9,7 +9,7 @@ namespace GF {
 		class GameMapEvents {
 
 		public:
-			Rect area;
+			Box area;
 			std::function<void(void)> event;
 			Mob forMob;
 			MobGroup forGroup;

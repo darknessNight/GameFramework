@@ -1,19 +1,13 @@
-
-#define Mechanic Module_Map3D_h
-
-#include <Input/Output Module/Rect.h>
-
+#pragma once
 #include "Map.h"
+#include "Types.h"
 
-
-namespace Mechanic Module {
-
-class Map3D : public Map {
-
- public:
-    Input/Output Module::Rect colisionRectagle;
-};
-
-} /* End of namespace Mechanic Module */
-
-#endif // Mechanic Module_Map3D_h
+namespace GF {
+	namespace GameEngine {
+		class Map3D : public Map {
+			Map3D() { throw NonImplementError("Inside " __FILE__); }
+		public:
+			Box colisionRectagle;
+		};
+	}
+}

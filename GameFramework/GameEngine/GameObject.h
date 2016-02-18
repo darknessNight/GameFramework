@@ -17,7 +17,7 @@ namespace GF {
 
 		public:
 			IOModule::GraphObject2D* graphicObject;
-			Model model;
+			Model* model;
 			Pos pos;
 			bool canDestroy;
 			Statistics stats;
