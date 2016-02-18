@@ -18,9 +18,9 @@ bool GF::GameEngine::Map2D::setMap(bool ** map, unsigned width, unsigned height)
 	if (width <= 0 || height <= 0) return false;
 	size.width = width;
 	size.height = height;
-	colisionMap = new bool*[height + 1];
+	colisionMap = new bool*[height];
 	for (unsigned i = 0; i < height; i++) {
-		colisionMap[i] = new bool[width + 1];
+		colisionMap[i] = new bool[width];
 		memcpy(colisionMap[i], map[i], sizeof(bool)*(width));
 	}
 	return true;
@@ -29,7 +29,7 @@ bool GF::GameEngine::Map2D::setMap(bool ** map, unsigned width, unsigned height)
 void GF::GameEngine::Map2D::delMap()
 {
 	if (colisionMap != nullptr) {
-		for (unsigned i = 0; i < h; i++) {
+		for (unsigned i = 0; i < size.height; i++) {
 			delete[] colisionMap[i];
 		}
 		delete[] colisionMap;
@@ -118,6 +118,19 @@ GF::GameEngine::Pos GF::GameEngine::Map2D::moveResult(Pos from, Vector3D shiftV,
 	return to;
 }
 
-void GF::GameEngine::Map2D::detectEvent(Mob mob)
+void GF::GameEngine::Map2D::detectEvent(Core::MemGuard<Mob> mob)
 {
+	const Model2D *m2d = (Model2D*)mob->getModel();
+	Pos pos=mob->getPosition();
+	Pos posE = { pos.x + m2d->size.width,pos.y + m2d->size.height };
+
+	MapEventArgs args;
+	args.mob = mob;
+	for (auto i = events.begin(); i != events.end(); i++) {
+		Box &box = (*i)->area;
+		if (!(pos.x > box.x + box.width || pos.y > box.y + box.height || posE.x < box.x || posE.y < box.y)) {
+			if((*i)->forMob==mob || (*i)->forGroup==mob->getGroup())
+				(*i)->event(this, args);
+		}
+	}
 }

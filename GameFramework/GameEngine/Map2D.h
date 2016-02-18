@@ -6,13 +6,13 @@ namespace GF {
 	namespace GameEngine {
 		class Map2D : public Map {
 		public:
-			Map2D();
+			Map2D()=default;
 			Map2D(bool **map, unsigned width, unsigned height);
 			~Map2D();
 			bool setMap(bool **map, unsigned width, unsigned height);
 			virtual bool isMovePosible(Pos from, Vector3D shift, Model* model) override;
 			virtual Pos moveResult(Pos from, Vector3D shift, Model* model) override;
-			virtual void detectEvent(Mob mob) override;
+			virtual void detectEvent(Core::MemGuard<Mob> mob) override;
 		private:
 			void delMap();
 		private:

@@ -6,12 +6,13 @@
 
 namespace GF {
 	namespace GameEngine {
-		class GameMapEvents {
-
-		public:
+		struct MapEventArgs:public Core::Events::EventArgs{
+			Core::MemGuard<Mob> mob;
+		};
+		struct MapEvent{
 			Box area;
-			std::function<void(void)> event;
-			Mob forMob;
+			Core::Events::Event<MapEventArgs> event;
+			Core::MemGuard<Mob> forMob;
 			MobGroup forGroup;
 		};
 

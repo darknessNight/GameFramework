@@ -27,42 +27,45 @@ bool GF::GameEngine::Model2D::setMap(bool ** map, unsigned width, unsigned heigh
 	if (width <= 0 || height <= 0) return false;
 	size.width = width;
 	size.height = height;
-	colisionMap = new bool*[height + 1];
+	colisionMap = new bool*[height];
 	for (unsigned i = 0; i < height; i++) {
-		colisionMap[i] = new bool[width + 1];
+		colisionMap[i] = new bool[width];
 		memcpy(colisionMap[i], map[i], sizeof(bool)*(width));
 	}
 	collType = CollideType::MapCollide;
 	return true;
 }
 
-bool GF::GameEngine::Model2D::isCollide(bool ** sourceMap, Box sB)
+bool GF::GameEngine::Model2D::isCollide(bool ** sourceMap, Box sB, Pos ownStart)
 {
 	switch (collType) {
-	case CollideType::NonCollide:return false; break;
+	case CollideType::NonCollide:return false;
 	case CollideType::AllCollide:
-		for (unsigned i = 0; i < std::fminf(sB.height,size.height); i++) {
-			for (unsigned j = 0; j < std::fminf(sB.width,size.width); j++) {
-				if (sourceMap[static_cast<unsigned>(sB.y + i)][static_cast<unsigned>(sB.x + j)]) return true;
+		for (unsigned i = 0; i < std::fminf(sB.height, size.height); i++) {
+			for (unsigned j = 0; j < std::fminf(sB.width, size.width); j++) {
+				if (sourceMap[static_cast<unsigned>(sB.y + i)][static_cast<unsigned>(sB.x + j)]) 
+					return true;
 			}
 		}
-		break;
 	default:
 		for (unsigned i = 0; i < std::fminf(sB.height, size.height); i++) {
 			for (unsigned j = 0; j < std::fminf(sB.width, size.width); j++) {
 				if (sourceMap[static_cast<unsigned>(sB.y + i)][static_cast<unsigned>(sB.x + j)]
-					&& colisionMap[i][j]) return true;
+					&& colisionMap[static_cast<unsigned>(ownStart.y+i)][static_cast<unsigned>(ownStart.x+j)]) 
+					return true;
 			}
 		}
-		break;
 	}
 	return false;
 }
 
-bool GF::GameEngine::Model2D::isCollide(const Model2D &, Pos)
+bool GF::GameEngine::Model2D::isCollide(const Model* model, Pos pos)
 {
-	if (collType == CollideType::AllCollide)  return true;
-	return false;
+	Model2D* m2d = (Model2D*)model;
+	Box box{ -std::fminf(pos.x,0),-std::fminf(pos.y,0),size.width - abs(pos.x),size.height - abs(pos.y) };
+	Pos p = { std::fmaxf(pos.x,0),std::fmaxf(pos.y,0) };
+
+	return m2d->isCollide(colisionMap, box, p);
 }
 
 void GF::GameEngine::Model2D::delMap()

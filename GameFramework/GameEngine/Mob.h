@@ -14,17 +14,14 @@
 
 namespace GF {
 	namespace GameEngine {
-		class Mob : public GameObject, public InteractiveObject {
+		class Mob : public InteractiveObject {
 
 		public:
-
 			virtual void obtainEffect(AttackEffect effect);
-
 			virtual void colission(GameObject el);
-
 			virtual bool doScript();
-
-		public:
+			virtual int getGroup();
+		private:
 			Statistics stats;
 			Statistics statsWithEq;
 			MobGroup mainGroup;
@@ -35,7 +32,6 @@ namespace GF {
 			std::vector< Equipment > bag;
 			std::vector< Skill > skills;
 			Core::Events::Event<Core::Events::EventArgs> changed;
-
 		private:
 			int loopRate;
 

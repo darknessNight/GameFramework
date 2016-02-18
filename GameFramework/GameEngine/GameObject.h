@@ -8,19 +8,20 @@ namespace GF {
 	namespace GameEngine {
 		class GameEngine;
 		class GameObject {
-
 		public:
-
-			virtual void selfDestroy();
-
 			virtual void changePos(Pos newPos);
-
-		public:
-			IOModule::GraphObject2D* graphicObject;
-			Model* model;
+			virtual Pos getPosition();
+			virtual const Model* getModel();
+		private:
+			virtual void selfDestroy();
+		private:
 			Pos pos;
+			Core::MemGuard<Model> model;
+			
 			bool canDestroy;
 			Statistics stats;
-			GameEngine *myEngine;
+			
+			GameEngine* engine;
+			void* additionalData;
 		};
 }}

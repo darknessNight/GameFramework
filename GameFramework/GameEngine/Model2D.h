@@ -19,8 +19,8 @@ namespace GF {
 			~Model2D();
 			void setCollideType(CollideType);
 			bool setMap(bool **map, unsigned width, unsigned height);
-			bool isCollide(bool **sourceMap, Box sourceBox);///<prepared object-map collision
-			bool isCollide(const Model2D&, Pos);///<prepared for object-obcject collistion
+			bool isCollide(bool **sourceMap, Box sourceBox, Pos ownStart = { 0,0 });///<prepared object-map collision
+			bool isCollide(const Model*, Pos pos)override;///<prepared for object-obcject collistion
 		private:
 			void delMap();
 		public:
