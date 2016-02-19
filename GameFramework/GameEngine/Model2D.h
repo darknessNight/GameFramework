@@ -21,11 +21,11 @@ namespace GF {
 			bool setMap(bool **map, unsigned width, unsigned height);
 			bool isCollide(bool **sourceMap, Box sourceBox, Pos ownStart = { 0,0 });///<prepared object-map collision
 			bool isCollide(const Model*, Pos pos)override;///<prepared for object-obcject collistion
-		private:
+		protected:
 			void delMap();
 		public:
 			Size size;
-		private:
+		protected:
 			CollideType collType;
 			bool** colisionMap=nullptr;
 		};

@@ -41,9 +41,9 @@ namespace GF {
 				void remove(std::string);
 				void remove(unsigned);
 				void setVolume(float);
-			private:
+			protected:
 				void checkPlaylist();
-			private:
+			protected:
 				std::vector<std::string> list;
 				sf::Music music;
 			};
@@ -62,9 +62,9 @@ namespace GF {
 				void remove(Core::MemGuard<SoundBase>);
 				void remove(unsigned);
 				void setVolume(float);
-			private:
+			protected:
 				void checkPlaylist();
-			private:
+			protected:
 				float volume = 100;
 				std::vector<Core::MemGuard<SoundBase>> list;
 				Core::MemGuard<SoundBase> active;

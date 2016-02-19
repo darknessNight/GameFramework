@@ -7,6 +7,10 @@
 
 namespace GF {
 	namespace Core{
+		__interface ObjectSerialize {
+			std::vector<unsigned char> serialize();
+			bool deserialize(std::vector<unsigned char>);
+		};
 	}
 }
 

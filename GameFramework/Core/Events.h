@@ -8,18 +8,17 @@ namespace GF {
 		namespace Events {
 
 			template<class ArgType> class Delegate {
-			private:
+			protected:
 				std::function<void(ArgType&)> func;
 				long long id;
-				void(Object::*primaryFunc)(ArgType&)=nullptr;
+				void(Object::*primaryFunc)(ArgType&) = nullptr;
 			public:
 				Delegate(void(f)(ArgType&));
-				Delegate(void(Object::*f)(ArgType&),Object* obj);
+				Delegate(void(Object::*f)(ArgType&), Object* obj);
 				Delegate(std::function<void(ArgType&)>&);
-				Delegate(std::function<void(ArgType&)>, int id);
-				Delegate(std::function<void(ArgType&)> , int id, void(Object::*f)(ArgType&));
-				Delegate(int id);
-				Delegate(int id, void(Object::*)(ArgType&));
+				Delegate(std::function<void(ArgType&)>, long long id);
+				Delegate(std::function<void(ArgType&)>, long long id, void(Object::*f)(ArgType&));
+				Delegate(long long id);
 				bool operator==(const Delegate<ArgType>& rhs)const;
 				void operator()(ArgType&);
 			};
@@ -32,16 +31,17 @@ namespace GF {
 				unsigned size();
 				void clear();
 				bool operator==(const Event<ArgType>& com)const;
-			private:
+			protected:
 				std::list <Delegate<ArgType>> funcs;
 			};
 
 			struct EventArgs {
 				void* sender;
-				long long timestamp=0;
-				bool cancel=false;
+				long long timestamp = 0;
+				bool cancel = false;
 			};
-
 		}
+
+		typedef Events::EventArgs EventArgs;
 	}
 }

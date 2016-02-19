@@ -66,14 +66,14 @@ namespace GF {
 			}
 
 			template<class ArgType>
-			inline Delegate<ArgType>::Delegate(std::function<void(ArgType&)> f, int id)
+			inline Delegate<ArgType>::Delegate(std::function<void(ArgType&)> f, long long id)
 			{
 				func = f;
 				this->id = id;
 			}
 
 			template<class ArgType>
-			inline Delegate<ArgType>::Delegate(std::function<void(ArgType&)>f, int id, void(Object::* pf)(ArgType &))
+			inline Delegate<ArgType>::Delegate(std::function<void(ArgType&)>f, long long id, void(Object::* pf)(ArgType &))
 			{
 				this->id = id;
 				primaryFunc = pf;
@@ -81,16 +81,9 @@ namespace GF {
 			}
 
 			template<class ArgType>
-			inline Delegate<ArgType>::Delegate(int id)
+			inline Delegate<ArgType>::Delegate(long long id)
 			{
 				this->id = id;
-			}
-
-			template<class ArgType>
-			inline Delegate<ArgType>::Delegate(int id, void(Object::*f)(ArgType&))
-			{
-				this->id = id;
-				primaryFunc = f;
 			}
 
 			template<typename ArgType>

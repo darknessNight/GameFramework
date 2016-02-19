@@ -17,7 +17,7 @@ namespace GF {
 			void setActive(int i);
 			unsigned size();
 			const sf::Texture& getTexture();
-		private:
+		protected:
 			std::vector<Core::MemGuard<GraphObject2D>> objects;
 			sf::Texture empty;
 			int active = -1;

@@ -33,5 +33,10 @@ namespace GF {
 		};
 
 		typedef Vector3D Pos;
+
+
+		struct InteractEventArgs :public Core::EventArgs {
+			Core::MemGuard<Mob> mob;
+		};
 	}
 }

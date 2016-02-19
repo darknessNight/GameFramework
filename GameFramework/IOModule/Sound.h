@@ -29,7 +29,7 @@ namespace GF {
 			static Core::MemGuard<Sounds::Music> createMusic();
 			static Core::MemGuard<Sounds::Voice> createVoice();
 			static Core::MemGuard<Sounds::Effect> createEffect();
-		private:
+		protected:
 			static std::vector < Core::MemGuard<Sounds::Music>> musics;
 			static std::vector < Core::MemGuard<Sounds::Voice>> voices;
 			static std::vector < Core::MemGuard<Sounds::Effect>> effects;

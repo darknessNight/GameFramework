@@ -1,40 +1,45 @@
 #pragma once
 #include <vector>
+#include <map>
 
 #include "Action.h"
-#include "AttackEffect.h"
 #include "EqSlot.h"
-#include "Equipment.h"
-#include "GameObject.h"
 #include "InteractiveObject.h"
 #include "MobGroup.h"
 #include "MobState.h"
 #include "Skill.h"
-#include "Statistics.h"
+#include "MobBag.h"
 
 namespace GF {
 	namespace GameEngine {
-		class Mob : public InteractiveObject {
-
+		class Mob abstract: public InteractiveObject {
+			friend GameEngine;
 		public:
-			virtual void obtainEffect(AttackEffect effect);
-			virtual void colission(GameObject el);
-			virtual bool doScript();
-			virtual int getGroup();
-		private:
-			Statistics stats;
-			Statistics statsWithEq;
+			virtual bool doScript()=0;
+
+			virtual void addSkill(const Skill&);
+			virtual Core::MemGuard<const Statistics> getCurrStats() override;
+			virtual MobState getState();
+			virtual EqSlot& getSlot(int id);
+		public:
+			std::function<void(Core::MemGuard<Mob>)> AIScript;
+			Core::Events::Event<Core::Events::EventArgs> SkillAdded;
+			Core::Events::Event<Core::Events::EventArgs> StateChanged;
+
 			MobGroup mainGroup;
-			std::function<void(void)> AIScript;
-			std::vector< EqSlot > egSlots;
+			int	outlierGroup=0;
+
+			Bag bag;
+		protected:
+			std::map<int, EqSlot> egSlots;
+
 			MobState state;
 			Action actualAction;
-			std::vector< Equipment > bag;
-			std::vector< Skill > skills;
-			Core::Events::Event<Core::Events::EventArgs> changed;
-		private:
-			int loopRate;
+			std::vector<Skill> skills;
 
+			Statistics statsWithEq;
+
+			int loopRate;
 		};
 	}
 }

@@ -13,7 +13,7 @@ namespace GF {
 			std::chrono::milliseconds getInterval();
 		public:
 			Events::Event<Events::EventArgs> Tick;
-		private:
+		protected:
 			const unsigned minimalInteval = 10;
 			std::thread thread;
 			std::chrono::milliseconds interval = std::chrono::milliseconds(100);

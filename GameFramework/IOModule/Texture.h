@@ -19,7 +19,7 @@ namespace GF {
 
 			const SharedTexture& getTexture() override;
 			void setSharedTexture(SharedTexture&)=delete;
-		private:
+		protected:
 			sf::Texture texture;
 		};
 	}

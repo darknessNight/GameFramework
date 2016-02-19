@@ -7,21 +7,37 @@
 namespace GF {
 	namespace GameEngine {
 		class GameEngine;
-		class GameObject {
+		class GameObject :public Core::ObjectSerialize {
+			friend GameEngine;
 		public:
-			virtual void changePos(Pos newPos);
-			virtual Pos getPosition();
-			virtual const Model* getModel();
-		private:
-			virtual void selfDestroy();
-		private:
+			GameObject();
+			virtual void setPos(Pos pos);
+			virtual Pos getPos();
+			virtual void setModel(Core::MemGuard<Model>);
+			virtual void updateStats(Core::MemGuard<const Statistics>);
+			virtual Model* getModel();
+
+			virtual void setStats(Core::MemGuard<Statistics> stat);
+			virtual Core::MemGuard<const Statistics> getStats();
+		protected:
+			virtual void init() = 0;
+			virtual void selfDestroy()=0;
+
+			virtual void onPosChagned();
+			virtual void onStatsChanged();
+			virtual void onDead();
+
+		public:
+			Core::Events::Event<Core::EventArgs> Dead;
+			Core::Events::Event<Core::EventArgs> StatsChanged;
+			Core::Events::Event<Core::EventArgs> PosChanged;
+
+			bool canDestroy;
+			void* additionalData;
+		protected:
+			Core::MemGuard<Statistics> stats;
 			Pos pos;
 			Core::MemGuard<Model> model;
-			
-			bool canDestroy;
-			Statistics stats;
-			
 			GameEngine* engine;
-			void* additionalData;
 		};
 }}

@@ -121,7 +121,7 @@ GF::GameEngine::Pos GF::GameEngine::Map2D::moveResult(Pos from, Vector3D shiftV,
 void GF::GameEngine::Map2D::detectEvent(Core::MemGuard<Mob> mob)
 {
 	const Model2D *m2d = (Model2D*)mob->getModel();
-	Pos pos=mob->getPosition();
+	Pos pos=mob->getPos();
 	Pos posE = { pos.x + m2d->size.width,pos.y + m2d->size.height };
 
 	MapEventArgs args;

@@ -1,5 +1,6 @@
 #pragma once
 #include "PhysicAttributes.h"
+#include "Types.h"
 namespace GF {
 	namespace GameEngine {
 		class Model{

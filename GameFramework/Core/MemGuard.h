@@ -5,13 +5,13 @@ namespace GF {
 	namespace Core {
 
 		template <typename T> class MemGuard {
-		private:
+		protected:
 			int* copies = nullptr;
 			T* val = nullptr;
 			std::mutex thsafe;
 			std::mutex* userMutex=nullptr;
 			std::thread::id uMutexId;
-		private:
+		protected:
 			void init();
 		public:
 			bool deleting = false;

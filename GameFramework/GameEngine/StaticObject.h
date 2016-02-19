@@ -7,7 +7,11 @@ namespace GF {
 	namespace GameEngine {
 		class StaticObject : public GameObject {
 		public:
-			Statistics stats;
+			
+
+			// Inherited via GameObject
+			virtual void selfDestroy() override;
+
 		};
 	}
 }

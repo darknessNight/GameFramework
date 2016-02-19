@@ -33,7 +33,7 @@ namespace GF {
 				Sound() {
 					setVolume(volume);
 				}
-			private:
+			protected:
 				static float volume;
 			};
 
@@ -67,7 +67,7 @@ namespace GF {
 				using sf::Sound::setBuffer;
 				using sf::Sound::getBuffer;
 
-			private:
+			protected:
 				static float volume;
 				sf::SoundBuffer sound;
 			};

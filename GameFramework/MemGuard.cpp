@@ -10,10 +10,10 @@ public:
 	~MemoryGuard();
 	bool delDynVar(void* p);
 	void addDynVar(void* p, size_t size, const char* file, unsigned line);
-private:
+protected:
 	void ToScreen();
 	void ToFile();
-private:
+protected:
 	bool toFile = true;
 	bool toScreen = true;
 	char fileName[1000];
