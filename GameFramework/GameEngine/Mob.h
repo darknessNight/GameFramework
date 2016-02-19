@@ -10,18 +10,6 @@
 
 namespace GF {
 	namespace GameEngine {
-		enum MobState {
-			Alive,
-			Dead,
-			Frozen,
-		};
-
-		enum MobGroup {
-			Hostile,
-			Neutral,
-			Friendly,
-		};
-
 		class Mob abstract: public InteractiveObject, public Core::ObjectSerialize {
 			friend GameEngine;
 		public:
@@ -41,7 +29,6 @@ namespace GF {
 			virtual void calcCurrStats() override;
 			virtual void init() = 0;
 		public:
-			std::function<void(Core::MemGuard<Mob>)> AIScript;
 			Core::Events::Event<SkillEventArgs> SkillAdded;
 
 			MobGroup mainGroup=MobGroup::Neutral;
@@ -50,6 +37,8 @@ namespace GF {
 			Bag bag;
 
 			bool disapperAfterDead = true;
+
+			void* additionalAIScriptData;
 		protected:
 			std::map<int, EqSlot> eqSlots;
 

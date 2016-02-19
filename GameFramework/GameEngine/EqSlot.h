@@ -1,5 +1,4 @@
 #pragma once
-#include "EqType.h"
 #include "Equipment.h"
 namespace GF {
 	namespace GameEngine {

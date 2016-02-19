@@ -55,7 +55,7 @@ void GF::GameEngine::Mob::calcCurrStats()
 			currentStats->updateRel(el.temp);
 	}
 	for each(auto el in eqSlots) {
-		currentStats->updateRel(el.second.el.buffs);
+		currentStats->updateRel(el.second.getEq()->buffs);
 	}
 }
 

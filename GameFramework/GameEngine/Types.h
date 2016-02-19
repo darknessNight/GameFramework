@@ -54,5 +54,23 @@ namespace GF {
 		};
 
 		typedef std::runtime_error GameEngineError;
+
+		enum RTState {
+			Started,
+			Stoped,
+			Paused,
+			Frozen,
+		};
+
+		enum MobState {
+			Alive,
+			Dead,
+		};
+
+		enum MobGroup {
+			Hostile,
+			Neutral,
+			Friendly,
+		};
 	}
 }

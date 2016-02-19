@@ -2,7 +2,6 @@
 #include <functional>
 #include "Types.h"
 #include "Mob.h"
-#include "MobGroup.h"
 
 namespace GF {
 	namespace GameEngine {

@@ -9,7 +9,7 @@ namespace GF {
 
 		public:
 
-			virtual bool checkActionPosible(Action a);
+			virtual bool pushAction(Action a);
 		};
 	}
 }

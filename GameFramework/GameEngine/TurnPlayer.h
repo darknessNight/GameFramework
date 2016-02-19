@@ -1,6 +1,5 @@
 #pragma once
 #include "Mob.h"
-#include "PlayerAction.h"
 #include "TurnMob.h"
 
 namespace GF {
@@ -8,15 +7,14 @@ namespace GF {
 		class TurnPlayer : public TurnMob {
 
 		public:
-
-			virtual void addAction(PlayerAction act);
-
+			virtual Action doAction()override;
+			virtual void addAction(Action act);
+			virtual Action getAction(int id);
 			virtual void clearAction();
 			virtual void removeAction(int i);
 
-		public:
-			PlayerAction queue;
-
+		protected:
+			std::list<Action> queue;
 		};
 	}
 }

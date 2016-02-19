@@ -1,5 +1,4 @@
 #pragma once
-#include "EqType.h"
 #include "Statistics.h"
 #include <string>
 

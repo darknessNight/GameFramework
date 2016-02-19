@@ -14,7 +14,7 @@ void GF::GameEngine::EqSlot::Dequip()
 	el = nullptr;
 }
 
-GF::Core::MemGuard<Equipment> GF::GameEngine::EqSlot::getEq()
+GF::Core::MemGuard<GF::GameEngine::Equipment> GF::GameEngine::EqSlot::getEq()
 {
 	return el;
 }
