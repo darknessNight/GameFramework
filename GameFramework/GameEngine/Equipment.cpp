@@ -1,6 +1,6 @@
 #include "Equipment.h"
 
-bool GF::GameEngine::Equipment::operator==(const Equipment &)
+bool GF::GameEngine::Equipment::operator==(const Equipment & rhs)
 {
-	return false;
+	return rhs.name==name&&additionalData==rhs.additionalData;
 }

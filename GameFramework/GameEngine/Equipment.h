@@ -9,8 +9,9 @@ namespace GF {
 		public:
 			bool operator==(const Equipment&);
 			std::string name;
-			Statistics buffs;
-			EqType type;
+			Core::MemGuard<Statistics> buffs;
+			int type;///<typ, czyli które czêœæ uzbrojenia to jest
+			void* additionalData;
 		};
 	}
 }

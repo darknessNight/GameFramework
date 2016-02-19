@@ -10,8 +10,10 @@ namespace GF {
 		public:
 			IOModule::Sounds::Voice playSound;
 			std::string text;
-			int timer;
-			std::function<void(void)> draw;
+			int time;
+			std::function<void(std::string, int time)> draw;
+			Core::Events::Event<Core::EventArgs> ShowStart;
+			Core::Events::Event<Core::EventArgs> ShowEnd;
 		};
 	}
 }

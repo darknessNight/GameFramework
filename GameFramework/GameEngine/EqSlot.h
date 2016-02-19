@@ -5,11 +5,12 @@ namespace GF {
 	namespace GameEngine {
 		class EqSlot {
 		public:
-			virtual bool Equip(Equipment eq);
+			virtual bool Equip(Core::MemGuard<Equipment> eq);
 			virtual void Dequip();
-		public:
-			EqType type;
-			Equipment el;
+			virtual Core::MemGuard<Equipment> getEq();
+		protected:
+			int type;
+			Core::MemGuard<Equipment> el;
 		};
 	}
 }

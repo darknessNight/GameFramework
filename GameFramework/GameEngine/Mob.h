@@ -5,13 +5,23 @@
 #include "Action.h"
 #include "EqSlot.h"
 #include "InteractiveObject.h"
-#include "MobGroup.h"
-#include "MobState.h"
 #include "Skill.h"
 #include "MobBag.h"
 
 namespace GF {
 	namespace GameEngine {
+		enum MobState {
+			Alive,
+			Dead,
+			Frozen,
+		};
+
+		enum MobGroup {
+			Hostile,
+			Neutral,
+			Friendly,
+		};
+
 		class Mob abstract: public InteractiveObject, public Core::ObjectSerialize {
 			friend GameEngine;
 		public:
