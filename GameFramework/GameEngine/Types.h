@@ -15,6 +15,19 @@ namespace GF {
 			bool operator!=(const Vector3D&);
 		};
 
+		struct Vector3Di {
+			int x = 0, y = 0, z = 0;
+			Vector3Di() = default;
+			Vector3Di(const Vector3Di&) = default;
+			Vector3Di(int x, int y, int z);
+			Vector3Di(int x, int y);
+			Vector3Di operator-(const Vector3Di&rhs);
+			Vector3Di operator+(const Vector3Di&rhs);
+			Vector3Di operator*(int s);
+			bool operator==(const Vector3Di&);
+			bool operator!=(const Vector3Di&);
+		};
+
 		struct Size {
 			float width = 0, height = 0, depth = 0;
 			Size() = default;
@@ -33,10 +46,13 @@ namespace GF {
 		};
 
 		typedef Vector3D Pos;
+		typedef Vector3Di Posi;
 
-
+		class Mob;
 		struct InteractEventArgs :public Core::EventArgs {
 			Core::MemGuard<Mob> mob;
 		};
+
+		typedef std::runtime_error GameEngineError;
 	}
 }

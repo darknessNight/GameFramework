@@ -10,5 +10,9 @@ namespace GF {
 			std::string information;
 			std::string name;
 		};
+
+		struct SkillEventArgs :public Core::EventArgs {
+			Skill skill;
+		};
 	}
 }

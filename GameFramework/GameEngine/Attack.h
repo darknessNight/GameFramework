@@ -2,7 +2,6 @@
 #include "../IOModule/GraphObject.h"
 #include <functional>
 #include "Action.h"
-#include "PlayerAction.h"
 
 namespace GF {
 	namespace GameEngine {
@@ -28,9 +27,8 @@ namespace GF {
 			int radius;
 			int angle;
 			AttackEffect effect;
-			std::function<void(void)> behaviour;
+			std::function<void(Pos,Vector3D)> behaviour;///<it behaviour of attack example: create bullet or arrow or magic ball
 			std::string name;
-			IOModule::GraphObject2D* graph;
 			void* additionalData;
 		};
 	}

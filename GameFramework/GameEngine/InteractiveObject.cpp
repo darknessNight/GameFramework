@@ -64,7 +64,7 @@ void GF::GameEngine::InteractiveObject::calcCurrStats()
 	for each (auto el in effects)
 	{
 		if (el.temp != nullptr)
-			*currentStats += *el.temp;
+			currentStats->updateRel(el.temp);
 	}
 }
 

@@ -4,6 +4,7 @@
 #include "Events.hpp"
 #include "Timer.h"
 #include <exception>
+#include <vector>
 
 namespace GF {
 	namespace Core{

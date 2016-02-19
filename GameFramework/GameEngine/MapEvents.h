@@ -13,7 +13,7 @@ namespace GF {
 			Box area;
 			Core::Events::Event<MapEventArgs> event;
 			Core::MemGuard<Mob> forMob;
-			MobGroup forGroup;
+			int forGroup;
 		};
 
 	}

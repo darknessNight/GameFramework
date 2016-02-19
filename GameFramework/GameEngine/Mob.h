@@ -12,32 +12,40 @@
 
 namespace GF {
 	namespace GameEngine {
-		class Mob abstract: public InteractiveObject {
+		class Mob abstract: public InteractiveObject, public Core::ObjectSerialize {
 			friend GameEngine;
 		public:
-			virtual bool doScript()=0;
+			virtual std::vector<unsigned char> serialize() override;
+			virtual bool deserialize(std::vector<unsigned char>) override;
 
+			virtual bool doScript()=0;
 			virtual void addSkill(const Skill&);
-			virtual Core::MemGuard<const Statistics> getCurrStats() override;
+			virtual std::vector<Skill> getSkills();
+
 			virtual MobState getState();
 			virtual EqSlot& getSlot(int id);
+
+			virtual void updateStats(Core::MemGuard<const Statistics>);
+		protected:
+			virtual void onSkillAdded();
+			virtual void calcCurrStats() override;
+			virtual void init() = 0;
 		public:
 			std::function<void(Core::MemGuard<Mob>)> AIScript;
-			Core::Events::Event<Core::Events::EventArgs> SkillAdded;
-			Core::Events::Event<Core::Events::EventArgs> StateChanged;
+			Core::Events::Event<SkillEventArgs> SkillAdded;
 
-			MobGroup mainGroup;
+			MobGroup mainGroup=MobGroup::Neutral;
 			int	outlierGroup=0;
 
 			Bag bag;
+
+			bool disapperAfterDead = true;
 		protected:
-			std::map<int, EqSlot> egSlots;
+			std::map<int, EqSlot> eqSlots;
 
 			MobState state;
 			Action actualAction;
 			std::vector<Skill> skills;
-
-			Statistics statsWithEq;
 
 			int loopRate;
 		};

@@ -129,7 +129,7 @@ void GF::GameEngine::Map2D::detectEvent(Core::MemGuard<Mob> mob)
 	for (auto i = events.begin(); i != events.end(); i++) {
 		Box &box = (*i)->area;
 		if (!(pos.x > box.x + box.width || pos.y > box.y + box.height || posE.x < box.x || posE.y < box.y)) {
-			if((*i)->forMob==mob || (*i)->forGroup==mob->getGroup())
+			if((*i)->forMob==mob || (*i)->forGroup==mob->mainGroup || (*i)->forGroup == mob->outlierGroup)
 				(*i)->event(this, args);
 		}
 	}

@@ -13,6 +13,7 @@ GF::GameEngine::Statistics & GF::GameEngine::Statistics::operator+(const Statist
 	ret.HP = stat.HP+HP;
 	ret.XP = stat.XP+XP;
 	ret.Level = stat.Level+Level;
+	return ret;
 }
 
 void GF::GameEngine::Statistics::updateRel(Core::MemGuard<const Statistics> stat)

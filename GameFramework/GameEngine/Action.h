@@ -1,9 +1,10 @@
 #pragma once
-#include "InteractiveObject.h"
 #include "MoveAction.h"
+#include "../Core/Types.h"
 
 namespace GF {
 	namespace GameEngine {
+		class InteractiveObject;
 		class Action{
 		public:
 			bool isAttack;
@@ -11,8 +12,7 @@ namespace GF {
 			bool isInteract;
 			bool isWaiting;
 			MoveAction move;
-			InteractiveObject who;
-
+			Core::MemGuard<InteractiveObject> who;
 		};
 	}
 }

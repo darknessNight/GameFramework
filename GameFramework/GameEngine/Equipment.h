@@ -7,6 +7,7 @@ namespace GF {
 	namespace GameEngine {
 		class Equipment {
 		public:
+			bool operator==(const Equipment&);
 			std::string name;
 			Statistics buffs;
 			EqType type;
