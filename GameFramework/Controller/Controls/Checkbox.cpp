@@ -30,16 +30,8 @@ void GF::Controller::Controls::Checkbox::render(sf::RenderTarget * target)
 				clear(Color::Transparent);
 
 				drawField();
+				drawText();
 
-				if (active)
-					textObj.setColor(actForeColor);
-				else textObj.setColor(foreColor);
-
-
-				textObj.setPosition(getSize().y + borderSize * 2,
-					getSize().y / 2 - textObj.getGlobalBounds().height);
-
-				texture.draw(textObj);
 				texture.display();
 				setTexture(texture.getTexture());
 
@@ -84,4 +76,16 @@ void GF::Controller::Controls::Checkbox::drawField()
 
 		texture.draw(val,rs);
 	}
+}
+
+void GF::Controller::Controls::Checkbox::drawText()
+{
+	if (active)
+		textObj.setColor(actForeColor);
+	else textObj.setColor(foreColor);
+
+	textObj.setPosition(getSize().y + borderSize * 2,
+		getSize().y / 2 - textObj.getGlobalBounds().height);
+
+	texture.draw(textObj);
 }

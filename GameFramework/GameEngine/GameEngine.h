@@ -21,15 +21,15 @@ namespace GF {
 			bool deserialize(std::vector<unsigned char>)override;
 
 
-			virtual GameObject* whatIsOn(Pos pos);
-			virtual Mob* scanRect(Box rect);
-			virtual void detectOnLine(Pos start, Vector3D vector);
+			virtual Core::MemGuard<GameObject> whatIsOn(Pos pos);
+			virtual std::vector<Core::MemGuard<GameObject>> scanRect(Box rect);
+			virtual std::vector<Core::MemGuard<GameObject>> detectOnLine(Pos start, Vector3D vector);
 			virtual void objChangePos(Core::MemGuard<GameObject> obj, Pos pos);
 			virtual void mobMove(Core::MemGuard<Mob> mob, Vector3D shift);
 
-			virtual void start();
-			virtual void stop();
-			virtual void pause();
+			virtual void start()=0;
+			virtual void stop()=0;
+			virtual void pause()=0;
 
 			virtual void appendMap(Core::MemGuard<Map>);
 			virtual void addInteractiveObject(Core::MemGuard<InteractiveObject> el);
@@ -41,8 +41,8 @@ namespace GF {
 			virtual void removeMob(Core::MemGuard<Mob> el);
 			virtual void setCountOfSectors(unsigned);
 		protected:
-			virtual void calcSectors();
-			virtual unsigned calcSector(Pos);
+			virtual void calcSectors();///<create sectors and safe data for calcSector; IMPORTANT: not rewrite positions of actual existing objects
+			virtual unsigned calcSector(Pos);//
 		protected:
 			std::vector<Core::MemGuard<StaticObject>> staticObjects;
 			std::vector<Core::MemGuard<InteractiveObject>> interactiveObjects;
@@ -54,7 +54,7 @@ namespace GF {
 			unsigned ySectors=1;
 			unsigned zSectors=1;
 			Size sectSize;
-			std::vector<Core::MemGuard<GameObject>>* sectors;
+			std::list<Core::MemGuard<GameObject>>* sectors;
 			bool paused;
 		protected:
 			int loopRate;

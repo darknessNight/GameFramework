@@ -13,6 +13,7 @@ namespace GF {
 				void onMousePress(Events::MouseButtonArgs&)override;
 				void render(sf::RenderTarget* target)override;
 				virtual void drawField();
+				virtual void drawText();
 			protected:
 				bool checked;
 			};

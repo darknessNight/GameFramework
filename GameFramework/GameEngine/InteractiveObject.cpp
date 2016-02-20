@@ -88,7 +88,7 @@ void GF::GameEngine::InteractiveObject::effectLoop()
 					el.currTime = el.time;
 				}
 				else {
-					i = effects.erase(i);
+					std::swap(i,effects.end());effects.pop_back();
 				}
 			}
 		}

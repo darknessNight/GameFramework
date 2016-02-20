@@ -30,5 +30,5 @@ void GF::GameEngine::TurnPlayer::removeAction(int id)
 	auto i = queue.begin();
 	for (int j = 0; j < id; j++)
 		i++;
-	i = queue.erase(i);
+	std::swap(i,queue.end());queue.pop_back();
 }

@@ -6,9 +6,10 @@ namespace GF {
 		class Model{
 		public:
 			Pos pos;
+			Size size;
 			virtual bool isCollide(const Model*) = 0;
 			virtual bool isCollide(const Model*, Vector3D shift) = 0;
-
+			virtual bool isOnLine(Pos pos, Vector3D vector) = 0;
 			PhysicAttributes attr;
 		};
 	}

@@ -4,7 +4,7 @@
 
 #include "Tests.h"
 std::string Test14();
-AutoAdd AA14(Test14, "GameEngine", "Sectors calculating Test",true);
+AutoAdd AA14(Test14, "GameEngine", "Sectors calculating Test", true);
 
 namespace Test14Helpers {
 	class GameEngineTest :public GF::GameEngine::GameEngine {
@@ -14,6 +14,9 @@ namespace Test14Helpers {
 		using GameEngine::zSectors;
 		using GameEngine::sectSize;
 		using GameEngine::calcSector;
+		virtual void start() {};
+		virtual void stop() {};
+		virtual void pause() {};
 	};
 }
 
@@ -34,7 +37,6 @@ std::string Test14() {
 		map.setMap(mapPtr, 100, 30);
 		ge.appendMap(map);
 
-		
 
 		for (int i = 0; i < 30; i++) {
 			delete[] mapPtr[i];

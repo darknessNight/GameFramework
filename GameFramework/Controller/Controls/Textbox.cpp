@@ -57,32 +57,9 @@ void GF::Controller::Controls::Textbox::render(sf::RenderTarget * target) {
 		if (visible) {
 			if (edited) {
 				edited = false;
-				if (active)
-					clear(actBackColor);
-				else clear(backColor);
-				if (imgTexture != nullptr) {
-					sf::Sprite sp;
-					if (active)
-						sp.setTexture(*actImgTexture);
-					else sp.setTexture(*imgTexture);
-					texture.draw(sp);
-				}
-
-				Shapes::Rectangle rect;
-				rect.setPosition(0, 0);
-				rect.setSize(getSize());
-				rect.setFillColor(Color::Transparent);
-				if (active)
-					rect.setOutlineColor(actBorderColor);
-				else rect.setOutlineColor(borderColor);
-				rect.setOutlineThickness(-borderSize);
-
-				texture.draw(rect);
-
-				if (active)
-					textObj.setColor(actForeColor);
-				else textObj.setColor(foreColor);
-
+				drawBack();
+				drawTexture();
+				drawBorder();
 				drawText();
 
 				texture.display();
@@ -96,6 +73,10 @@ void GF::Controller::Controls::Textbox::render(sf::RenderTarget * target) {
 
 void GF::Controller::Controls::Textbox::drawText()
 {
+	if (active)
+		textObj.setColor(actForeColor);
+	else textObj.setColor(foreColor);
+
 	std::wstring str = text;
 	textObj.setPosition(borderSize * 2, borderSize * 2);
 

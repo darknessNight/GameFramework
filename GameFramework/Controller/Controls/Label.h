@@ -10,6 +10,7 @@ namespace GF {
 				using Control::Control;
 			protected:
 				void render(sf::RenderTarget* target)override;
+				virtual void drawText();
 			public:
 				bool autoSize = true;
 			};

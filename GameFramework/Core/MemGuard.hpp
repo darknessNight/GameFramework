@@ -197,7 +197,7 @@ namespace GF {
 
 		template<typename T> template<typename To> void MemGuard<T>::copy(To *& ptr, int *& copies, std::mutex *& m) const
 		{
-			ptr = val;
+			ptr = const_cast<T*>(val);
 			copies = this->copies;
 			m = userMutex;
 		}

@@ -148,8 +148,9 @@ namespace GF {
 		inline void Window::OnEvent(Core::Events::Event<ArgType>& sync, Core::Events::Event<ArgType>* async, ArgType args)
 		{
 			if (async != nullptr && async->size() > 0) {
+				//TODO dodaæ nieblokowanie => rozwin¹æ do tablicy statycznej lub coœ
 				std::thread t(&Core::Events::Event<ArgType>::operator(), async, this, args);
-				t.detach();//TODO to niehumanitarne porzucaæ w¹tki. Do naprawy
+				t.detach();
 			}
 			sync(this, args);
 		}

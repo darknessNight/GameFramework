@@ -41,6 +41,10 @@ namespace GF {
 				void onMousePress(Events::MouseButtonArgs& args)override;
 				void onMouseRelease(Events::MouseButtonArgs& args)override;
 				virtual void render(sf::RenderTarget*target) = 0;
+				virtual void drawBorder();
+				virtual void drawText();
+				virtual void drawTexture();
+				virtual void drawBack();
 			protected:
 				Text textObj;
 				std::wstring text=L"";

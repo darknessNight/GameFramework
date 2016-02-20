@@ -14,6 +14,9 @@ namespace Test13Helpers {
 		using GameEngine::zSectors;
 		using GameEngine::sectSize;
 		using GameEngine::calcSector;
+		virtual void start() {};
+		virtual void stop() {};
+		virtual void pause() {};
 	};
 }
 

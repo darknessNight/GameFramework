@@ -28,7 +28,7 @@ void GF::GameEngine::Bag::removeEq(Core::MemGuard<Equipment> el)
 {
 	for (auto i = items.begin(); i != items.end();i++)
 		if ((*el) == *(i->second)) {
-			i = items.erase(i);
+			i=items.erase(i);
 			break;
 		}
 }

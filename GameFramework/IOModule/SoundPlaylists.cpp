@@ -107,7 +107,7 @@ void GF::IOModule::Sounds::PlaylistFile::remove(std::string path)
 {
 	for (auto i = list.begin(); i != list.end(); i++)
 		if (path == (*i)) {
-			i = list.erase(i);
+			std::swap(i,list.end());list.pop_back();
 			break;
 		}
 }
@@ -117,7 +117,7 @@ void GF::IOModule::Sounds::PlaylistFile::remove(unsigned el)
 	if (el > list.size())return;
 	auto i = list.begin();
 	i += el;
-	i = list.erase(i);
+	std::swap(i,list.end());list.pop_back();
 
 }
 
@@ -218,7 +218,7 @@ void GF::IOModule::Sounds::PlaylistSound::remove(Core::MemGuard<SoundBase> el)
 {
 	for (auto i = list.begin(); i != list.end(); i++)
 		if (el == (*i)) {
-			i = list.erase(i);
+			std::swap(i,list.end());list.pop_back();
 			break;
 		}
 }
@@ -228,7 +228,7 @@ void GF::IOModule::Sounds::PlaylistSound::remove(unsigned el)
 	if (el > list.size())return;
 	auto i = list.begin();
 	i += el;
-	i = list.erase(i);
+	std::swap(i,list.end());list.pop_back();
 }
 
 void GF::IOModule::Sounds::PlaylistSound::setVolume(float vol)

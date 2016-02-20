@@ -22,27 +22,9 @@ void GF::Controller::Controls::Progressbar::render(sf::RenderTarget * target)
 		if (visible) {
 			if (edited) {
 				edited = false;
-				if (active)
-					clear(actBackColor);
-				else clear(backColor);
-				if (imgTexture != nullptr) {
-					sf::Sprite sp;
-					if (active)
-						sp.setTexture(*actImgTexture);
-					else sp.setTexture(*imgTexture);
-					texture.draw(sp);
-				}
-
-				Shapes::Rectangle rect;
-				rect.setPosition(0, 0);
-				rect.setSize(getSize());
-				rect.setFillColor(Color::Transparent);
-				if (active)
-					rect.setOutlineColor(actBorderColor);
-				else rect.setOutlineColor(borderColor);
-				rect.setOutlineThickness(-borderSize);
-				texture.draw(rect);
-				
+				drawBack();
+				drawTexture();
+				drawBorder();
 				drawValue();
 
 				texture.display();

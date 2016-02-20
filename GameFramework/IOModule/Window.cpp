@@ -100,7 +100,7 @@ namespace GF {
 			std::lock_guard<std::mutex> guard(mutexGraph);
 			for (auto i = graphObjs.begin(); i != graphObjs.end(); i++) {
 				if (rem == (*i)) {
-					i = graphObjs.erase(i);
+					std::swap(i,graphObjs.end());graphObjs.pop_back();
 					break;
 				}
 			}
@@ -410,7 +410,7 @@ namespace GF {
 			std::lock_guard<std::mutex> guard(mutexGraph);
 			for (auto i = cams.begin(); i != cams.end(); i++) {
 				if (const_cast<Camera*>(&cam) == (*i)) {
-					i = cams.erase(i);
+					std::swap(i,cams.end());cams.pop_back();
 					break;
 				}
 			}

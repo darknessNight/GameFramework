@@ -24,7 +24,7 @@ namespace GF {
 			if (index < objects.size()) {
 				auto i = objects.begin();
 				i += index;
-				i = objects.erase(i);
+				std::swap(i,objects.end());objects.pop_back();
 			}
 			if (active >= objects.size()) setActive(-1);
 		}
@@ -34,7 +34,7 @@ namespace GF {
 			
 			for (auto i = objects.begin(); i != objects.end();i++) {
 				if ((*i) == el) {
-					i = objects.erase(i);
+					std::swap(i,objects.end());objects.pop_back();
 					break;
 				}
 			}

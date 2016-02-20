@@ -27,14 +27,9 @@ Control::Control(Size size) :Image(size)
 	actBorderColor = borderColor;
 }
 
-Control::Control(unsigned x, unsigned y) :Control(Size({ x,y }))
-{
-}
+Control::Control(unsigned x, unsigned y) :Control(Size({ x,y })){}
 
-std::wstring GF::Controller::Controls::Control::getText()
-{
-	return text;
-}
+std::wstring GF::Controller::Controls::Control::getText() { return text; }
 
 void GF::Controller::Controls::Control::setText(std::wstring t)
 {
@@ -50,21 +45,11 @@ void GF::Controller::Controls::Control::setFont(Font & f)
 	edited = true;
 }
 
-Font GF::Controller::Controls::Control::getFont()
-{
-	return font;
-}
+Font GF::Controller::Controls::Control::getFont(){return font;}
 
-void GF::Controller::Controls::Control::setBackColor(Color c)
-{
-	backColor = c;
-	edited = true;
-}
+void GF::Controller::Controls::Control::setBackColor(Color c){backColor = c;edited = true;}
 
-Color GF::Controller::Controls::Control::getBackColor()
-{
-	return backColor;
-}
+Color GF::Controller::Controls::Control::getBackColor(){return backColor;}
 
 void GF::Controller::Controls::Control::setForeColor(Color c)
 {
@@ -73,21 +58,11 @@ void GF::Controller::Controls::Control::setForeColor(Color c)
 	edited = true;
 }
 
-Color GF::Controller::Controls::Control::getForeColor(Color)
-{
-	return foreColor;
-}
+Color GF::Controller::Controls::Control::getForeColor(Color){return foreColor;}
 
-void GF::Controller::Controls::Control::setBorderColor(Color c)
-{
-	borderColor = c;
-	edited = true;
-}
+void GF::Controller::Controls::Control::setBorderColor(Color c){borderColor = c;edited = true;}
 
-Color GF::Controller::Controls::Control::getBordeColor(Color)
-{
-	return borderColor;
-}
+Color GF::Controller::Controls::Control::getBordeColor(Color){return borderColor;}
 
 void GF::Controller::Controls::Control::setBackTexture(const SharedTexture &texture)
 {
@@ -97,10 +72,7 @@ void GF::Controller::Controls::Control::setBackTexture(const SharedTexture &text
 	edited = true;
 }
 
-void GF::Controller::Controls::Control::setBackTexture(Texture2D &texture)
-{
-	setBackTexture(texture.getTexture());
-}
+void GF::Controller::Controls::Control::setBackTexture(Texture2D &texture){	setBackTexture(texture.getTexture());}
 
 void GF::Controller::Controls::Control::setActiveBackTexture(const SharedTexture & texture)
 {
@@ -108,75 +80,77 @@ void GF::Controller::Controls::Control::setActiveBackTexture(const SharedTexture
 	edited = true;
 }
 
-void GF::Controller::Controls::Control::setActiveBackTexture(Texture2D &texture)
-{
-	setActiveBackTexture(texture.getTexture());
-}
+void GF::Controller::Controls::Control::setActiveBackTexture(Texture2D &texture){setActiveBackTexture(texture.getTexture());}
 
-void GF::Controller::Controls::Control::setOwnDraw(bool enable)
-{
-	ownDraw = enable;
-}
+void GF::Controller::Controls::Control::setOwnDraw(bool enable){ownDraw = enable;}
 
-void GF::Controller::Controls::Control::setFontSize(unsigned size)
-{
-	textObj.setCharacterSize(size);
-}
+void GF::Controller::Controls::Control::setFontSize(unsigned size){	textObj.setCharacterSize(size);}
 
-void GF::Controller::Controls::Control::setActiveBackColor(Color c)
-{
-	actBackColor = c;
-	edited = true;
-}
+void GF::Controller::Controls::Control::setActiveBackColor(Color c){actBackColor = c;edited = true;}
 
-void GF::Controller::Controls::Control::setActiveForeColor(Color c)
-{
-	actForeColor = c;
-	edited = true;
-}
+void GF::Controller::Controls::Control::setActiveForeColor(Color c){actForeColor = c;edited = true;}
 
-void GF::Controller::Controls::Control::setActiveBorderColor(Color c)
-{
-	actBorderColor = c;
-	edited = true;
-}
+void GF::Controller::Controls::Control::setActiveBorderColor(Color c){actBorderColor = c;edited = true;}
 
-Color GF::Controller::Controls::Control::getActiveBackColor()
-{
-	return actBackColor;
-}
+Color GF::Controller::Controls::Control::getActiveBackColor(){return actBackColor;}
 
-Color GF::Controller::Controls::Control::getActiveForeColor()
-{
-	return actForeColor;
-}
+Color GF::Controller::Controls::Control::getActiveForeColor(){return actForeColor;}
 
-Color GF::Controller::Controls::Control::getActiveBorderColor()
-{
-	return actBorderColor;
-}
+Color GF::Controller::Controls::Control::getActiveBorderColor(){return actBorderColor;}
 
-void GF::Controller::Controls::Control::setBorderSize(float s)
-{
-	borderSize = s;
-	edited = true;
-}
+void GF::Controller::Controls::Control::setBorderSize(float s){borderSize = s;edited = true;}
 
-float GF::Controller::Controls::Control::getBorderSize()
-{
-	return borderSize;
-}
+float GF::Controller::Controls::Control::getBorderSize(){return borderSize;}
 
-void GF::Controller::Controls::Control::onMousePress(Events::MouseButtonArgs & args)
-{
-	active = true;
-	edited = true;
-	GraphObject2D::onMousePress(args);
-}
+void GF::Controller::Controls::Control::onMousePress(Events::MouseButtonArgs & args){active = true;	edited = true;	GraphObject2D::onMousePress(args);}
 
 void GF::Controller::Controls::Control::onMouseRelease(Events::MouseButtonArgs & args)
 {
 	active = false;
 	edited = true;
 	GraphObject2D::onMouseRelease(args);
+}
+
+void GF::Controller::Controls::Control::drawBorder()
+{
+	Shapes::Rectangle rect;
+	rect.setPosition(0, 0);
+	rect.setSize(getSize());
+	rect.setFillColor(Color::Transparent);
+	if (active)
+		rect.setOutlineColor(actBorderColor); 
+	else rect.setOutlineColor(borderColor);
+	rect.setOutlineThickness(-borderSize);
+
+	texture.draw(rect);
+}
+
+void GF::Controller::Controls::Control::drawText()
+{
+	if (active)
+		textObj.setColor(actForeColor);
+	else textObj.setColor(foreColor);
+
+	textObj.setPosition(getSize().x / 2 - textObj.getGlobalBounds().width / 2,
+		getSize().y / 2 - textObj.getGlobalBounds().height);
+
+	texture.draw(textObj);
+}
+
+void GF::Controller::Controls::Control::drawTexture()
+{
+	if (imgTexture != nullptr) {
+		sf::Sprite sp;
+		if (active)
+			sp.setTexture(*actImgTexture);
+		else sp.setTexture(*imgTexture);
+		texture.draw(sp);
+	}
+}
+
+void GF::Controller::Controls::Control::drawBack()
+{
+	if (active)
+		clear(actBackColor);
+	else clear(backColor);
 }

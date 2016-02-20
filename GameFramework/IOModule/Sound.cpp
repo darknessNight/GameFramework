@@ -93,7 +93,7 @@ void GF::IOModule::SoundCore::removeMusic(Core::MemGuard<Sounds::Music> el)
 {
 	for (auto i = musics.begin(); i != musics.end();i++)
 		if ((*i) == el) {
-			i = musics.erase(i);
+			std::swap(i,musics.end());musics.pop_back();
 			break;
 		}
 }
@@ -102,7 +102,7 @@ void GF::IOModule::SoundCore::removeVoice(Core::MemGuard<Sounds::Voice> el)
 {
 	for (auto i = voices.begin(); i != voices.end(); i++)
 		if ((*i) == el) {
-			i = voices.erase(i);
+			std::swap(i,voices.end());voices.pop_back();
 			break;
 		}
 }
@@ -111,7 +111,7 @@ void GF::IOModule::SoundCore::removeEffect(Core::MemGuard<Sounds::Effect> el)
 {
 	for (auto i = effects.begin(); i != effects.end(); i++)
 		if ((*i) == el) {
-			i = effects.erase(i);
+			std::swap(i,effects.end());effects.pop_back();
 			break;
 		}
 }
