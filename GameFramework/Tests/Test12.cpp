@@ -6,6 +6,11 @@ Test obs³ugi menu
 #include "../GameEngine/Map2D.h"
 #include "../GameEngine/Model2D.h"
 
+#include "Tests.h"
+std::string Test12();
+AutoAdd AA12(Test12, "GameEngine", "Collision2D Test");
+
+
 namespace Test12Helpers {
 	
 }

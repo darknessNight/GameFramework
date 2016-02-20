@@ -6,6 +6,10 @@
 #include "../../GameFramework/IOModule/MultipleGraph.h"
 #include "../../GameFramework/IOModule/Sound.h"
 #include <fstream>
+#include "Tests.h"
+
+std::string Test5();
+AutoAdd AA5(Test5, "IOModule", "Cams and image test");
 
 namespace Test5Helpers {
 	using namespace std::chrono;
@@ -86,7 +90,7 @@ std::string Test5() {
 		GF::IOModule::Window window;
 		window.setTitle("Test5");
 		window.KeyPressed += SaveWindow;
-		window.KeyPressed += Close;
+		window.KeyPressed += Test5Helpers::Close;
 		window.Render += ControlImage;
 		window.setVerticalSyncEnabled(true);
 		start = std::chrono::high_resolution_clock::now();

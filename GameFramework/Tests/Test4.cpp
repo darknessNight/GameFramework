@@ -8,6 +8,8 @@
 #include <fstream>
 #include "Tests.h"
 
+std::string Test4();
+AutoAdd AA4(Test4, "IOModule", "Image painting");
 
 using namespace std::chrono;
 using namespace GF::IOModule;

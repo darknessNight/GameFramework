@@ -4,6 +4,10 @@
 #include "../../GameFramework/IOModule/Window.h"
 #include "../../GameFramework/IOModule/Sound.h"
 
+#include "Tests.h"
+std::string Test7();
+AutoAdd AA7(Test7, "IOModule", "Drag and drop mechanism Test");
+
 namespace Test7Helpers {
 	using namespace std::chrono;
 	GF::Core::MemGuard<GF::IOModule::Texture2D> el, el2;

@@ -5,6 +5,9 @@
 #include "../../GameFramework/IOModule/Window.h"
 #include "Tests.h"
 
+std::string Test2();
+AutoAdd AA2(Test2, "IOModule", "Events Test");
+
 using namespace GF::IOModule::Events;
 using namespace std::literals;
 namespace Test2Helpers {

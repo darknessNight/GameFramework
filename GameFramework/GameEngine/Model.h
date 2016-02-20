@@ -5,7 +5,9 @@ namespace GF {
 	namespace GameEngine {
 		class Model{
 		public:
-			virtual bool isCollide(const Model*, Pos pos) = 0;
+			Pos pos;
+			virtual bool isCollide(const Model*) = 0;
+			virtual bool isCollide(const Model*, Vector3D shift) = 0;
 
 			PhysicAttributes attr;
 		};

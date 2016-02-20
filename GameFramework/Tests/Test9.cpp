@@ -6,6 +6,10 @@ Test obs³ugi Timera.
 #include "../../GameFramework/Core/Timer.h"
 #include "../../GameFramework/IOModule/Window.h"
 
+#include "Tests.h"
+std::string Test9();
+AutoAdd AA9(Test9, "Core", "Timer Test");
+
 namespace Test9Helpers {
 }
 

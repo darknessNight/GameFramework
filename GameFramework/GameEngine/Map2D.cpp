@@ -134,3 +134,8 @@ void GF::GameEngine::Map2D::detectEvent(Core::MemGuard<Mob> mob)
 		}
 	}
 }
+
+GF::GameEngine::Size GF::GameEngine::Map2D::getSize()
+{
+	return{ size.width,size.height,size.depth };
+}

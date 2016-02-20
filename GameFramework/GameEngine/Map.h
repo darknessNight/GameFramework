@@ -12,6 +12,7 @@ namespace GF {
 		public:
 			virtual bool isMovePosible(Pos from, Vector3D shift, Model* model)=0;///<check is move posible, but not correct it
 			virtual Pos moveResult(Pos from, Vector3D shift, Model* model)=0;///<return corrected position of move with shift
+			virtual Size getSize()=0;
 			virtual void detectEvent(Core::MemGuard<Mob> mob)=0;///<detect and execute all events for specified mob
 			virtual void appendEvent(MemGuard<MapEvent>);
 			virtual void removeEvent(MemGuard<MapEvent>);

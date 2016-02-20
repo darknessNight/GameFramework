@@ -36,7 +36,6 @@ namespace GF {
 			void* additionalData;
 		protected:
 			Core::MemGuard<Statistics> stats;
-			Pos pos;
 			Core::MemGuard<Model> model;
 			GameEngine* engine;
 		};

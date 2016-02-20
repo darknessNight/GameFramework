@@ -4,6 +4,10 @@
 #include "../../GameFramework/IOModule/Window.h"
 #include "../../GameFramework/IOModule/Sound.h"
 
+#include "Tests.h"
+std::string Test6();
+AutoAdd AA6(Test6, "IOModule", "Sounds Test");
+
 std::string Test6() {
 	char ret;
 	std::string result;

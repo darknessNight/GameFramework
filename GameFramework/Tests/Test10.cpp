@@ -7,6 +7,10 @@ Test obs³ugi w¹tków.
 #include "../../GameFramework/IOModule/Sound.h"
 #include "../../GameFramework/Core/Timer.h"
 
+#include "Tests.h"
+std::string Test10();
+AutoAdd AA10(Test10, "Core", "MemGuard Test");
+
 namespace Test10Helpers {
 	using namespace GF::Core;
 	std::string result;

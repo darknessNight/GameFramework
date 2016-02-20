@@ -6,7 +6,7 @@ void GF::GameEngine::InteractiveObject::interact(Core::MemGuard<Mob> mob)
 {
 	if (!canInteract) return;
 
-	int dist = sqrt(pow(mob->getPos().x - pos.x, 2) + pow(mob->getPos().y - pos.y, 2));
+	int dist = sqrt(pow(mob->getPos().x - model->pos.x, 2) + pow(mob->getPos().y - model->pos.y, 2));
 	if (dist < interactRadius) return;
 
 	InteractEventArgs args;

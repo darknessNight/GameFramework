@@ -15,7 +15,7 @@ void GF::GameEngine::GameObject::setPos(Pos pos)
 
 Pos GF::GameEngine::GameObject::getPos()
 {
-	return pos;
+	return model->pos;
 }
 
 void GF::GameEngine::GameObject::setModel(Core::MemGuard<Model> m)

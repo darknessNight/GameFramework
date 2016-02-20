@@ -1,3 +1,5 @@
+/*Structure containg data of type action and mob who do this action
+*/
 #pragma once
 #include "MoveAction.h"
 #include "../Core/Types.h"

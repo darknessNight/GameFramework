@@ -59,11 +59,23 @@ bool GF::GameEngine::Model2D::isCollide(bool ** sourceMap, Box sB, Pos ownStart)
 	return false;
 }
 
-bool GF::GameEngine::Model2D::isCollide(const Model* model, Pos pos)
+bool GF::GameEngine::Model2D::isCollide(const Model* model)
 {
 	Model2D* m2d = (Model2D*)model;
-	Box box{ -std::fminf(pos.x,0),-std::fminf(pos.y,0),size.width - abs(pos.x),size.height - abs(pos.y) };
-	Pos p = { std::fmaxf(pos.x,0),std::fmaxf(pos.y,0) };
+	if ((m2d->pos.x > pos.x + size.width || m2d->pos.y>pos.y + size.height || m2d->pos.x+m2d->size.width<pos.x ||
+		m2d->pos.y+m2d->size.height<pos.y))return false;
+
+	Pos rpos;
+	rpos.x = m2d->pos.x - pos.x;
+	rpos.y = m2d->pos.y - pos.y;
+	return isCollide(model, rpos);
+}
+
+bool GF::GameEngine::Model2D::isCollide(const Model* model, Vector3D rpos )
+{
+	Model2D* m2d = (Model2D*)model;
+	Box box{ -std::fminf(rpos.x,0),-std::fminf(rpos.y,0),size.width - abs(rpos.x),size.height - abs(rpos.y) };
+	Pos p = { std::fmaxf(rpos.x,0),std::fmaxf(rpos.y,0) };
 
 	return m2d->isCollide(colisionMap, box, p);
 }

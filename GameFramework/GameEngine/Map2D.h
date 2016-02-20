@@ -13,11 +13,11 @@ namespace GF {
 			virtual bool isMovePosible(Pos from, Vector3D shift, Model* model) override;
 			virtual Pos moveResult(Pos from, Vector3D shift, Model* model) override;
 			virtual void detectEvent(Core::MemGuard<Mob> mob) override;
+			virtual Size getSize()override;
 		protected:
 			void delMap();
 		protected:
 			float accuracy=1.0f;
-			unsigned w=0, h=0;
 			bool **colisionMap=nullptr;
 			Box size;
 		};

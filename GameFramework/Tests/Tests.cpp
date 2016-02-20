@@ -1,22 +1,22 @@
 #include "Tests.h"
 #include <string>
 
-std::vector<std::string(*)()> funcs;
+static std::vector<std::string(*)()>* funcs;
+static std::vector<std::string>* cName;
+static std::vector<std::string>* sName;
+
+void AddToList(std::string(*f)(), std::string caseName, std::string suitName)
+{
+	if (funcs == nullptr) funcs = new std::vector<std::string(*)()>;
+	funcs->push_back(f);
+	if (cName == nullptr) cName = new std::vector<std::string>;
+	cName->push_back(caseName);
+	if (sName == nullptr) sName = new std::vector<std::string>;
+	sName->push_back(suitName);
+}
 
 std::string Tests(int start, int stop) {
-	funcs.push_back(Test1);
-	funcs.push_back(Test2);
-	funcs.push_back(Test3); 
-	funcs.push_back(Test4); 
-	funcs.push_back(Test5);
-	funcs.push_back(Test6);
-	funcs.push_back(Test7);
-	funcs.push_back(Test8);
-	funcs.push_back(Test9);
-	funcs.push_back(Test10);
-	funcs.push_back(Test11);
-	funcs.push_back(Test12);
-	//funcs.push_back(Test10);
+	std::vector<std::string(*)()> &funcs = *::funcs;
 
 	std::string ret;
 	std::string results;
@@ -34,4 +34,9 @@ std::string Tests(int start, int stop) {
 void Close(GF::IOModule::Events::KeyboardArgs &args) {
 	if (args.code == GF::IOModule::Keyboard::Escape)
 		((GF::IOModule::Window*)args.sender)->Close();
+}
+
+AutoAdd::AutoAdd(std::string(*f)(), std::string caseName, std::string suitName)
+{
+	AddToList(f, caseName, suitName);
 }

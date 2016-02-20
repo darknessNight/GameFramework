@@ -6,6 +6,10 @@ Test obs³ugi menu
 #include "../../GameFramework/Controller/Menu.h"
 #include "../../GameFramework/IOModule/Window.h"
 
+#include "Tests.h"
+std::string Test11();
+AutoAdd AA11(Test11, "Controller", "Menu Controls Test");
+
 namespace Test11Helpers {
 	using namespace GF::IOModule;
 	int flag = 0;

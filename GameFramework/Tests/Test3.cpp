@@ -5,6 +5,9 @@
 #include <fstream>
 #include "Tests.h"
 
+std::string Test3();
+AutoAdd AA3(Test3, "IOModule", "Textures loading");
+
 namespace Test3Helpers {
 	std::chrono::time_point<std::chrono::steady_clock> started = std::chrono::high_resolution_clock::now();
 	std::chrono::time_point<std::chrono::steady_clock> start;

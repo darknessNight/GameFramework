@@ -6,6 +6,10 @@ Test obs³ugi w¹tków.
 #include "../../GameFramework/IOModule/Window.h"
 #include "../../GameFramework/IOModule/Sound.h"
 
+#include "Tests.h"
+std::string Test8();
+AutoAdd AA8(Test8, "IOModule", "MemGuards Test");
+
 namespace Test8Helpers {
 	using namespace std::literals;
 	bool bresult = false;

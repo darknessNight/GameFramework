@@ -5,6 +5,8 @@
 #include "SFML\Graphics.hpp"
 #include "Tests.h"
 
+std::string Test1();
+AutoAdd AA1(&Test1, "IOModule", "SFML_Test");
 
 std::string Test1() {
 	sf::RenderWindow okno(sf::VideoMode(800, 600), "Test1");
