@@ -1,4 +1,7 @@
 #include "MobBag.h"
+#ifdef DEBUG
+#include "../MemGuard.h"
+#endif
 using namespace GF::GameEngine;
 
 bool operator<(const Posi& lhs, const Posi& rhs) {

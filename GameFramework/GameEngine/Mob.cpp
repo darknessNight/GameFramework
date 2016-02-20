@@ -1,4 +1,7 @@
 #include "Mob.h"
+#ifdef DEBUG
+#include "../MemGuard.h"
+#endif
 
 
 void GF::GameEngine::Mob::addSkill(const Skill &skill)

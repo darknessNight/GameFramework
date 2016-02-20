@@ -1,4 +1,7 @@
 #pragma once
+#ifdef DEBUG
+#include "../MemGuard.h"
+#endif
 #include "../stdafx.h"
 #include "MemGuard.hpp"
 #include "Events.hpp"

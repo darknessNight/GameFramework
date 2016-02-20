@@ -21,6 +21,8 @@ protected:
 
 	unsigned dynVar = 0;//iloœæ aktualnie zainicjowanych i nieusuniêtych zmiennych
 	unsigned long long dynVarBytes = 0;
+	unsigned long long maxBytes = 0;
+	unsigned long long actBytes = 0;
 	unsigned* dynVars;
 	char** dynVarsFile;
 	unsigned* dynVarsLine;
@@ -134,6 +136,7 @@ void MemoryGuard::ToScreen(){
 	system("cls");
 	printf("%s %d\n", "Pozostalo nie usunietych elementow: ", dynVar);
 	printf("%s %d\n", "W sumie zaalokowano pamieci: ", dynVarBytes);
+	printf("%s %d%s\n\n", "Maksymalnie w jednym momencie uzywano: ", maxBytes,"KB");
 	system("pause");
 	printf("%s\n", "Niezwolnione elementy: ");
 	for (long long i = 0; i < maxEls; i++){
@@ -151,6 +154,7 @@ void MemoryGuard::ToFile(){
 	if (file != nullptr){
 		fprintf(file,"%s %d\n", "Pozostalo nie usunietych elementow: ", dynVar);
 		fprintf(file, "%s %d\n\n", "W sumie zaalokowano pamieci: ", dynVarBytes);
+		fprintf(file, "%s %d%s\n\n", "Maksymalnie w jednym momencie uzywano: ", maxBytes,"KB");
 		fprintf(file, "%s\n", "Niezwolnione elementy: ");
 		for (long long i = 0; i < maxEls; i++){
 			if (dynVars[i]==0) continue;
@@ -172,6 +176,7 @@ bool MemoryGuard::delDynVar(void* p){
 	for (int i = 0; i < maxEls; i++){
 		if (dynVars[i] == (int)p){
 			dynVars[i] = 0;
+			actBytes -= dynVarsBytes[i];
 			return true;
 		}
 	}
@@ -184,6 +189,8 @@ void MemoryGuard::addDynVar(void* p, size_t size, const char* file, unsigned lin
 	if (dynVars == nullptr) 
 		return;
 	dynVar++;
+	actBytes += size;
+	if (actBytes > maxBytes)maxBytes = actBytes;
 
 	if (dynVar > maxEls){
 		printf("%s %d %s\n", "Ilosc zainicjowanych zmiennych przekroczyla",maxEls,"program zakonczy dzialanie natychmiastowo");

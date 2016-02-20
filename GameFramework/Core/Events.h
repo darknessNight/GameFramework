@@ -1,5 +1,8 @@
 #pragma once
 #include "../stdafx.h"
+#ifdef DEBUG
+#include "../MemGuard.h"
+#endif
 #include <list>
 
 namespace GF {

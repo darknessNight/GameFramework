@@ -1,4 +1,7 @@
 #include "EqSlot.h"
+#ifdef DEBUG
+#include "../MemGuard.h"
+#endif
 
 bool GF::GameEngine::EqSlot::Equip(Core::MemGuard<Equipment> eq)
 {

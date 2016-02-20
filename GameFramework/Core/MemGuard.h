@@ -1,4 +1,7 @@
 #pragma once
+#ifdef DEBUG
+#include "../MemGuard.h"
+#endif
 #include <mutex>
 
 namespace GF {

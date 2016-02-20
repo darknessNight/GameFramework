@@ -1,4 +1,7 @@
 #include "Dialog.h"
+#ifdef DEBUG
+#include "../MemGuard.h"
+#endif
 
 GF::Core::MemGuard<GF::GameEngine::Dialog> GF::GameEngine::Dialog::choice(int no)
 {

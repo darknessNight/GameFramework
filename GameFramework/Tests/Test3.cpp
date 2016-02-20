@@ -32,6 +32,11 @@ namespace Test3Helpers {
 		texture1->setPosition({ sinf(f)*200+400,
 			cosf(f)*200+300 });
 	}
+
+	void Close(GF::IOModule::Events::KeyboardArgs &args) {
+		if (args.code == GF::IOModule::Keyboard::Escape)
+			((GF::IOModule::Window*)args.sender)->Close();
+	}
 }
 
 std::string Test3() {

@@ -1,4 +1,7 @@
 #include "Model2D.h"
+#ifdef DEBUG
+#include "../MemGuard.h"
+#endif
 
 GF::GameEngine::Model2D::Model2D(Size s, CollideType type)
 {

@@ -9,10 +9,50 @@ GF::GameEngine::GameEngine::GameEngine()
 
 GF::GameEngine::GameEngine::~GameEngine()
 {
-	delete sectors;
+	delete[] sectors;
+}
+
+std::vector<unsigned char> GF::GameEngine::GameEngine::serialize()
+{
+	return std::vector<unsigned char>();
+}
+
+bool GF::GameEngine::GameEngine::deserialize(std::vector<unsigned char>)
+{
+	return false;
+}
+
+GameObject * GF::GameEngine::GameEngine::whatIsOn(Pos pos)
+{
+	return nullptr;
+}
+
+Mob * GF::GameEngine::GameEngine::scanRect(Box rect)
+{
+	return nullptr;
+}
+
+void GF::GameEngine::GameEngine::detectOnLine(Pos start, Vector3D vector)
+{
+}
+
+void GF::GameEngine::GameEngine::objChangePos(Core::MemGuard<GameObject> obj, Pos pos)
+{
+}
+
+void GF::GameEngine::GameEngine::mobMove(Core::MemGuard<Mob> mob, Vector3D shift)
+{
 }
 
 void GF::GameEngine::GameEngine::start()
+{
+}
+
+void GF::GameEngine::GameEngine::stop()
+{
+}
+
+void GF::GameEngine::GameEngine::pause()
 {
 }
 
@@ -27,11 +67,36 @@ void GF::GameEngine::GameEngine::appendMap(Core::MemGuard<Map> newMap)
 	calcSectors();
 }
 
+void GF::GameEngine::GameEngine::addInteractiveObject(Core::MemGuard<InteractiveObject> el)
+{
+}
+
+void GF::GameEngine::GameEngine::addStaticObject(Core::MemGuard<StaticObject> el)
+{
+}
+
+void GF::GameEngine::GameEngine::addMob(Core::MemGuard<Mob> el)
+{
+}
+
+void GF::GameEngine::GameEngine::removeInteractiveObject(Core::MemGuard<InteractiveObject> el)
+{
+}
+
+void GF::GameEngine::GameEngine::removeStaticObject(Core::MemGuard<StaticObject> el)
+{
+}
+
+void GF::GameEngine::GameEngine::removeMob(Core::MemGuard<Mob> el)
+{
+}
+
 void GF::GameEngine::GameEngine::setCountOfSectors(unsigned count)
 {
 	if (count > 0) {
-		delete sectors;
+		delete[] sectors;
 		sectors = new std::vector<Core::MemGuard<GameObject>>[count];
+		countOfSectors = count;
 	}
 	calcSectors();
 }
@@ -59,16 +124,17 @@ void GF::GameEngine::GameEngine::calcSectors()
 		sectSize.width = sectSize.height = sectS;
 	}
 
-	xSectors = ceil(sectSize.width / (map->getSize().width != 0 ? map->getSize().width : 1));
-	ySectors = ceil(sectSize.height / (map->getSize().height != 0 ? map->getSize().height : 1));
-	zSectors = ceil(sectSize.depth / (map->getSize().depth != 0 ? map->getSize().depth : 1));
+	xSectors = ceil(map->getSize().width / (sectSize.width != 0 ? sectSize.width : 1));
+	ySectors = ceil(map->getSize().height / (sectSize.height != 0 ? sectSize.height : 1));
+	zSectors = ceil(map->getSize().depth / (sectSize.depth != 0 ? sectSize.depth : 1));
 }
 
 unsigned GF::GameEngine::GameEngine::calcSector(Pos p)
 {
+	Pos p1 = p;
 	unsigned pos;
-	pos=ceil(p.x / sectSize.width);
-	pos+=ceil(p.y / sectSize.width * xSectors);
-	pos += ceil(p.z / (sectSize.depth != 0 ? sectSize.depth : 1)*xSectors*ySectors);
+	pos=floor(p.x / sectSize.width);
+	pos+=floor(p.y / sectSize.height) * xSectors;
+	pos += floor(p.z / (sectSize.depth != 0 ? sectSize.depth : 1))*xSectors*ySectors;
 	return pos;
 }

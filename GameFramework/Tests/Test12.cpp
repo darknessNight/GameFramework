@@ -72,9 +72,9 @@ std::string Test12() {
 		if (m1.isMovePosible({ 1,1 }, { 0,1 }, &mod2) == false) result += "NonCollide option doesn't work\n";
 
 		for (int i = 0; i < 3; i++) {
-			delete map1[i];
+			delete[] map1[i];
 		}
-		delete map1;
+		delete[] map1;
 
 		map1 = new bool*[30];
 		for (int i = 0; i < 30; i++) {
@@ -92,8 +92,9 @@ std::string Test12() {
 		mod4.setMap(modelMap, 10, 10);
 
 		for (int i = 0; i < 10; i++) {
-			delete modelMap[i];
+			delete[] modelMap[i];
 		}
+		delete[] modelMap;
 
 		for (int i = 0; i < 30; i++)
 			map1[i][45] = true;
@@ -122,9 +123,9 @@ std::string Test12() {
 		if (m1.isMovePosible({ 28,0 }, { 15,15 }, &mod1) != true) result += "Move on big map. Slash wall. Slash move. Move possible Don't detect collide: dot object\n";
 
 		for (int i = 0; i < 30; i++) {
-			delete map1[i];
+			delete[] map1[i];
 		}
-		delete map1;
+		delete[] map1;
 
 
 		bool **map2;
@@ -149,10 +150,10 @@ std::string Test12() {
 		Model2D mod5(map1, 100, 100), mod6(map2, 100, 100);
 
 		for (int i = 0; i < 100; i++) {
-			delete map1[i];
-			delete map2[i];
+			delete[] map1[i];
+			delete[] map2[i];
 		}
-		delete map1; delete map2;
+		delete[] map1; delete[] map2;
 
 		if (mod5.isCollide(&mod6, { -75,-75 }) != true && mod6.isCollide(&mod5, { -75,-75 }) != false &&
 			mod5.isCollide(&mod6, { 75,-75 }) != false && mod6.isCollide(&mod5, { 75,-75 }) != true &&

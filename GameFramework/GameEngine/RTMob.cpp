@@ -1,5 +1,8 @@
 #include "RTMob.h"
 #include "RTGameEngine.h"
+#ifdef DEBUG
+#include "../MemGuard.h"
+#endif
 
 void GF::GameEngine::RTMob::start()
 {

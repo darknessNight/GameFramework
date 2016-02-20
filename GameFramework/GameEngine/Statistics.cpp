@@ -1,4 +1,7 @@
 #include "Statistics.h"
+#ifdef DEBUG
+#include "../MemGuard.h"
+#endif
 
 void GF::GameEngine::Statistics::operator+=(const Statistics &stat)
 {

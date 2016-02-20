@@ -1,4 +1,7 @@
 #include "Map.h"
+#ifdef DEBUG
+#include "../MemGuard.h"
+#endif
 
 void GF::GameEngine::Map::appendEvent(MemGuard<MapEvent> el)
 {

@@ -1,5 +1,8 @@
 #include "GameObject.h"
 #include "GameEngine.h"
+#ifdef DEBUG
+#include "../MemGuard.h"
+#endif
 
 using namespace GF::GameEngine;
 

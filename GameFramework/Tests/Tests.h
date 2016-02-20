@@ -1,13 +1,10 @@
 #pragma once
-#include "../../GameFramework/IOModule/Window.h"
-#include "../../GameFramework/IOModule/Sound.h"
-
-void AddToList(std::string(*f)(),std::string caseName, std::string suitName);
+#include <string>
+void AddToList(std::string(*f)(),std::string suitName, std::string caseName);
 
 class AutoAdd {
 public:
-	AutoAdd(std::string(*f)(), std::string caseName, std::string suitName);
+	AutoAdd(std::string(*f)(), std::string suitName, std::string caseName, bool last = false);
 };
 
 std::string Tests(int start, int stop);
-void Close(GF::IOModule::Events::KeyboardArgs &args);

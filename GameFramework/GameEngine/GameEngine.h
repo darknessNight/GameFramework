@@ -9,7 +9,6 @@ Silnik w celach usprawnienia sprawdzania kolizji, przechowuje
 #include "Map.h"
 #include "Mob.h"
 #include "StaticObject.h"
-#include "Types.h"
 
 namespace GF {
 	namespace GameEngine {
@@ -18,6 +17,10 @@ namespace GF {
 		public:
 			GameEngine();
 			~GameEngine();
+			std::vector<unsigned char> serialize()override;
+			bool deserialize(std::vector<unsigned char>)override;
+
+
 			virtual GameObject* whatIsOn(Pos pos);
 			virtual Mob* scanRect(Box rect);
 			virtual void detectOnLine(Pos start, Vector3D vector);

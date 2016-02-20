@@ -1,5 +1,8 @@
 #include "Map2D.h"
 #include "Model2D.h"
+#ifdef DEBUG
+#include "../MemGuard.h"
+#endif
 
 GF::GameEngine::Map2D::Map2D(bool ** map, unsigned width, unsigned height)
 {

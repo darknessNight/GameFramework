@@ -13,6 +13,7 @@ AutoAdd AA4(Test4, "IOModule", "Image painting");
 
 using namespace std::chrono;
 using namespace GF::IOModule;
+namespace Test4Helpers{
 long long ind = 0;
 std::chrono::time_point<std::chrono::steady_clock> started = std::chrono::high_resolution_clock::now();
 std::chrono::time_point<std::chrono::steady_clock> start;
@@ -53,14 +54,20 @@ void ControlImage(GF::IOModule::Events::EventArgs& args) {
 	else frameCount++;
 }
 
+void Close(GF::IOModule::Events::KeyboardArgs &args) {
+	if (args.code == GF::IOModule::Keyboard::Escape)
+		((GF::IOModule::Window*)args.sender)->Close();
+}
+
 void SaveWindow(GF::IOModule::Events::KeyboardArgs& args) {
 	using namespace GF::IOModule;
 	if (args.code == Keyboard::Escape)
 		((Window*)args.sender)->captureToFile("./Tests/Test4Window.png");
 }
-
+}
 std::string Test4() {
 	using namespace GF::IOModule;
+	using namespace Test4Helpers;
 	std::string result;
 	try {
 		char resp = 0;

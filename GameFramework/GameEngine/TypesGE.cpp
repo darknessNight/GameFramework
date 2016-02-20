@@ -1,6 +1,9 @@
 #include "Types.h"
 #include "../Core/MemGuard.hpp"
 #include "../Core/Events.hpp"
+#ifdef DEBUG
+#include "../MemGuard.h"
+#endif
 
 GF::GameEngine::Box::Box(float v1, float v2, float v3, float v4, float v5, float v6)
 {

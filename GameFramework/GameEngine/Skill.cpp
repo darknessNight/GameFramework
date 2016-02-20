@@ -1,4 +1,7 @@
 #include "Skill.h"
+#ifdef DEBUG
+#include "../MemGuard.h"
+#endif
 
 bool GF::GameEngine::Skill::canUse()
 {

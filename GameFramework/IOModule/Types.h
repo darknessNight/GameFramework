@@ -1,5 +1,9 @@
 #pragma once
 #include "../stdafx.h"
+#ifdef DEBUG
+#include "../MemGuard.h"
+#endif
+
 #include <SFML\Graphics.hpp>
 namespace GF {
 	namespace IOModule {

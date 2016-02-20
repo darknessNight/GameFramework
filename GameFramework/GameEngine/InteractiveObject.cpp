@@ -1,6 +1,9 @@
 #include "InteractiveObject.h"
 #include "Mob.h"
 #include "GameEngine.h"
+#ifdef DEBUG
+#include "../MemGuard.h"
+#endif
 
 void GF::GameEngine::InteractiveObject::interact(Core::MemGuard<Mob> mob)
 {
