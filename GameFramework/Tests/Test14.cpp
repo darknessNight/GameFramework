@@ -7,7 +7,7 @@
 
 #include "Tests.h"
 std::string Test14();
-AutoAdd AA14(Test14, "GameEngine", "Object-object collision and search Test", true);
+AutoAdd AA14(Test14, "GameEngine", "Search objects Test", true);
 
 namespace Test14Helpers {
 	class GameEngineTest :public GF::GameEngine::GameEngine {
@@ -53,7 +53,7 @@ std::string Test14() {
 		map.setMap(mapPtr, 100, 30);
 		ge.appendMap(map);
 
-		Model2D m1({ 10,10 }), m2({ 5,5 }), m3({ 10,3 }), m4({ 20,4 });
+		Model2D m1({ 10,9 }), m2({ 5,5 }), m3({ 10,3 }), m4({ 9,4 });
 		StaticObjectTest s1(m1), s2(m2), s3(m3), s4(m4);
 
 		s1.setPos({ 18,10 }); s2.setPos({ 90,20 }); s3.setPos({ 50,20 }); s4.setPos({ 0,0 });
@@ -64,7 +64,7 @@ std::string Test14() {
 		std::list<unsigned long long> objs2;
 		std::list<GF::Core::MemGuard<GameObject>> objs3;
 
-		objs = ge.scanRect({21,10,51,21});
+		objs = ge.scanRect({ 21,10,51,21 });
 		if (objs.size() != 2) result += "Error in rect scanning v1\n";
 		objs = ge.scanRect({ 0,0,100,30 });
 		if (objs.size() != 4) result += "Error in rect scanning v2\n";
@@ -72,18 +72,35 @@ std::string Test14() {
 		if (objs.size() != 1) result += "Error in rect scanning v3\n";
 		objs = ge.scanRect({ 61,10,10,20 });
 		if (objs.size() != 0) result += "Error in rect scanning v4\n";
-		
-		if(ge.whatIsOn({ 20,11 }) != &s1)result += "Error in pos scanning v1\n";
+
+		if (ge.whatIsOn({ 20,11 }) != &s1)result += "Error in pos scanning v1\n";
 		if (ge.whatIsOn({ 0,0 }) != &s4)result += "Error in pos scanning v2\n";
 		if (ge.whatIsOn({ 50,10 }) != nullptr)result += "Error in pos scanning v3\n";
 
-		s4.setPos({ 80, 20 });
+		s4.setPos({ 81, 21 });
+		if (s4.getPos().x != 81 || s4.getPos().y != 21) result += "Moving object error\n";
+
 		objs = ge.detectOnLine({ 0,10 }, { 1,0 });
-		if(objs.size()!=1)result += "Error in line scanning v1\n";
+		if (objs.size() != 1)result += "Error in line scanning v1.1\n";
 		objs = ge.detectOnLine({ 0,20 }, { 1,0 });
-		if (objs.size() != 2)result += "Error in line scanning v2\n";
+		if (objs.size() != 2)result += "Error in line scanning v1.2\n";
+		objs = ge.detectOnLine({ 100,10 }, { -1,0 });
+		if (objs.size() != 1)result += "Error in line scanning v2.1\n";
+		objs = ge.detectOnLine({ 100,20 }, { -1,0 });
+		if (objs.size() != 2)result += "Error in line scanning v2.2\n";
 		objs = ge.detectOnLine({ 70,0 }, { 1,1 });
-		if (objs.size() != 1)result += "Error in line scanning v3\n";
+		if (objs.size() != 1)result += "Error in line scanning v3.1\n";
+		objs = ge.detectOnLine({ 60,0 }, { 1,1 });
+		if (objs.size() != 1)result += "Error in line scanning v3.2\n";
+		objs = ge.detectOnLine({ 100,30 }, { -1,-1 });
+		if (objs.size() != 1)result += "Error in line scanning v4.1\n";
+		objs = ge.detectOnLine({ 90,30 }, { -1,-1 });
+		if (objs.size() != 1)result += "Error in line scanning v4.2\n";
+
+		objs = ge.detectOnLine({ 81,0 }, { 0,1 });
+		if (objs.size() != 1)result += "Error in line scanning v5.1\n";
+		objs = ge.detectOnLine({ 50,30 }, {0,-1 });
+		if (objs.size() != 1)result += "Error in line scanning v5.2\n";
 
 
 		for (int i = 0; i < 30; i++) {
@@ -94,5 +111,6 @@ std::string Test14() {
 	catch (std::exception e) {
 		result += "Catched exception: " + std::string(e.what());
 	}
+	catch (...){}
 	return result;
 }

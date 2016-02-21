@@ -20,8 +20,11 @@ namespace GF {
 			bool deleting = false;
 
 			MemGuard() = default;
-			MemGuard(T* val);
+			//MemGuard(T* val);//if don't know what is problem comment this line. It may solve problem
 			MemGuard(T& val);
+			MemGuard(MemGuard<T> &&) = default;
+			MemGuard<T>& operator=(MemGuard<T> &&) = default;
+
 			MemGuard(const MemGuard<T>& ref);
 			MemGuard(std::nullptr_t);
 			~MemGuard();

@@ -24,8 +24,8 @@ namespace GF {
 			virtual Core::MemGuard<GameObject> whatIsOn(Pos pos);
 			virtual std::vector<Core::MemGuard<GameObject>> scanRect(Box rect);
 			virtual std::vector<Core::MemGuard<GameObject>> detectOnLine(Pos start, Vector3D vector);
-			virtual void objChangePos(Core::MemGuard<GameObject> obj, Pos pos);
-			virtual void mobMove(Core::MemGuard<Mob> mob, Vector3D shift);
+			virtual void objChangePos(GameObject& obj, Pos pos);
+			virtual void mobMove(Mob& mob, Vector3D shift);
 
 			virtual void start()=0;
 			virtual void stop()=0;

@@ -136,7 +136,8 @@ void MemoryGuard::ToScreen(){
 	system("cls");
 	printf("%s %d\n", "Pozostalo nie usunietych elementow: ", dynVar);
 	printf("%s %d\n", "W sumie zaalokowano pamieci: ", dynVarBytes);
-	printf("%s %d%s\n\n", "Maksymalnie w jednym momencie uzywano: ", maxBytes,"KB");
+	printf("%s %d%s\n\n", "Maksymalnie w jednym momencie uzywano: ", maxBytes,"B");
+	printf("%s %d%s\n\n", "MemGuard uzywal: ", maxEls*sizeof(char**)+maxEls*sizeof(unsigned)*2+maxEls*sizeof(size_t), "B");
 	system("pause");
 	printf("%s\n", "Niezwolnione elementy: ");
 	for (long long i = 0; i < maxEls; i++){
@@ -154,7 +155,7 @@ void MemoryGuard::ToFile(){
 	if (file != nullptr){
 		fprintf(file,"%s %d\n", "Pozostalo nie usunietych elementow: ", dynVar);
 		fprintf(file, "%s %d\n\n", "W sumie zaalokowano pamieci: ", dynVarBytes);
-		fprintf(file, "%s %d%s\n\n", "Maksymalnie w jednym momencie uzywano: ", maxBytes,"KB");
+		fprintf(file, "%s %d%s\n\n", "Maksymalnie w jednym momencie uzywano: ", maxBytes,"B");
 		fprintf(file, "%s\n", "Niezwolnione elementy: ");
 		for (long long i = 0; i < maxEls; i++){
 			if (dynVars[i]==0) continue;

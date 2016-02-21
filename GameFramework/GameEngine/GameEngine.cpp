@@ -73,7 +73,7 @@ std::vector<Core::MemGuard<GameObject>> GF::GameEngine::GameEngine::detectOnLine
 	box.y = (vector.y >= 0 ? start.y : 0);
 	box.z = (vector.z >= 0 ? start.z : 0);
 	if (vector.x != 0)
-	box.width = (vector.x > 0 ? map->getSize().width-start.x : 1);
+	box.width = (vector.x > 0 ? map->getSize().width-start.x : start.x);
 	if(vector.y!=0)
 	box.height = (vector.y > 0 ? map->getSize().height - start.y : start.y);
 	if (vector.z != 0)
@@ -81,7 +81,8 @@ std::vector<Core::MemGuard<GameObject>> GF::GameEngine::GameEngine::detectOnLine
 
 	std::vector<Core::MemGuard<GameObject>> appro = scanRect(box);
 	for (auto i = appro.begin(); i != appro.end(); i++) {
-		if ((*i)->model->isOnLine(start, vector)) ret.push_back(*i);
+		if ((*i)->model->isOnLine(start, vector))
+			ret.push_back(*i);
 	}
 	return ret;
 }
@@ -99,27 +100,31 @@ void GF::GameEngine::GameEngine::appendMap(Core::MemGuard<Map> newMap)
 
 void GF::GameEngine::GameEngine::addInteractiveObject(Core::MemGuard<InteractiveObject> el)
 {
+	el->engine = this;
 	interactiveObjects.push_back(el);
 	addToSectors(el);
 }
 
 void GF::GameEngine::GameEngine::addStaticObject(Core::MemGuard<StaticObject> el)
 {
+	el->engine = this;
 	staticObjects.push_back(el);
 	addToSectors(el);
 }
 
 void GF::GameEngine::GameEngine::addMob(Core::MemGuard<Mob> el)
 {
+	el->engine = this;
 	mobs.push_back(el);
 	addToSectors(el);
 }
 
 void GF::GameEngine::GameEngine::removeInteractiveObject(Core::MemGuard<InteractiveObject> el)
 {
-	removeFromSectors(el);
 	for (auto i = interactiveObjects.begin(); i != interactiveObjects.end(); i++)
 		if ((*i) == el) {
+			removeFromSectors(el);
+			el->engine = nullptr;
 			std::swap(i, interactiveObjects.end()); interactiveObjects.pop_back();
 			break;
 		}
@@ -127,9 +132,10 @@ void GF::GameEngine::GameEngine::removeInteractiveObject(Core::MemGuard<Interact
 
 void GF::GameEngine::GameEngine::removeStaticObject(Core::MemGuard<StaticObject> el)
 {
-	removeFromSectors(el);
 	for (auto i = staticObjects.begin(); i != staticObjects.end(); i++)
 		if ((*i) == el) {
+			removeFromSectors(el);
+			el->engine = nullptr;
 			std::swap(i, staticObjects.end());
 			staticObjects.pop_back();
 			break;
@@ -138,9 +144,10 @@ void GF::GameEngine::GameEngine::removeStaticObject(Core::MemGuard<StaticObject>
 
 void GF::GameEngine::GameEngine::removeMob(Core::MemGuard<Mob> el)
 {
-	removeFromSectors(el);
 	for (auto i = mobs.begin(); i != mobs.end(); i++)
 		if ((*i) == el) {
+			removeFromSectors(el);
+			el->engine = nullptr;
 			std::swap(i, mobs.end());
 			mobs.pop_back();
 			break;
@@ -235,11 +242,11 @@ unsigned GF::GameEngine::GameEngine::calcSector(Pos p)
 	else return 0;
 }
 
-void GF::GameEngine::GameEngine::objChangePos(Core::MemGuard<GameObject> obj, Pos pos)
+void GF::GameEngine::GameEngine::objChangePos(GameObject& obj, Pos pos)
 {
 	//TODO zoptymalizowaæ 
-	std::vector<unsigned> s1 = getSectors({ obj->getPos(),obj->getSize() }),
-		s2 = getSectors({ pos,obj->getSize() });
+	std::vector<unsigned> s1 = getSectors({ obj.getPos(),obj.getSize() }),
+		s2 = getSectors({ pos,obj.getSize() });
 	if (s1 != s2) {
 		for each(unsigned i in s1)
 			sectors[i].remove(obj);
@@ -247,18 +254,18 @@ void GF::GameEngine::GameEngine::objChangePos(Core::MemGuard<GameObject> obj, Po
 			sectors[i].push_back(obj);
 	}
 
-	obj->model->pos = pos;
+	obj.model->pos = pos;
 }
 
-void GF::GameEngine::GameEngine::mobMove(Core::MemGuard<Mob> mob, Vector3D shift)
+void GF::GameEngine::GameEngine::mobMove(Mob& mob, Vector3D shift)
 {
 	//TODO detect collision on all move, not only at end
-	Pos to = map->moveResult(mob->getPos(), shift, mob->getModel());
-	if (to != mob->getPos()) {
-		for each(unsigned s in getSectors({to, mob->getSize()}))
+	Pos to = map->moveResult(mob.getPos(), shift, mob.getModel());
+	if (to != mob.getPos()) {
+		for each(unsigned s in getSectors({to, mob.getSize()}))
 		for (auto i = sectors[s].begin(); i != sectors[s].end(); i++) {
 			if (*i != mob) {
-				if ((*i)->model->isCollide(mob->model.getPtr(), to - (*i)->getPos()))return;
+				if ((*i)->model->isCollide(mob.model.getPtr(), to - (*i)->getPos()))return;
 			}
 		}
 		objChangePos(mob, to);

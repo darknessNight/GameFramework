@@ -87,6 +87,8 @@ bool GF::GameEngine::Model2D::isOnLine(Pos p, Vector3D vector)
 {
 	if (collType == CollideType::NonCollide)return false;
 	//p1=(vector.y)*(p.x - pos.x) + (-vector.x)*(p.y - pos.y); pos=point to check
+	vector = { abs(vector.x),abs(vector.y),abs(vector.z) };
+
 	char pCount = 0, zeroCount = 0;
 	{
 		float pt[4];
@@ -99,7 +101,7 @@ bool GF::GameEngine::Model2D::isOnLine(Pos p, Vector3D vector)
 			if (pt[i] == 0) zeroCount++;
 		}
 	}
-	if (!(pCount == 0 || pCount == 4) && (zeroCount==2 || zeroCount==0)) {
+	if (!(pCount == 0 || pCount == 4) || zeroCount!=0) {
 		if(collType==CollideType::AllCollide) return true;
 
 		Pos p2 = p + vector;

@@ -9,7 +9,7 @@ using namespace GF::GameEngine;
 void GF::GameEngine::GameObject::setPos(Pos pos)
 {
 	if(engine!=nullptr)
-		engine->objChangePos(this, pos);
+		engine->objChangePos(*this, pos);
 	else model->pos = pos;
 }
 

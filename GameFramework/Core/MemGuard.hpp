@@ -9,11 +9,11 @@ namespace GF {
 			(*copies) = 1;
 			userMutex = new std::mutex;
 		}
-		template<typename T>
+		/*template<typename T>
 		MemGuard<T>::MemGuard(T * val)
 		{
 			operator=(val);
-		}
+		}*/
 
 		template<typename T>
 		MemGuard<T>::MemGuard(T & val){
