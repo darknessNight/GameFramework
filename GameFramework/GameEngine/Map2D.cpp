@@ -50,7 +50,7 @@ bool GF::GameEngine::Map2D::isMovePosible(Pos from, Vector3D shiftV, Model* mode
 
 	float shiftS;
 	float current = 0;
-	shiftS = std::max(shiftV.x, shiftV.y);
+	shiftS = fmax(shiftV.x, shiftV.y);
 
 	Box  boxT;
 	boxT.width = m2d->size.width;
@@ -96,7 +96,7 @@ GF::GameEngine::Pos GF::GameEngine::Map2D::moveResult(Pos from, Vector3D shiftV,
 
 	float shiftS;
 	float current = 0;
-	shiftS = std::max(abs(shiftV.x), abs(shiftV.y));
+	shiftS = fmax(abs(shiftV.x), abs(shiftV.y));
 
 	Box  boxT;
 	boxT.width = m2d->size.width;

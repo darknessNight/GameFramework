@@ -87,15 +87,17 @@ bool GF::GameEngine::Model2D::isOnLine(Pos p, Vector3D vector)
 {
 	if (collType == CollideType::NonCollide)return false;
 	//p1=(vector.y)*(p.x - pos.x) + (-vector.x)*(p.y - pos.y); pos=point to check
-	float pt[3];
-	pt[0] = (vector.y)*(p.x - pos.x) + (-vector.x)*(p.y - pos.y);
-	pt[1] = (vector.y)*(p.x - pos.x) + (-vector.x)*(p.y - (pos.y + size.height));
-	pt[2] = (vector.y)*(p.x - (pos.x + size.width)) + (-vector.x)*(p.y - pos.y);
-	pt[3] = (vector.y)*(p.x - (pos.x + size.width)) + (-vector.x)*(p.y - (pos.y + size.height));
-	char pCount = 0, zeroCount=0;
-	for (char i = 0; i < 4; i++) {
-		if (pt[i] > 0) pCount++;
-		if (pt[i] == 0) zeroCount++;
+	char pCount = 0, zeroCount = 0;
+	{
+		float pt[4];
+		pt[0] = (vector.y)*(p.x - pos.x) + (-vector.x)*(p.y - pos.y);
+		pt[1] = (vector.y)*(p.x - pos.x) + (-vector.x)*(p.y - (pos.y + size.height));
+		pt[2] = (vector.y)*(p.x - (pos.x + size.width)) + (-vector.x)*(p.y - pos.y);
+		pt[3] = (vector.y)*(p.x - (pos.x + size.width)) + (-vector.x)*(p.y - (pos.y + size.height));
+		for (char i = 0; i < 4; i++) {
+			if (pt[i] > 0) pCount++;
+			if (pt[i] == 0) zeroCount++;
+		}
 	}
 	if (!(pCount == 0 || pCount == 4) && (zeroCount==2 || zeroCount==0)) {
 		if(collType==CollideType::AllCollide) return true;

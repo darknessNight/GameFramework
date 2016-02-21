@@ -2,6 +2,10 @@
 using namespace GF::GameEngine;
 using namespace GF;
 
+bool PtrCompare(const Core::MemGuard<GameObject> &lhs, const Core::MemGuard<GameObject> &rhs) {
+	return (long long)lhs.getPtr() < (long long)rhs.getPtr();
+}
+
 GF::GameEngine::GameEngine::GameEngine()
 {
 	sectors = new std::list<Core::MemGuard<GameObject>>[countOfSectors];
@@ -26,37 +30,33 @@ Core::MemGuard<GameObject> GF::GameEngine::GameEngine::whatIsOn(Pos pos)
 {
 	unsigned s = calcSector(pos);
 	for (auto i = sectors[s].begin(); i != sectors[s].end(); i++)
-		if ((*i)->getPos() == pos)return (*i);
+		if (!(pos.x<(*i)->getPos().x || pos.y<(*i)->getPos().y || 
+			pos.x>(*i)->getPos().x+ (*i)->getSize().width || pos.y>(*i)->getPos().y + (*i)->getSize().height))
+			return (*i);
 	return nullptr;
 }
 
 std::vector<Core::MemGuard<GameObject>> GF::GameEngine::GameEngine::scanRect(Box rect)
 {
-	std::vector<Core::MemGuard<GameObject>> ret;
+	Box tmp = rect;
+	std::list<Core::MemGuard<GameObject>> r;
 	rect.width = fminf(map->getSize().width - rect.x, rect.width);
-	rect.height = fminf(map->getSize().height - rect.x, rect.height);
-	rect.depth = fminf(map->getSize().depth - rect.x, rect.depth);
+	rect.height = fminf(map->getSize().height - rect.y, rect.height);
+	rect.depth = fminf(map->getSize().depth - rect.z, rect.depth);
 
-	unsigned xStart = floor(sectSize.width / rect.x),
-		yStart = floor(sectSize.height / rect.y),
-		zStart = floor(sectSize.depth / rect.z),
-		xEnd = xStart + ceil(sectSize.width / rect.width),
-		yEnd = yStart + ceil(sectSize.height / rect.height),
-		zEnd = zStart + ceil(sectSize.depth / rect.depth);
 	Pos rEnd = { rect.x + rect.width,rect.y + rect.height,rect.z + rect.depth };
-	//TODO to byæ siódmy poziom zag³êbienia. zrobiæ coœ z tym.
-	for (unsigned z = zStart; z <= zEnd; z++) 
-	for (unsigned y = zStart; y <= zEnd; y++) 
-	for (unsigned x = zStart; x <= zEnd; x++) {
-		unsigned pos = z*xSectors*ySectors + y*xSectors + x;
-		if (pos < countOfSectors)
-			for (auto i = sectors[pos].begin(); i != sectors[pos].end(); i++) {
-				Pos &lpos = (*i)->getPos(); Size &lsize = (*i)->model->size;
-				if(!(lpos.x>rEnd.x || lpos.y>rEnd.y || lpos.z>rEnd.z || lpos.x+lsize.width<rect.x ||
-					lpos.y+lsize.height<rect.y || lpos.z+lsize.depth<rect.z))
-				ret.push_back(*i);
-			}
-	}
+	for each(unsigned pos in getSectors(rect))
+		for (auto i = sectors[pos].begin(); i != sectors[pos].end(); i++) {
+			Pos &lpos = (*i)->getPos(); Size &lsize = (*i)->model->size;
+			if (!(lpos.x > rEnd.x || lpos.y > rEnd.y || lpos.z > rEnd.z || lpos.x + lsize.width < rect.x ||
+				lpos.y + lsize.height < rect.y || lpos.z + lsize.depth < rect.z))
+				r.push_back(*i);
+		}
+	r.sort(PtrCompare);
+	r.unique();
+	std::vector<Core::MemGuard<GameObject>> ret;
+	for each(auto i in r)
+		ret.push_back(i);
 	return ret;
 }
 
@@ -64,15 +64,20 @@ std::vector<Core::MemGuard<GameObject>> GF::GameEngine::GameEngine::detectOnLine
 {
 	//TODO dodaæ dok³adne ograniczenie liczby sektorów
 	std::vector<Core::MemGuard<GameObject>> ret;
-	if (start.x <= 0 || start.y <= 0)return ret;
+	if (start.x < 0 || start.y < 0)return ret;
+
+	Pos s = start, v = vector;
 
 	Box box;
-	box.x=(vector.x > 0 ? start.x : 0);
-	box.y = (vector.y > 0 ? start.y : 0); 
-	box.z = (vector.z > 0 ? start.z : 0);
-	box.width = (vector.x > 0 ? map->getSize().width - start.x : start.x);
+	box.x = (vector.x >= 0 ? start.x: 0);
+	box.y = (vector.y >= 0 ? start.y : 0);
+	box.z = (vector.z >= 0 ? start.z : 0);
+	if (vector.x != 0)
+	box.width = (vector.x > 0 ? map->getSize().width-start.x : 1);
+	if(vector.y!=0)
 	box.height = (vector.y > 0 ? map->getSize().height - start.y : start.y);
-	box.width = (vector.z > 0 ? map->getSize().depth - start.z : start.z);
+	if (vector.z != 0)
+	box.depth = (vector.z > 0 ? map->getSize().depth - start.z : start.z);
 
 	std::vector<Core::MemGuard<GameObject>> appro = scanRect(box);
 	for (auto i = appro.begin(); i != appro.end(); i++) {
@@ -95,24 +100,24 @@ void GF::GameEngine::GameEngine::appendMap(Core::MemGuard<Map> newMap)
 void GF::GameEngine::GameEngine::addInteractiveObject(Core::MemGuard<InteractiveObject> el)
 {
 	interactiveObjects.push_back(el);
-	sectors[calcSector(el->getPos())].push_back(el);
+	addToSectors(el);
 }
 
 void GF::GameEngine::GameEngine::addStaticObject(Core::MemGuard<StaticObject> el)
 {
 	staticObjects.push_back(el);
-	sectors[calcSector(el->getPos())].push_back(el);
+	addToSectors(el);
 }
 
 void GF::GameEngine::GameEngine::addMob(Core::MemGuard<Mob> el)
 {
 	mobs.push_back(el);
-	//sectors[calcSector(el->getPos())].push_back(el);
+	addToSectors(el);
 }
 
 void GF::GameEngine::GameEngine::removeInteractiveObject(Core::MemGuard<InteractiveObject> el)
 {
-	sectors[calcSector(el->getPos())].remove(el);
+	removeFromSectors(el);
 	for (auto i = interactiveObjects.begin(); i != interactiveObjects.end(); i++)
 		if ((*i) == el) {
 			std::swap(i, interactiveObjects.end()); interactiveObjects.pop_back();
@@ -122,7 +127,7 @@ void GF::GameEngine::GameEngine::removeInteractiveObject(Core::MemGuard<Interact
 
 void GF::GameEngine::GameEngine::removeStaticObject(Core::MemGuard<StaticObject> el)
 {
-	sectors[calcSector(el->getPos())].remove(el);
+	removeFromSectors(el);
 	for (auto i = staticObjects.begin(); i != staticObjects.end(); i++)
 		if ((*i) == el) {
 			std::swap(i, staticObjects.end());
@@ -133,7 +138,7 @@ void GF::GameEngine::GameEngine::removeStaticObject(Core::MemGuard<StaticObject>
 
 void GF::GameEngine::GameEngine::removeMob(Core::MemGuard<Mob> el)
 {
-	sectors[calcSector(el->getPos())].remove(el);
+	removeFromSectors(el);
 	for (auto i = mobs.begin(); i != mobs.end(); i++)
 		if ((*i) == el) {
 			std::swap(i, mobs.end());
@@ -178,33 +183,71 @@ void GF::GameEngine::GameEngine::calcSectors()
 	xSectors = ceil(map->getSize().width / (sectSize.width != 0 ? sectSize.width : 1));
 	ySectors = ceil(map->getSize().height / (sectSize.height != 0 ? sectSize.height : 1));
 	zSectors = ceil(map->getSize().depth / (sectSize.depth != 0 ? sectSize.depth : 1));
+	physCountOfSectors = (xSectors == 0 ? 1 : xSectors)*(ySectors == 0 ? 1 : ySectors)*(zSectors == 0 ? 1 : zSectors);
+	delete[] sectors;
+	sectors = new std::list<Core::MemGuard<GameObject>>[physCountOfSectors];
+}
+
+void GF::GameEngine::GameEngine::addToSectors(Core::MemGuard<GameObject> el)
+{
+	std::vector<unsigned> s = getSectors({ el->getPos(), el->getSize() });
+	for each(unsigned i in s)
+		sectors[i].push_back(el);
+}
+
+void GF::GameEngine::GameEngine::removeFromSectors(Core::MemGuard<GameObject> el)
+{
+	std::vector<unsigned> s = getSectors({ el->getPos(), el->getSize() });
+	for each(unsigned i in s)
+		sectors[i].remove(el);
+}
+
+std::vector<unsigned> GF::GameEngine::GameEngine::getSectors(Box rect)
+{
+	Box tmp = rect;
+	std::vector<unsigned> ret;
+	float xStart = floor(rect.x/ sectSize.width),
+		yStart = floor(rect.y/ sectSize.height),
+		zStart = floor(rect.z/ sectSize.depth),
+		xEnd = floor((rect.width+rect.x)/ sectSize.width ),
+		yEnd = floor((rect.height + rect.y)/ sectSize.height),
+		zEnd = floor((rect.depth + rect.z)/ sectSize.depth);
+	if (sectSize.depth == 0)zEnd = zStart = 0;
+
+	for (unsigned z = zStart; z <= zEnd; z++)
+		for (unsigned y = yStart; y <= yEnd; y++)
+			for (unsigned x = xStart; x <= xEnd; x++) {
+				unsigned pos = z*xSectors*ySectors + y*xSectors + x;
+				if(pos<physCountOfSectors)
+					ret.push_back(pos);
+			}
+	return ret;
 }
 
 unsigned GF::GameEngine::GameEngine::calcSector(Pos p)
 {
-	Pos p1 = p;
 	unsigned pos;
 	pos = floor(p.x / sectSize.width);
 	pos += floor(p.y / sectSize.height) * xSectors;
 	pos += floor(p.z / (sectSize.depth != 0 ? sectSize.depth : 1))*xSectors*ySectors;
-	if (pos < countOfSectors)
+	if (pos < physCountOfSectors)
 		return pos;
 	else return 0;
 }
 
 void GF::GameEngine::GameEngine::objChangePos(Core::MemGuard<GameObject> obj, Pos pos)
 {
-	unsigned s1, s2;
-	s1 = calcSector(obj->getPos()); s2 = calcSector(pos);
+	//TODO zoptymalizowaæ 
+	std::vector<unsigned> s1 = getSectors({ obj->getPos(),obj->getSize() }),
+		s2 = getSectors({ pos,obj->getSize() });
 	if (s1 != s2) {
-		std::list<Core::MemGuard<GameObject>>::iterator it;
-		for (auto i = sectors[s1].begin(); i != sectors[s1].end(); i++)
-			if (*i == obj) {
-				it = i;
-				break;
-			}
-		sectors[s2].splice(sectors[s2].end(), sectors[s1], it);
+		for each(unsigned i in s1)
+			sectors[i].remove(obj);
+		for each(unsigned i in s2)
+			sectors[i].push_back(obj);
 	}
+
+	obj->model->pos = pos;
 }
 
 void GF::GameEngine::GameEngine::mobMove(Core::MemGuard<Mob> mob, Vector3D shift)
@@ -212,7 +255,7 @@ void GF::GameEngine::GameEngine::mobMove(Core::MemGuard<Mob> mob, Vector3D shift
 	//TODO detect collision on all move, not only at end
 	Pos to = map->moveResult(mob->getPos(), shift, mob->getModel());
 	if (to != mob->getPos()) {
-		unsigned s = calcSector(to);
+		for each(unsigned s in getSectors({to, mob->getSize()}))
 		for (auto i = sectors[s].begin(); i != sectors[s].end(); i++) {
 			if (*i != mob) {
 				if ((*i)->model->isCollide(mob->model.getPtr(), to - (*i)->getPos()))return;

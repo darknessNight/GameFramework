@@ -1,5 +1,4 @@
 #pragma once
-#include "../IOModule/GraphObject.h"
 #include <functional>
 #include "Action.h"
 

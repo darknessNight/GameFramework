@@ -9,7 +9,6 @@ namespace GF {
 
 		MultipleGraph2D::~MultipleGraph2D()
 		{
-			
 			objects.clear();
 		}
 

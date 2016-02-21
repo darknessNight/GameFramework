@@ -41,8 +41,11 @@ namespace GF {
 			virtual void removeMob(Core::MemGuard<Mob> el);
 			virtual void setCountOfSectors(unsigned);
 		protected:
-			virtual void calcSectors();///<create sectors and safe data for calcSector; IMPORTANT: not rewrite positions of actual existing objects
-			virtual unsigned calcSector(Pos);//
+			void calcSectors();///<create sectors and safe data for calcSector; IMPORTANT: not rewrite positions of actual existing objects
+			void addToSectors(Core::MemGuard<GameObject>);
+			void removeFromSectors(Core::MemGuard<GameObject>);
+			std::vector<unsigned> getSectors(Box rect);//
+			unsigned calcSector(Pos);
 		protected:
 			std::vector<Core::MemGuard<StaticObject>> staticObjects;
 			std::vector<Core::MemGuard<InteractiveObject>> interactiveObjects;
@@ -50,6 +53,7 @@ namespace GF {
 			Core::MemGuard<Map> map;
 			
 			unsigned countOfSectors=10;
+			unsigned physCountOfSectors;
 			unsigned xSectors=10;
 			unsigned ySectors=1;
 			unsigned zSectors=1;

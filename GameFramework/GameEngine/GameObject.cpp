@@ -6,14 +6,11 @@
 
 using namespace GF::GameEngine;
 
-GF::GameEngine::GameObject::GameObject()
-{
-	init();
-}
-
 void GF::GameEngine::GameObject::setPos(Pos pos)
 {
-	engine->objChangePos(this, pos);
+	if(engine!=nullptr)
+		engine->objChangePos(this, pos);
+	else model->pos = pos;
 }
 
 Pos GF::GameEngine::GameObject::getPos()
@@ -21,10 +18,15 @@ Pos GF::GameEngine::GameObject::getPos()
 	return model->pos;
 }
 
+Size GF::GameEngine::GameObject::getSize()
+{
+	return model->size;
+}
+
 void GF::GameEngine::GameObject::setModel(Core::MemGuard<Model> m)
 {
 	if (m == nullptr) throw std::runtime_error("Nullptr exception in GameObject");
-	model = m;
+	*model = *m;
 }
 
 void GF::GameEngine::GameObject::updateStats(Core::MemGuard<const Statistics> stat)
@@ -71,4 +73,14 @@ void GF::GameEngine::GameObject::onDead()
 {
 	Core::EventArgs stdArgs;
 	Dead(this, stdArgs);
+}
+
+std::vector<unsigned char> GF::GameEngine::GameObject::serialize()
+{
+	return std::vector<unsigned char>();
+}
+
+bool GF::GameEngine::GameObject::deserialize(std::vector<unsigned char>)
+{
+	return false;
 }

@@ -39,6 +39,7 @@ namespace GF {
 		struct Box {
 			Box() = default;
 			Box(const Box&) = default;
+			Box(Vector3D, Size);
 			Box(float x, float y, float z, float w, float h, float d);
 			Box(float x, float y, float w, float h);
 			float x=0, y = 0, z = 0;
