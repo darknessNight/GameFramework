@@ -21,22 +21,22 @@ bool GF::GameEngine::Map2D::setMap(bool ** map, unsigned width, unsigned height)
 	if (width <= 0 || height <= 0) return false;
 	size.width = width;
 	size.height = height;
-	colisionMap = new bool*[height];
+	collisionMap = new bool*[height];
 	for (unsigned i = 0; i < height; i++) {
-		colisionMap[i] = new bool[width];
-		memcpy(colisionMap[i], map[i], sizeof(bool)*(width));
+		collisionMap[i] = new bool[width];
+		memcpy(collisionMap[i], map[i], sizeof(bool)*(width));
 	}
 	return true;
 }
 
 void GF::GameEngine::Map2D::delMap()
 {
-	if (colisionMap != nullptr) {
+	if (collisionMap != nullptr) {
 		for (unsigned i = 0; i < size.height; i++) {
-			delete[] colisionMap[i];
+			delete[] collisionMap[i];
 		}
-		delete[] colisionMap;
-		colisionMap = nullptr;
+		delete[] collisionMap;
+		collisionMap = nullptr;
 	}
 }
 
@@ -66,7 +66,7 @@ bool GF::GameEngine::Map2D::isMovePosible(Pos from, Vector3D shiftV, Model* mode
 
 		boxT.x = round(from.x);
 		boxT.y = round(from.y);
-		if(m2d->isCollide(colisionMap, boxT)) return false;
+		if(m2d->isCollide(collisionMap, boxT)) return false;
 	}*/
 	while (from != to) {
 		shiftS += accuracy*(signbit(shiftS) ? 1 : -1);
@@ -78,13 +78,13 @@ bool GF::GameEngine::Map2D::isMovePosible(Pos from, Vector3D shiftV, Model* mode
 		boxT.x = round(from.x);
 		boxT.y = round(from.y);
 
-		if (m2d->isCollide(colisionMap, boxT)) return false;
+		if (m2d->isCollide(collisionMap, boxT)) return false;
 	}
 
 	boxT.x = round(to.x);
 	boxT.y = round(to.y);
 	//TODO add detect with acceptable shitf range
-	return !m2d->isCollide(colisionMap, boxT);
+	return !m2d->isCollide(collisionMap, boxT);
 }
 
 GF::GameEngine::Pos GF::GameEngine::Map2D::moveResult(Pos from, Vector3D shiftV, Model * model)
@@ -115,7 +115,7 @@ GF::GameEngine::Pos GF::GameEngine::Map2D::moveResult(Pos from, Vector3D shiftV,
 		boxT.x = round(from.x);
 		boxT.y = round(from.y);
 
-		if (m2d->isCollide(colisionMap, boxT)) return last;
+		if (m2d->isCollide(collisionMap, boxT)) return last;
 	}
 
 	return to;

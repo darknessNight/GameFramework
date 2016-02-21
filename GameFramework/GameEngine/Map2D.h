@@ -18,7 +18,7 @@ namespace GF {
 			void delMap();
 		protected:
 			float accuracy=1.0f;
-			bool **colisionMap=nullptr;
+			bool **collisionMap=nullptr;
 			Box size;
 		};
 	}

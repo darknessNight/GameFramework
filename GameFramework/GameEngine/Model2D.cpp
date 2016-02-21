@@ -30,10 +30,10 @@ bool GF::GameEngine::Model2D::setMap(bool ** map, unsigned width, unsigned heigh
 	if (width <= 0 || height <= 0) return false;
 	size.width = width;
 	size.height = height;
-	colisionMap = new bool*[height];
+	collisionMap = new bool*[height];
 	for (unsigned i = 0; i < height; i++) {
-		colisionMap[i] = new bool[width];
-		memcpy(colisionMap[i], map[i], sizeof(bool)*(width));
+		collisionMap[i] = new bool[width];
+		memcpy(collisionMap[i], map[i], sizeof(bool)*(width));
 	}
 	collType = CollideType::MapCollide;
 	return true;
@@ -54,7 +54,7 @@ bool GF::GameEngine::Model2D::isCollide(bool ** sourceMap, Box sB, Pos ownStart)
 		for (unsigned i = 0; i < std::fminf(sB.height, size.height); i++) {
 			for (unsigned j = 0; j < std::fminf(sB.width, size.width); j++) {
 				if (sourceMap[static_cast<unsigned>(sB.y + i)][static_cast<unsigned>(sB.x + j)]
-					&& colisionMap[static_cast<unsigned>(ownStart.y + i)][static_cast<unsigned>(ownStart.x + j)])
+					&& collisionMap[static_cast<unsigned>(ownStart.y + i)][static_cast<unsigned>(ownStart.x + j)])
 					return true;
 			}
 		}
@@ -80,33 +80,58 @@ bool GF::GameEngine::Model2D::isCollide(const Model* model, Vector3D rpos)
 	Box box{ -std::fminf(rpos.x,0),-std::fminf(rpos.y,0),size.width - abs(rpos.x),size.height - abs(rpos.y) };
 	Pos p = { std::fmaxf(rpos.x,0),std::fmaxf(rpos.y,0) };
 
-	return m2d->isCollide(colisionMap, box, p);
+	return m2d->isCollide(collisionMap, box, p);
 }
 
 bool GF::GameEngine::Model2D::isOnLine(Pos p, Vector3D vector)
 {
+	if (collType == CollideType::NonCollide)return false;
 	//p1=(vector.y)*(p.x - pos.x) + (-vector.x)*(p.y - pos.y); pos=point to check
 	float pt[3];
 	pt[0] = (vector.y)*(p.x - pos.x) + (-vector.x)*(p.y - pos.y);
 	pt[1] = (vector.y)*(p.x - pos.x) + (-vector.x)*(p.y - (pos.y + size.height));
 	pt[2] = (vector.y)*(p.x - (pos.x + size.width)) + (-vector.x)*(p.y - pos.y);
 	pt[3] = (vector.y)*(p.x - (pos.x + size.width)) + (-vector.x)*(p.y - (pos.y + size.height));
-	char pCount = 0;
+	char pCount = 0, zeroCount=0;
 	for (char i = 0; i < 4; i++) {
 		if (pt[i] > 0) pCount++;
+		if (pt[i] == 0) zeroCount++;
 	}
-	if (!(pCount == 0 || pCount == 4)) {
+	if (!(pCount == 0 || pCount == 4) && (zeroCount==2 || zeroCount==0)) {
+		if(collType==CollideType::AllCollide) return true;
+
 		Pos p2 = p + vector;
 		if (vector.y == 0) {
 			unsigned x = static_cast<unsigned>(p.x - pos.x);
 			for (unsigned i = 0; i < size.height; i++)
-				if (colisionMap[i][x])return true;
+				if (collisionMap[i][x])return true;
 		}
-		if (vector.x / vector.y > 1) {//for angle bigger than 45 degres
-			//TODO ended this
+		else if (vector.x == 0){
+			unsigned y = static_cast<unsigned>(p.y - pos.y);
+			for (unsigned i = 0; i < size.width; i++)
+				if (collisionMap[y][i])return true;
+		}
+		else if (vector.x / vector.y > 1) {//for angle bigger than 45 degres
+			float a = vector.x / vector.y;
+			float b = p.x - a*p.y;
+			float w;
+			for (unsigned i = 0; i < size.height; i++) {
+				w = (pos.y+i)*a + b;
+				if (w<pos.x) continue;
+				if (w > pos.x + size.width)break;
+				if (collisionMap[i][static_cast<unsigned>(w)])return true;
+			}
 		}
 		else {//for angle smaller than 45 degres
-
+			float a = vector.y / vector.x;
+			float b = p.y - a*p.x;
+			float w;
+			for (unsigned i = 0; i < size.width; i++) {
+				w = (pos.x + i)*a + b;
+				if (w<pos.y) continue;
+				if (w > pos.y + size.height)break;
+				if (collisionMap[static_cast<unsigned>(w)][i])return true;
+			}
 		}
 	}
 	return false;
@@ -114,11 +139,11 @@ bool GF::GameEngine::Model2D::isOnLine(Pos p, Vector3D vector)
 
 void GF::GameEngine::Model2D::delMap()
 {
-	if (colisionMap != nullptr) {
+	if (collisionMap != nullptr) {
 		for (unsigned i = 0; i < size.height; i++) {
-			delete[] colisionMap[i];
+			delete[] collisionMap[i];
 		}
-		delete[] colisionMap;
-		colisionMap = nullptr;
+		delete[] collisionMap;
+		collisionMap = nullptr;
 	}
 }

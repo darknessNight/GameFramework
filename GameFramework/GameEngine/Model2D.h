@@ -27,7 +27,7 @@ namespace GF {
 			void delMap();
 		protected:
 			CollideType collType;
-			bool** colisionMap=nullptr;
+			bool** collisionMap=nullptr;
 		};
 	}
 }
