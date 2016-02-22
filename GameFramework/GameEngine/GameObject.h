@@ -6,6 +6,12 @@
 namespace GF {
 	namespace GameEngine {
 		class GameEngine;
+		class GameObject;
+
+		struct CollisionEventArgs :public Core::EventArgs {
+			Core::MemGuard<GameObject> object;
+		};
+
 		class GameObject :public Core::ObjectSerialize {
 			friend GameEngine;
 		public:
@@ -32,6 +38,7 @@ namespace GF {
 			Core::Events::Event<Core::EventArgs> Dead;
 			Core::Events::Event<Core::EventArgs> StatsChanged;
 			Core::Events::Event<Core::EventArgs> PosChanged;
+			Core::Events::Event<CollisionEventArgs> Collision;
 
 			bool canDestroy;
 			void* additionalData;

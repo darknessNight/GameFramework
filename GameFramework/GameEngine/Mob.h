@@ -20,6 +20,8 @@ namespace GF {
 			virtual void addSkill(const Skill&);
 			virtual std::vector<Skill> getSkills();
 
+			virtual void move(Vector3D);
+			
 			virtual MobState getState();
 			virtual EqSlot& getSlot(int id);
 
@@ -27,7 +29,6 @@ namespace GF {
 		protected:
 			virtual void onSkillAdded();
 			virtual void calcCurrStats() override;
-			virtual void init() = 0;
 		public:
 			Core::Events::Event<SkillEventArgs> SkillAdded;
 

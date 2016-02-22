@@ -41,6 +41,8 @@ bool GF::GameEngine::Model2D::setMap(bool ** map, unsigned width, unsigned heigh
 
 bool GF::GameEngine::Model2D::isCollide(bool ** sourceMap, Box sB, Pos ownStart)
 {
+	if (sourceMap == nullptr) return false;
+	Box bTmp = sB;
 	switch (collType) {
 	case CollideType::NonCollide:return false;
 	case CollideType::AllCollide:
@@ -68,6 +70,7 @@ bool GF::GameEngine::Model2D::isCollide(const Model* model)
 	if ((m2d->pos.x > pos.x + size.width || m2d->pos.y>pos.y + size.height || m2d->pos.x + m2d->size.width < pos.x ||
 		m2d->pos.y + m2d->size.height < pos.y))return false;
 
+	if (collType == CollideType::AllCollide && ((Model2D*)model)->collType == CollideType::AllCollide)return true;
 	Pos rpos;
 	rpos.x = m2d->pos.x - pos.x;
 	rpos.y = m2d->pos.y - pos.y;

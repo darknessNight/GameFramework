@@ -5,6 +5,16 @@
 #include "../MemGuard.h"
 #endif
 
+std::vector<unsigned char> GF::GameEngine::InteractiveObject::serialize()
+{
+	return std::vector<unsigned char>();
+}
+
+bool GF::GameEngine::InteractiveObject::deserialize(std::vector<unsigned char>)
+{
+	return false;
+}
+
 void GF::GameEngine::InteractiveObject::interact(Core::MemGuard<Mob> mob)
 {
 	if (!canInteract) return;

@@ -4,7 +4,7 @@
 #endif
 using namespace GF::GameEngine;
 
-bool operator<(const Posi& lhs, const Posi& rhs) {
+bool GF::GameEngine::operator<(const Posi& lhs, const Posi& rhs) {
 	if (lhs.z != rhs.z)
 		return lhs.z < rhs.z;
 	else if (lhs.y != rhs.y)

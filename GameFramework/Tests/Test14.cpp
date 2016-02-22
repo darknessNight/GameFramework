@@ -7,7 +7,7 @@
 
 #include "Tests.h"
 std::string Test14();
-AutoAdd AA14(Test14, "GameEngine", "Search objects Test", true);
+AutoAdd AA14(Test14, "GameEngine", "Search objects Test");
 
 namespace Test14Helpers {
 	class GameEngineTest :public GF::GameEngine::GameEngine {

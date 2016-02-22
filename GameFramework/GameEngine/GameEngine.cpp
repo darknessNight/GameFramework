@@ -171,8 +171,10 @@ void GF::GameEngine::GameEngine::calcSectors()
 	if (mapSize.height <= 0)mapSize.height = 1;
 	if (mapSize.depth <= 0)mapSize.depth = 1;
 
-	double sectV = (mapSize.depth*mapSize.height*mapSize.width) / countOfSectors;
-	double sectS = pow((sectV), (1 / 3));
+	double sectV = (mapSize.depth*mapSize.height*mapSize.width) / countOfSectors;//objêtoœæ jednego sektora
+	double sectS = pow((sectV), (1 / 3));//krawêdŸ szeœcianu sektora
+
+	//korygowanie krawêdzi prostopad³oœcianu sektora, by nie by³y wiêksz ni¿ wymiary mapy
 	sectSize.depth = fmin(sectS, map->getSize().depth);
 	if (sectSize.depth == 0)sectS = sqrt(sectV);
 	if (map->getSize().height < sectS) {
@@ -190,6 +192,7 @@ void GF::GameEngine::GameEngine::calcSectors()
 	xSectors = ceil(map->getSize().width / (sectSize.width != 0 ? sectSize.width : 1));
 	ySectors = ceil(map->getSize().height / (sectSize.height != 0 ? sectSize.height : 1));
 	zSectors = ceil(map->getSize().depth / (sectSize.depth != 0 ? sectSize.depth : 1));
+
 	physCountOfSectors = (xSectors == 0 ? 1 : xSectors)*(ySectors == 0 ? 1 : ySectors)*(zSectors == 0 ? 1 : zSectors);
 	delete[] sectors;
 	sectors = new std::list<Core::MemGuard<GameObject>>[physCountOfSectors];
@@ -259,15 +262,76 @@ void GF::GameEngine::GameEngine::objChangePos(GameObject& obj, Pos pos)
 
 void GF::GameEngine::GameEngine::mobMove(Mob& mob, Vector3D shift)
 {
-	//TODO detect collision on all move, not only at end
+	if (shift.x == 0 && shift.y == 0 && shift.z == 0)return;
 	Pos to = map->moveResult(mob.getPos(), shift, mob.getModel());
 	if (to != mob.getPos()) {
-		for each(unsigned s in getSectors({to, mob.getSize()}))
-		for (auto i = sectors[s].begin(); i != sectors[s].end(); i++) {
+		Pos prevPos = mob.model->pos;
+		
+		Box box;
+		box.x = (shift.x >= 0 ? prevPos.x : 0);
+		box.y = (shift.y >= 0 ? prevPos.y : 0);
+		box.z = (shift.z >= 0 ? prevPos.z : 0);
+		if (shift.x != 0)
+			box.width = (shift.x > 0 ? shift.x+mob.getSize().width : prevPos.x);
+		if (shift.y != 0)
+			box.height = (shift.y > 0 ? shift.y + mob.getSize().height : prevPos.y);
+		if (shift.z != 0)
+			box.depth = (shift.z > 0 ? shift.z + mob.getSize().depth : prevPos.z);
+
+		auto objs = scanRect(box);/////
+		for (auto i = objs.begin(); i != objs.end(); i++) {
 			if (*i != mob) {
-				if ((*i)->model->isCollide(mob.model.getPtr(), to - (*i)->getPos()))return;
+				//pobranie realnego przesuniêcia obiektu do momentu kolizji
+				Vector3D tmp;
+				if (shift.x != 0)
+					tmp = shift*(((*i)->getPos().x - prevPos.x) / shift.x);
+				else if(shift.y!=0) tmp = shift*(((*i)->getPos().y - prevPos.y) / shift.y);
+				else tmp= tmp = shift*(((*i)->getPos().z - prevPos.z) / shift.z);
+
+				mob.model->pos = prevPos+tmp;
+				if ((*i)->model->isCollide(mob.model.getPtr())) {
+					CollisionEventArgs args;
+					args.object = mob;
+					(*i)->Collision(&mob, args);
+					args.object = (*i);
+					mob.Collision(&mob, args);
+					if(args.cancel)
+						mob.model->pos = prevPos;
+					else {
+						float dx=0, dy=0, dz=0;
+						//pobranie informacji jakie s¹ wymiary na których siê nak³ada
+						if (shift.x>0)
+							dx = mob.getPos().x - (*i)->getPos().x + mob.getSize().width;
+						else dx = (*i)->getPos().x - mob.getPos().x + (*i)->getSize().width;
+						if (shift.y>0)
+							dy = mob.getPos().y - (*i)->getPos().y + mob.getSize().height;
+						else dy = (*i)->getPos().y - mob.getPos().y + (*i)->getSize().height;
+						if (shift.z>0)
+							dz = mob.getPos().z - (*i)->getPos().z + mob.getSize().depth;
+						else dz = (*i)->getPos().z - mob.getPos().z + (*i)->getSize().depth;
+						//na podstawie wymiarów nak³adania wybiera siê taki, który powoduje najmiejsze przesuniêcie do ty³u
+						float m=0,m2=0;
+						if (shift.x != 0)
+							m = dx / shift.x;
+						if (shift.y != 0)
+							m2 = dy / shift.y;
+						if (m2 < m && m2!=0) m = m2;
+						m2 = 0;
+						if (shift.z != 0)
+							m2 = dz / shift.z;
+						if (m2 < m && m2 != 0) m = m2;
+
+						to = prevPos + tmp*(1-abs(m));
+					}
+					break;
+				}
 			}
 		}
+		mob.model->pos = prevPos;
 		objChangePos(mob, to);
 	}
 }
+
+
+
+		

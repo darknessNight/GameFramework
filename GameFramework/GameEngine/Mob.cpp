@@ -1,4 +1,5 @@
 #include "Mob.h"
+#include "GameEngine.h"
 #ifdef DEBUG
 #include "../MemGuard.h"
 #endif
@@ -13,6 +14,13 @@ void GF::GameEngine::Mob::addSkill(const Skill &skill)
 std::vector<GF::GameEngine::Skill> GF::GameEngine::Mob::getSkills()
 {
 	return skills;
+}
+
+void GF::GameEngine::Mob::move(Vector3D s)
+{
+	if (engine != nullptr)
+		engine->mobMove(*this, s);
+	else model->pos = s+ model->pos;
 }
 
 GF::GameEngine::MobState GF::GameEngine::Mob::getState()
