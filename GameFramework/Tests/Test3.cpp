@@ -13,8 +13,8 @@ namespace Test3Helpers {
 	std::chrono::time_point<std::chrono::steady_clock> start;
 	std::chrono::time_point<std::chrono::steady_clock> render;
 	int frameCount=0;
-	GF::Core::MemGuard<GF::IOModule::Texture2D> texture1;
-	GF::Core::MemGuard<GF::IOModule::Texture2D> texture2;
+	GF::Core::shared_ptr<GF::IOModule::Texture2D> texture1;
+	GF::Core::shared_ptr<GF::IOModule::Texture2D> texture2;
 	typedef std::chrono::duration<double, std::micro> timeDur;
 	typedef std::chrono::duration<double, std::milli> timeDur2;
 	typedef std::chrono::duration<double, std::ratio<1, 1000> > timeDurMove;

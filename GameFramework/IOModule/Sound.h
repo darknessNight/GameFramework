@@ -18,21 +18,21 @@ namespace GF {
 			static float getEffectVolume();
 			static float getMainVolume();
 
-			static void applyMusic(Core::MemGuard<Sounds::Music>);
-			static void applyVoice(Core::MemGuard<Sounds::Voice>);
-			static void applyEffect(Core::MemGuard<Sounds::Effect>);
+			static void applyMusic(Core::shared_ptr<Sounds::Music>);
+			static void applyVoice(Core::shared_ptr<Sounds::Voice>);
+			static void applyEffect(Core::shared_ptr<Sounds::Effect>);
 
-			static void removeMusic(Core::MemGuard<Sounds::Music>);
-			static void removeVoice(Core::MemGuard<Sounds::Voice>);
-			static void removeEffect(Core::MemGuard<Sounds::Effect>);
+			static void removeMusic(Core::shared_ptr<Sounds::Music>);
+			static void removeVoice(Core::shared_ptr<Sounds::Voice>);
+			static void removeEffect(Core::shared_ptr<Sounds::Effect>);
 
-			static Core::MemGuard<Sounds::Music> createMusic();
-			static Core::MemGuard<Sounds::Voice> createVoice();
-			static Core::MemGuard<Sounds::Effect> createEffect();
+			static Core::shared_ptr<Sounds::Music> createMusic();
+			static Core::shared_ptr<Sounds::Voice> createVoice();
+			static Core::shared_ptr<Sounds::Effect> createEffect();
 		protected:
-			static std::vector < Core::MemGuard<Sounds::Music>> musics;
-			static std::vector < Core::MemGuard<Sounds::Voice>> voices;
-			static std::vector < Core::MemGuard<Sounds::Effect>> effects;
+			static std::vector < Core::shared_ptr<Sounds::Music>> musics;
+			static std::vector < Core::shared_ptr<Sounds::Voice>> voices;
+			static std::vector < Core::shared_ptr<Sounds::Effect>> effects;
 			static float volume;
 		};
 	}

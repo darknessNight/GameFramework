@@ -20,12 +20,12 @@ namespace GF {
 			virtual void addSkill(const Skill&);
 			virtual std::vector<Skill> getSkills();
 
-			virtual void move(Vector3D);
+			virtual Pos move(Vector3D);
 			
 			virtual MobState getState();
 			virtual EqSlot& getSlot(int id);
 
-			virtual void updateStats(Core::MemGuard<const Statistics>);
+			virtual void updateStats(Core::shared_ptr<const Statistics>);
 		protected:
 			virtual void onSkillAdded();
 			virtual void calcCurrStats() override;

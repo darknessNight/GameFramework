@@ -3,13 +3,13 @@
 #include "../MemGuard.h"
 #endif
 
-void GF::GameEngine::Map::appendEvent(MemGuard<MapEvent> el)
+void GF::GameEngine::Map::appendEvent(shared_ptr<MapEvent> el)
 {
 	std::lock_guard<std::mutex> guard(mutex);
 	events.push_back(el);
 }
 
-void GF::GameEngine::Map::removeEvent(MemGuard<MapEvent> el)
+void GF::GameEngine::Map::removeEvent(shared_ptr<MapEvent> el)
 {
 	std::lock_guard<std::mutex> guard(mutex);
 	for (auto i = events.begin(); i != events.end(); i++) {

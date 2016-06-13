@@ -1,5 +1,6 @@
 #include "Map2D.h"
 #include "Model2D.h"
+#include "../Core/Exception.h"
 #ifdef DEBUG
 #include "../MemGuard.h"
 #endif
@@ -7,7 +8,14 @@
 GF::GameEngine::Map2D::Map2D(bool ** map, unsigned width, unsigned height)
 {
 	if (!setMap(map, width, height))
-		throw std::exception("Cannot load map");
+		throw GF::Core::Exception("GAME ENGINE: Cannot load map");
+}
+
+GF::GameEngine::Map2D::Map2D(unsigned width, unsigned height)
+{
+	nonCollision = true;
+	this->size.width = width;
+	this->size.height = height;
 }
 
 GF::GameEngine::Map2D::~Map2D()
@@ -47,6 +55,8 @@ bool GF::GameEngine::Map2D::isMovePosible(Pos from, Vector3D shiftV, Model* mode
 	Model2D* m2d = (Model2D*)(model);
 	if (!(to.x >= 0 && to.y >= 0 && to.x + m2d->size.width <= size.width && to.y <= size.height)||
 		!(from.x >= 0 && from.y >= 0 && from.x + m2d->size.width <= size.width && from.y <= size.height)) return false;
+
+	if (nonCollision) return true;
 
 	float shiftS;
 	float current = 0;
@@ -91,8 +101,9 @@ GF::GameEngine::Pos GF::GameEngine::Map2D::moveResult(Pos from, Vector3D shiftV,
 {
 	Pos to = from + shiftV;
 	Model2D* m2d = (Model2D*)(model);
-	if (!(to.x >= 0 && to.y >= 0 && to.x + m2d->size.width <= size.width && to.y <= size.height) ||
-		!(from.x >= 0 && from.y >= 0 && from.x + m2d->size.width <= size.width && from.y <= size.height)) return Pos() ;
+	if (!(to.x >= 0 && to.y >= 0 && to.x + m2d->size.width <= size.width && to.y <= size.height)) return from ;
+
+	if (nonCollision) return to;
 
 	float shiftS;
 	float current = 0;
@@ -107,9 +118,7 @@ GF::GameEngine::Pos GF::GameEngine::Map2D::moveResult(Pos from, Vector3D shiftV,
 		last=from;
 
 		shiftS += accuracy*(signbit(shiftS) ? 1 : -1);
-		if (abs(from.x - to.x)>=accuracy)
 			from.x += accuracy*(signbit(shiftV.x) ? -1 : 1);
-		if (abs(from.y - to.y)>=accuracy)
 			from.y += accuracy*(signbit(shiftV.y) ? -1 : 1);
 
 		boxT.x = round(from.x);
@@ -121,7 +130,7 @@ GF::GameEngine::Pos GF::GameEngine::Map2D::moveResult(Pos from, Vector3D shiftV,
 	return to;
 }
 
-void GF::GameEngine::Map2D::detectEvent(Core::MemGuard<Mob> mob)
+void GF::GameEngine::Map2D::detectEvent(Core::shared_ptr<Mob> mob)
 {
 	const Model2D *m2d = (Model2D*)mob->getModel();
 	Pos pos=mob->getPos();
@@ -141,4 +150,10 @@ void GF::GameEngine::Map2D::detectEvent(Core::MemGuard<Mob> mob)
 GF::GameEngine::Size GF::GameEngine::Map2D::getSize()
 {
 	return{ size.width,size.height,size.depth };
+}
+
+void GF::GameEngine::Map2D::setNonCollision(bool nonCollision)
+{
+	if(this->collisionMap!=nullptr)
+		this->nonCollision = nonCollision;
 }

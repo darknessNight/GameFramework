@@ -14,7 +14,7 @@ namespace GF {
 			virtual bool canMove();///<using in AIScript. return info can do script and delay to framelimit and pause
 			virtual bool sendToEngine(Action & action);
 		public:
-			std::function<void(Core::MemGuard<Mob>)> AIScript;
+			std::function<void(Core::shared_ptr<Mob>)> AIScript;
 			RTState state = RTState::Stoped;
 		protected:
 			std::chrono::milliseconds loopInterval=std::chrono::milliseconds(0);

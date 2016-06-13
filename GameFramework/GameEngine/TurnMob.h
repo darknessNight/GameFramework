@@ -8,7 +8,7 @@ namespace GF {
 		class TurnMob : public Mob {
 		public:
 			virtual Action doAction();
-			std::function<Action(Core::MemGuard<Mob>)> AIScript;
+			std::function<Action(Core::shared_ptr<Mob>)> AIScript;
 		};
 	}
 }

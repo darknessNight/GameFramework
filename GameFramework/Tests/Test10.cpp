@@ -9,12 +9,12 @@ Test obs³ugi w¹tków.
 
 #include "Tests.h"
 std::string Test10();
-AutoAdd AA10(Test10, "Core", "MemGuard Test");
+AutoAdd AA10(Test10, "Core", "shared_ptr Test");
 
 namespace Test10Helpers {
 	using namespace GF::Core;
 	std::string result;
-	MemGuard<int> str;
+	shared_ptr<int> str;
 	void ChangeStrEnd() {
 		str.lockPtr();
 		for (int i = 1; i <= 3; i++) {
@@ -25,7 +25,7 @@ namespace Test10Helpers {
 	}
 
 	void ChangeStrStart() {
-		if ((*str) != 3) result += "Mutex blocking in MemGuard doesn't work correctly";
+		if ((*str) != 3) result += "Mutex blocking in shared_ptr doesn't work correctly";
 	}
 }
 

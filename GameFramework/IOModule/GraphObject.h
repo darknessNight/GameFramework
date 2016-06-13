@@ -1,6 +1,7 @@
 #pragma once
 #include "Types.h"
 #include "Events.h"
+#include "Interfaces.h"
 
 namespace GF {
 	namespace IOModule {

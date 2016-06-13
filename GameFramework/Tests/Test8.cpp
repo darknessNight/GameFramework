@@ -8,22 +8,22 @@ Test obs³ugi w¹tków.
 
 #include "Tests.h"
 std::string Test8();
-AutoAdd AA8(Test8, "IOModule", "MemGuards Test");
+AutoAdd AA8(Test8, "IOModule", "shared_ptrs Test");
 
 namespace Test8Helpers {
 	using namespace std::literals;
 	bool bresult = false;
-	void func(GF::Core::MemGuard<int> tia) {
+	void func(GF::Core::shared_ptr<int> tia) {
 		(*tia)++;
 	}
 
-	void func2(GF::Core::MemGuard<int> tia) {
+	void func2(GF::Core::shared_ptr<int> tia) {
 		(*tia)--;
 		if ((*tia) == 0)bresult = true;
 		else bresult = false;
 	}
 
-	void DrawM1_1(GF::Core::MemGuard<GF::IOModule::Image> im) {
+	void DrawM1_1(GF::Core::shared_ptr<GF::IOModule::Image> im) {
 		using namespace GF::IOModule;
 		Shapes::Circle circle;
 		circle.setFillColor(Color::Red);
@@ -31,7 +31,7 @@ namespace Test8Helpers {
 		im->draw(circle);
 	}
 
-	void DrawM1_2(GF::Core::MemGuard<GF::IOModule::Image> im) {
+	void DrawM1_2(GF::Core::shared_ptr<GF::IOModule::Image> im) {
 		using namespace GF::IOModule;
 		std::chrono::seconds m(1);
 		std::this_thread::sleep_for(m);
@@ -54,7 +54,7 @@ std::string Test8() {
 	char ret;
 
 	try {
-		MemGuard<int> f1;
+		shared_ptr<int> f1;
 		f1 = new int;
 		(*f1) = 0;
 
@@ -67,7 +67,7 @@ std::string Test8() {
 
 		if (true) {
 			bresult = false;
-			MemGuard<int> f2;
+			shared_ptr<int> f2;
 			f2 = new int;
 			(*f2) = 100;
 			for (int i = 0; i < 100; i++)
@@ -91,7 +91,7 @@ std::string Test8() {
 		Window window;
 		window.ShowAsync();
 		std::this_thread::sleep_for(1s);
-		MemGuard<Texture2D> t1, t2;
+		shared_ptr<Texture2D> t1, t2;
 		t1 = window.CreateTexture({ 100,100 }, 0);
 		t2 = window.CreateTexture({ 100,100 }, 0);
 		t1->loadFromFile("./Tests/Resources/Image.png");
@@ -103,7 +103,7 @@ std::string Test8() {
 		t2->setVisible(true);
 		std::clog << "Second image\n";
 		std::this_thread::sleep_for(1s);
-		MemGuard<Image> m1;
+		shared_ptr<Image> m1;
 		m1 = window.CreateImage({ 100,100 }, 0);
 		m1->setVisible(true);
 		std::clog << "Drawable image\n";

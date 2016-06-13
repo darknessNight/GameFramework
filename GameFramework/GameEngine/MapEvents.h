@@ -6,12 +6,12 @@
 namespace GF {
 	namespace GameEngine {
 		struct MapEventArgs:public Core::Events::EventArgs{
-			Core::MemGuard<Mob> mob;
+			Core::shared_ptr<Mob> mob;
 		};
 		struct MapEvent{
 			Box area;
 			Core::Events::Event<MapEventArgs> event;
-			Core::MemGuard<Mob> forMob;
+			Core::shared_ptr<Mob> forMob;
 			int forGroup;
 		};
 

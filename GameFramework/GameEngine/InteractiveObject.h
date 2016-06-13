@@ -12,10 +12,10 @@ namespace GF {
 			virtual std::vector<unsigned char> serialize()override;
 			virtual bool deserialize(std::vector<unsigned char>)override;
 
-			virtual void interact(Core::MemGuard<Mob>);
+			virtual void interact(Core::shared_ptr<Mob>);
 			virtual void setName(std::string);
 			virtual std::string getName();
-			virtual Core::MemGuard<const Statistics> getCurrStats();
+			virtual Core::shared_ptr<const Statistics> getCurrStats();
 			virtual void obtainEffect(const AttackEffect& effect);
 			virtual std::vector<AttackEffect> getCurrEffects();
 		protected:
@@ -31,7 +31,7 @@ namespace GF {
 		protected:
 			bool asyncEffLoop = false;
 			std::chrono::high_resolution_clock::time_point lastEffLoop;
-			Core::MemGuard<Statistics> currentStats;
+			Core::shared_ptr<Statistics> currentStats;
 			std::vector<AttackEffect> effects;
 			std::string name;
 		};

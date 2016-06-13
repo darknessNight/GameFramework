@@ -3,37 +3,37 @@
 
 namespace GF {
 	namespace Core {
-		template<typename T> void MemGuard<T>::init()
+		template<typename T> void shared_ptr<T>::init()
 		{
 			copies = new int;
 			(*copies) = 1;
 			userMutex = new std::mutex;
 		}
 		/*template<typename T>
-		MemGuard<T>::MemGuard(T * val)
+		shared_ptr<T>::shared_ptr(T * val)
 		{
 			operator=(val);
 		}*/
 
 		template<typename T>
-		MemGuard<T>::MemGuard(T & val){
+		shared_ptr<T>::shared_ptr(T & val){
 			operator=(val);
 		}
 
-		template <typename T> MemGuard<T>::MemGuard(const MemGuard<T>& ref) {
+		template <typename T> shared_ptr<T>::shared_ptr(const shared_ptr<T>& ref) {
 			operator=(ref);
 		}
 
-		template <typename T> MemGuard<T>::MemGuard(std::nullptr_t) {
+		template <typename T> shared_ptr<T>::shared_ptr(std::nullptr_t) {
 		}
 
-		template <typename T> MemGuard<T>::~MemGuard() {
+		template <typename T> shared_ptr<T>::~shared_ptr() {
 			std::lock_guard<std::mutex> guard(thsafe);
 			deletePtr();
 		}
 
 		template<typename T>
-		inline void MemGuard<T>::lockPtr()
+		inline void shared_ptr<T>::lockPtr()
 		{
 			if (userMutex == nullptr) throw std::runtime_error("Nullptr exception");
 			userMutex->lock();
@@ -41,18 +41,18 @@ namespace GF {
 		}
 
 		template<typename T>
-		inline void MemGuard<T>::unlockPtr()
+		inline void shared_ptr<T>::unlockPtr()
 		{
 			if (userMutex == nullptr) throw std::runtime_error("Nullptr exception");
 			uMutexId = std::thread::id();
 			userMutex->unlock();
 		}
 
-		template <typename T> template <typename From> MemGuard<T>::MemGuard(const MemGuard<From>& ref) {
+		template <typename T> template <typename From> shared_ptr<T>::shared_ptr(const shared_ptr<From>& ref) {
 			operator=<From>(ref);
 		}
 
-		template <typename T> T& MemGuard<T>::operator*() {
+		template <typename T> T& shared_ptr<T>::operator*() {
 			if (userMutex == nullptr || val==nullptr) throw std::runtime_error("Nullptr exception");
 			if (uMutexId==std::this_thread::get_id())
 				return *val;
@@ -63,7 +63,7 @@ namespace GF {
 			}
 		}
 
-		template<typename T> T& MemGuard<T>::operator[](unsigned i)
+		template<typename T> T& shared_ptr<T>::operator[](unsigned i)
 		{
 			if (userMutex == nullptr || val == nullptr) throw std::runtime_error("Nullptr exception");
 			if (uMutexId == std::this_thread::get_id())
@@ -75,7 +75,7 @@ namespace GF {
 			}
 		}
 
-		template <typename T> T* MemGuard<T>::operator->() {
+		template <typename T> T* shared_ptr<T>::operator->() {
 			if (userMutex == nullptr || val == nullptr) throw std::runtime_error("Nullptr exception");
 			if (uMutexId == std::this_thread::get_id())
 				return val;
@@ -86,7 +86,7 @@ namespace GF {
 			}
 		}
 
-		template <typename T> MemGuard<T>& MemGuard<T>::operator=(T* val) {
+		template <typename T> shared_ptr<T>& shared_ptr<T>::operator=(T* val) {
 			std::lock_guard<std::mutex> guard(thsafe);
 			deletePtr();
 			init();
@@ -95,7 +95,7 @@ namespace GF {
 			return *this;
 		}
 
-		template <typename T> MemGuard<T>& MemGuard<T>::operator=(T& val) {
+		template <typename T> shared_ptr<T>& shared_ptr<T>::operator=(T& val) {
 			std::lock_guard<std::mutex> guard(thsafe);
 			deletePtr();
 			init();
@@ -104,7 +104,7 @@ namespace GF {
 			return *this;
 		}
 
-		template <typename T> MemGuard<T>& MemGuard<T>::operator=(const MemGuard<T> &ref) {
+		template <typename T> shared_ptr<T>& shared_ptr<T>::operator=(const shared_ptr<T> &ref) {
 			std::lock_guard<std::mutex> guard(thsafe);
 			deletePtr();
 
@@ -117,7 +117,7 @@ namespace GF {
 			return *this;
 		}
 
-		template <typename T> template<typename From> MemGuard<T>& MemGuard<T>::operator=(const MemGuard<From> &ref) {
+		template <typename T> template<typename From> shared_ptr<T>& shared_ptr<T>::operator=(const shared_ptr<From> &ref) {
 			std::lock_guard<std::mutex> guard(thsafe);
 			deletePtr();
 			ref.copy(val, copies, userMutex);
@@ -127,7 +127,7 @@ namespace GF {
 			return *this;
 		}
 
-		template <typename T> MemGuard<T>& MemGuard<T>::operator=(std::nullptr_t) {
+		template <typename T> shared_ptr<T>& shared_ptr<T>::operator=(std::nullptr_t) {
 			std::lock_guard<std::mutex> guard(thsafe);
 			deletePtr();
 			if (copies != nullptr)
@@ -137,35 +137,35 @@ namespace GF {
 			return *this;
 		}
 
-		template<typename T> bool MemGuard<T>::operator!=(const T * ref) const
+		template<typename T> bool shared_ptr<T>::operator!=(const T * ref) const
 		{
 			return ref != val;
 		}
 
-		template<typename T> bool MemGuard<T>::operator==(const T * ref) const
+		template<typename T> bool shared_ptr<T>::operator==(const T * ref) const
 		{
 			return ref==val;
 		}
 
-		template<typename T> bool MemGuard<T>::operator!=(const MemGuard<T>& ref) const
+		template<typename T> bool shared_ptr<T>::operator!=(const shared_ptr<T>& ref) const
 		{
 			return this->val != ref.val;
 		}
 
-		template <typename T> bool MemGuard<T>::operator==(const MemGuard<T> &ref) const {
+		template <typename T> bool shared_ptr<T>::operator==(const shared_ptr<T> &ref) const {
 			return this->val == ref.val;
 		}
 
-		template <typename T> template<typename From> bool MemGuard<T>::operator==(const MemGuard<From> &ref) {
+		template <typename T> template<typename From> bool shared_ptr<T>::operator==(const shared_ptr<From> &ref) {
 			return (void*)ref.getPtr() == (void*)val;
 		}
 
-		template<typename T> template<typename From> bool MemGuard<T>::operator!=(const MemGuard<From>& ref)
+		template<typename T> template<typename From> bool shared_ptr<T>::operator!=(const shared_ptr<From>& ref)
 		{
 			return (void*)ref.getPtr() != (void*)val;
 		}
 
-		template <typename T> void MemGuard<T>::deletePtr() {
+		template <typename T> void shared_ptr<T>::deletePtr() {
 			if (copies == nullptr) return;
 			(*copies)--;
 			if ((*copies) <= 0) {
@@ -184,18 +184,18 @@ namespace GF {
 			}
 		}
 
-		template <typename T> T* MemGuard<T>::free() {
+		template <typename T> T* shared_ptr<T>::free() {
 			std::lock_guard<std::mutex> guard(thsafe);
 			if (copies != nullptr)
 			delete copies;
 			return val;
 		}
 
-		template <typename T> T* MemGuard<T>::getPtr()const {
+		template <typename T> T* shared_ptr<T>::getPtr()const {
 			return val;
 		}
 
-		template<typename T> template<typename To> void MemGuard<T>::copy(To *& ptr, int *& copies, std::mutex *& m) const
+		template<typename T> template<typename To> void shared_ptr<T>::copy(To *& ptr, int *& copies, std::mutex *& m) const
 		{
 			ptr = const_cast<T*>(val);
 			copies = this->copies;

@@ -19,7 +19,7 @@ GF::GameEngine::Statistics & GF::GameEngine::Statistics::operator+(const Statist
 	return ret;
 }
 
-void GF::GameEngine::Statistics::updateRel(Core::MemGuard<const Statistics> stat)
+void GF::GameEngine::Statistics::updateRel(Core::shared_ptr<const Statistics> stat)
 {
 	HP += stat->HP;
 	XP += stat->XP;

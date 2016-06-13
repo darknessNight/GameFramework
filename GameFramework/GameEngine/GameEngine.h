@@ -21,36 +21,36 @@ namespace GF {
 			bool deserialize(std::vector<unsigned char>)override;
 
 
-			virtual Core::MemGuard<GameObject> whatIsOn(Pos pos);
-			virtual std::vector<Core::MemGuard<GameObject>> scanRect(Box rect);
-			virtual std::vector<Core::MemGuard<GameObject>> detectOnLine(Pos start, Vector3D vector);
+			virtual Core::shared_ptr<GameObject> whatIsOn(Pos pos);
+			virtual std::vector<Core::shared_ptr<GameObject>> scanRect(Box rect);
+			virtual std::vector<Core::shared_ptr<GameObject>> detectOnLine(Pos start, Vector3D vector);
 			virtual void objChangePos(GameObject& obj, Pos pos);
-			virtual void mobMove(Mob& mob, Vector3D shift);
+			virtual Pos mobMove(Mob& mob, Vector3D shift);
 
 			virtual void start()=0;
 			virtual void stop()=0;
 			virtual void pause()=0;
 
-			virtual void appendMap(Core::MemGuard<Map>);
-			virtual void addInteractiveObject(Core::MemGuard<InteractiveObject> el);
-			virtual void addStaticObject(Core::MemGuard<StaticObject> el);
-			virtual void addMob(Core::MemGuard<Mob> el);
+			virtual void appendMap(Core::shared_ptr<Map>);
+			virtual void addInteractiveObject(Core::shared_ptr<InteractiveObject> el);
+			virtual void addStaticObject(Core::shared_ptr<StaticObject> el);
+			virtual void addMob(Core::shared_ptr<Mob> el);
 
-			virtual void removeInteractiveObject(Core::MemGuard<InteractiveObject> el);
-			virtual void removeStaticObject(Core::MemGuard<StaticObject> el);
-			virtual void removeMob(Core::MemGuard<Mob> el);
+			virtual void removeInteractiveObject(Core::shared_ptr<InteractiveObject> el);
+			virtual void removeStaticObject(Core::shared_ptr<StaticObject> el);
+			virtual void removeMob(Core::shared_ptr<Mob> el);
 			virtual void setCountOfSectors(unsigned);
 		protected:
 			void calcSectors();///<create sectors and safe data for calcSector; IMPORTANT: not rewrite positions of actual existing objects
-			void addToSectors(Core::MemGuard<GameObject>);
-			void removeFromSectors(Core::MemGuard<GameObject>);
+			void addToSectors(Core::shared_ptr<GameObject>);
+			void removeFromSectors(Core::shared_ptr<GameObject>);
 			std::vector<unsigned> getSectors(Box rect);//
 			unsigned calcSector(Pos);
 		protected:
-			std::vector<Core::MemGuard<StaticObject>> staticObjects;
-			std::vector<Core::MemGuard<InteractiveObject>> interactiveObjects;
-			std::vector<Core::MemGuard<Mob>> mobs;
-			Core::MemGuard<Map> map;
+			std::vector<Core::shared_ptr<StaticObject>> staticObjects;
+			std::vector<Core::shared_ptr<InteractiveObject>> interactiveObjects;
+			std::vector<Core::shared_ptr<Mob>> mobs;
+			Core::shared_ptr<Map> map;
 			
 			unsigned countOfSectors=10;
 			unsigned physCountOfSectors;
@@ -58,7 +58,7 @@ namespace GF {
 			unsigned ySectors=1;
 			unsigned zSectors=1;
 			Size sectSize;
-			std::list<Core::MemGuard<GameObject>>* sectors;
+			std::list<Core::shared_ptr<GameObject>>* sectors;
 			bool paused;
 		protected:
 			int loopRate;

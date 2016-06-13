@@ -10,7 +10,7 @@ AutoAdd AA7(Test7, "IOModule", "Drag and drop mechanism Test");
 
 namespace Test7Helpers {
 	using namespace std::chrono;
-	GF::Core::MemGuard<GF::IOModule::Texture2D> el, el2;
+	GF::Core::shared_ptr<GF::IOModule::Texture2D> el, el2;
 	GF::IOModule::Posf pos;
 	GF::IOModule::Pos wpos;
 	steady_clock::time_point now, last = high_resolution_clock::now();
@@ -73,7 +73,7 @@ std::string Test7() {
 		window.setVerticalSyncEnabled(true);
 		window.Render += MWMove;
 
-		MemGuard<Image> m1 = window.CreateImage({ 1024,576 });
+		shared_ptr<Image> m1 = window.CreateImage({ 1024,576 });
 		m1->setVisible();
 		m1->clear(Color(20,20,20));
 

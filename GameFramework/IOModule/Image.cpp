@@ -31,10 +31,10 @@ namespace GF {
 			unlock();
 		}
 
-		void Image::importFromTexture(Core::MemGuard<Texture2D> tex)
+		void Image::importFromTexture(Core::shared_ptr<Texture2D> tex)
 		{
 			lock();
-			Core::MemGuard<Texture2D> tmp = tex;
+			Core::shared_ptr<Texture2D> tmp = tex;
 			sf::Sprite sprite;
 			sprite.setTexture(tmp->texture);
 			texture.draw(sprite);
@@ -42,11 +42,11 @@ namespace GF {
 			unlock();
 		}
 
-		Core::MemGuard<Texture2D> Image::exportTexture()
+		Core::shared_ptr<Texture2D> Image::exportTexture()
 		{
 			lock();
 			texture.display();
-			Core::MemGuard<Texture2D> ret;
+			Core::shared_ptr<Texture2D> ret;
 			ret = new Texture2D(texture.getTexture());
 			unlock();
 			return ret;

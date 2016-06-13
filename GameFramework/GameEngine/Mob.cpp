@@ -16,11 +16,12 @@ std::vector<GF::GameEngine::Skill> GF::GameEngine::Mob::getSkills()
 	return skills;
 }
 
-void GF::GameEngine::Mob::move(Vector3D s)
+GF::GameEngine::Pos GF::GameEngine::Mob::move(Vector3D s)
 {
 	if (engine != nullptr)
-		engine->mobMove(*this, s);
+		return engine->mobMove(*this, s);
 	else model->pos = s+ model->pos;
+	return s;
 }
 
 GF::GameEngine::MobState GF::GameEngine::Mob::getState()
@@ -36,7 +37,7 @@ GF::GameEngine::EqSlot & GF::GameEngine::Mob::getSlot(int id)
 	else throw std::runtime_error("This slot doesn't exists: Returned from: GameEngine::Mob::getSlot");
 }
 
-void GF::GameEngine::Mob::updateStats(Core::MemGuard<const Statistics>)
+void GF::GameEngine::Mob::updateStats(Core::shared_ptr<const Statistics>)
 {
 	Statistics s = *stats;
 	if (!canDestroy) s.HP = 0;

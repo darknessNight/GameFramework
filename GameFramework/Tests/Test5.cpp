@@ -15,14 +15,14 @@ namespace Test5Helpers {
 	using namespace std::chrono;
 	using namespace GF::IOModule;
 	Camera cam1,cam2;
-	GF::Core::MemGuard<Image> img1, img2;
+	GF::Core::shared_ptr<Image> img1, img2;
 	long long ind = 0;
 	std::chrono::time_point<std::chrono::steady_clock> started = std::chrono::high_resolution_clock::now();
 	std::chrono::time_point<std::chrono::steady_clock> start;
 	std::chrono::time_point<std::chrono::steady_clock> render;
 	int frameCount = 0;
-	GF::Core::MemGuard<GF::IOModule::Texture2D> texture1;
-	GF::Core::MemGuard<GF::IOModule::Texture2D> texture2;
+	GF::Core::shared_ptr<GF::IOModule::Texture2D> texture1;
+	GF::Core::shared_ptr<GF::IOModule::Texture2D> texture2;
 	typedef std::chrono::duration<double, std::micro> timeDur;
 	typedef std::chrono::duration<double, std::milli> timeDur2;
 	typedef std::chrono::duration<double, std::ratio<1, 1000> > timeDurMove;
@@ -96,7 +96,7 @@ std::string Test5() {
 		start = std::chrono::high_resolution_clock::now();
 
 		texture1 = window.CreateTexture({ 1280,1024 });
-		GF::Core::MemGuard<Texture2D> tmp = window.CreateTexture({ 1280,1024 });
+		GF::Core::shared_ptr<Texture2D> tmp = window.CreateTexture({ 1280,1024 });
 		texture1->setVisible(true);
 		texture1->setOrigin({ 50,50 });
 		if(!texture1->loadFromFile("./Tests/Resources/img2.jpg"))
@@ -131,7 +131,7 @@ std::string Test5() {
 		img1->setVisible(true);
 		img2->setVisible(true);
 
-		GF::Core::MemGuard<Texture2D> tmpT=img1->exportTexture();
+		GF::Core::shared_ptr<Texture2D> tmpT=img1->exportTexture();
 		multi.append(tmpT);
 
 		Sounds::Music music;

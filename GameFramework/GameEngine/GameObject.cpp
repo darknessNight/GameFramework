@@ -23,13 +23,13 @@ Size GF::GameEngine::GameObject::getSize()
 	return model->size;
 }
 
-void GF::GameEngine::GameObject::setModel(Core::MemGuard<Model> m)
+void GF::GameEngine::GameObject::setModel(Core::shared_ptr<Model> m)
 {
 	if (m == nullptr) throw std::runtime_error("Nullptr exception in GameObject");
 	*model = *m;
 }
 
-void GF::GameEngine::GameObject::updateStats(Core::MemGuard<const Statistics> stat)
+void GF::GameEngine::GameObject::updateStats(Core::shared_ptr<const Statistics> stat)
 {
 	Statistics s = *stats;
 	if (!canDestroy) s.HP = 0;
@@ -45,14 +45,14 @@ Model * GF::GameEngine::GameObject::getModel()
 	return model.getPtr();
 }
 
-void GF::GameEngine::GameObject::setStats(Core::MemGuard<Statistics> stat)
+void GF::GameEngine::GameObject::setStats(Core::shared_ptr<Statistics> stat)
 {
 	if (stats == nullptr)
 		stats = new Statistics;
 	*stats = *stat;
 }
 
-GF::Core::MemGuard<const Statistics> GF::GameEngine::GameObject::getStats()
+GF::Core::shared_ptr<const Statistics> GF::GameEngine::GameObject::getStats()
 {
 	return stats;
 }

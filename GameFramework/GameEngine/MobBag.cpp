@@ -12,7 +12,7 @@ bool GF::GameEngine::operator<(const Posi& lhs, const Posi& rhs) {
 	else return lhs.x < rhs.x;
 }
 
-void GF::GameEngine::Bag::addEq(Core::MemGuard<Equipment> el)
+void GF::GameEngine::Bag::addEq(Core::shared_ptr<Equipment> el)
 {
 	for (int z = 0; z <= maxPos.z;z++)
 		for (int y = 0; y <= maxPos.y; y++)
@@ -24,7 +24,7 @@ void GF::GameEngine::Bag::addEq(Core::MemGuard<Equipment> el)
 	throw GameEngineError("Bag is full!");
 }
 
-void GF::GameEngine::Bag::removeEq(Core::MemGuard<Equipment> el)
+void GF::GameEngine::Bag::removeEq(Core::shared_ptr<Equipment> el)
 {
 	for (auto i = items.begin(); i != items.end();i++)
 		if ((*el) == *(i->second)) {
@@ -43,11 +43,11 @@ void GF::GameEngine::Bag::removeEq(Posi id)
 
 void GF::GameEngine::Bag::move(Posi id1, Posi id2)
 {
-	std::map<Posi, Core::MemGuard<Equipment>>::iterator p1, p2;
+	std::map<Posi, Core::shared_ptr<Equipment>>::iterator p1, p2;
 	p1 = items.find(id1); p2 = items.find(id2);
 	if (p1 == items.end())return;
 	if (p2 != items.end()) {
-		Core::MemGuard<Equipment> tmp = p2->second;
+		Core::shared_ptr<Equipment> tmp = p2->second;
 		p2->second = p1->second;
 		p1->second = tmp;
 	}
@@ -62,7 +62,7 @@ void GF::GameEngine::Bag::clear()
 	items.clear();
 }
 
-GF::Core::MemGuard<GF::GameEngine::Equipment> GF::GameEngine::Bag::getEq(Posi id)
+GF::Core::shared_ptr<GF::GameEngine::Equipment> GF::GameEngine::Bag::getEq(Posi id)
 {
 	auto i = items.find(id);
 	if (i != items.end())

@@ -3,9 +3,9 @@
 namespace GF {
 	namespace IOModule {
 		float SoundCore::volume = 1.00;
-		std::vector < Core::MemGuard<Sounds::Music>> SoundCore::musics;
-		std::vector < Core::MemGuard<Sounds::Voice>> SoundCore::voices;
-		std::vector < Core::MemGuard<Sounds::Effect>> SoundCore::effects;
+		std::vector < Core::shared_ptr<Sounds::Music>> SoundCore::musics;
+		std::vector < Core::shared_ptr<Sounds::Voice>> SoundCore::voices;
+		std::vector < Core::shared_ptr<Sounds::Effect>> SoundCore::effects;
 	}
 }
 
@@ -74,22 +74,22 @@ float GF::IOModule::SoundCore::getMainVolume()
 	return volume * 100;
 }
 
-void GF::IOModule::SoundCore::applyMusic(Core::MemGuard<Sounds::Music> m)
+void GF::IOModule::SoundCore::applyMusic(Core::shared_ptr<Sounds::Music> m)
 {
 	musics.push_back(m);
 }
 
-void GF::IOModule::SoundCore::applyVoice(Core::MemGuard<Sounds::Voice> v)
+void GF::IOModule::SoundCore::applyVoice(Core::shared_ptr<Sounds::Voice> v)
 {
 	voices.push_back(v);
 }
 
-void GF::IOModule::SoundCore::applyEffect(Core::MemGuard<Sounds::Effect> e)
+void GF::IOModule::SoundCore::applyEffect(Core::shared_ptr<Sounds::Effect> e)
 {
 	effects.push_back(e);
 }
 
-void GF::IOModule::SoundCore::removeMusic(Core::MemGuard<Sounds::Music> el)
+void GF::IOModule::SoundCore::removeMusic(Core::shared_ptr<Sounds::Music> el)
 {
 	for (auto i = musics.begin(); i != musics.end();i++)
 		if ((*i) == el) {
@@ -98,7 +98,7 @@ void GF::IOModule::SoundCore::removeMusic(Core::MemGuard<Sounds::Music> el)
 		}
 }
 
-void GF::IOModule::SoundCore::removeVoice(Core::MemGuard<Sounds::Voice> el)
+void GF::IOModule::SoundCore::removeVoice(Core::shared_ptr<Sounds::Voice> el)
 {
 	for (auto i = voices.begin(); i != voices.end(); i++)
 		if ((*i) == el) {
@@ -107,7 +107,7 @@ void GF::IOModule::SoundCore::removeVoice(Core::MemGuard<Sounds::Voice> el)
 		}
 }
 
-void GF::IOModule::SoundCore::removeEffect(Core::MemGuard<Sounds::Effect> el)
+void GF::IOModule::SoundCore::removeEffect(Core::shared_ptr<Sounds::Effect> el)
 {
 	for (auto i = effects.begin(); i != effects.end(); i++)
 		if ((*i) == el) {
@@ -116,17 +116,17 @@ void GF::IOModule::SoundCore::removeEffect(Core::MemGuard<Sounds::Effect> el)
 		}
 }
 
-GF::Core::MemGuard<GF::IOModule::Sounds::Music> GF::IOModule::SoundCore::createMusic()
+GF::Core::shared_ptr<GF::IOModule::Sounds::Music> GF::IOModule::SoundCore::createMusic()
 {
-	return Core::MemGuard<Sounds::Music>();
+	return Core::shared_ptr<Sounds::Music>();
 }
 
-GF::Core::MemGuard<GF::IOModule::Sounds::Voice> GF::IOModule::SoundCore::createVoice()
+GF::Core::shared_ptr<GF::IOModule::Sounds::Voice> GF::IOModule::SoundCore::createVoice()
 {
-	return Core::MemGuard<Sounds::Voice>();
+	return Core::shared_ptr<Sounds::Voice>();
 }
 
-GF::Core::MemGuard<GF::IOModule::Sounds::Effect> GF::IOModule::SoundCore::createEffect()
+GF::Core::shared_ptr<GF::IOModule::Sounds::Effect> GF::IOModule::SoundCore::createEffect()
 {
-	return Core::MemGuard<Sounds::Effect>();
+	return Core::shared_ptr<Sounds::Effect>();
 }

@@ -59,10 +59,10 @@ std::string Test14() {
 		s1.setPos({ 18,10 }); s2.setPos({ 90,20 }); s3.setPos({ 50,20 }); s4.setPos({ 0,0 });
 		ge.addStaticObject(s1); ge.addStaticObject(s2); ge.addStaticObject(s3); ge.addStaticObject(s4);
 
-		std::vector<GF::Core::MemGuard<GameObject>> objs;
+		std::vector<GF::Core::shared_ptr<GameObject>> objs;
 		std::list<unsigned long long> objs1;
 		std::list<unsigned long long> objs2;
-		std::list<GF::Core::MemGuard<GameObject>> objs3;
+		std::list<GF::Core::shared_ptr<GameObject>> objs3;
 
 		objs = ge.scanRect({ 21,10,51,21 });
 		if (objs.size() != 2) result += "Error in rect scanning v1\n";

@@ -12,8 +12,8 @@ namespace GF {
 
 		class AttackEffect {
 		public:
-			Core::MemGuard<Statistics> temp;///<temporary effect
-			Core::MemGuard<Statistics> perm;///<permament change of statistics
+			Core::shared_ptr<Statistics> temp;///<temporary effect
+			Core::shared_ptr<Statistics> perm;///<permament change of statistics
 			std::string name;
 			long long time;///<time of effect or one repeat in milliseconds
 			long long currTime;

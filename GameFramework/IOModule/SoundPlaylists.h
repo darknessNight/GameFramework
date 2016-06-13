@@ -58,16 +58,16 @@ namespace GF {
 				unsigned size();
 				void select(unsigned);
 				void clear();
-				void append(Core::MemGuard<SoundBase>);
-				void remove(Core::MemGuard<SoundBase>);
+				void append(Core::shared_ptr<SoundBase>);
+				void remove(Core::shared_ptr<SoundBase>);
 				void remove(unsigned);
 				void setVolume(float);
 			protected:
 				void checkPlaylist();
 			protected:
 				float volume = 100;
-				std::vector<Core::MemGuard<SoundBase>> list;
-				Core::MemGuard<SoundBase> active;
+				std::vector<Core::shared_ptr<SoundBase>> list;
+				Core::shared_ptr<SoundBase> active;
 			};
 		}
 	}

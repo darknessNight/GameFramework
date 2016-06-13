@@ -206,7 +206,7 @@ void GF::IOModule::Sounds::PlaylistSound::clear()
 	list.clear();
 }
 
-void GF::IOModule::Sounds::PlaylistSound::append(Core::MemGuard<SoundBase> el)
+void GF::IOModule::Sounds::PlaylistSound::append(Core::shared_ptr<SoundBase> el)
 {
 	if (el != nullptr) {
 		list.push_back(el);
@@ -214,7 +214,7 @@ void GF::IOModule::Sounds::PlaylistSound::append(Core::MemGuard<SoundBase> el)
 	}
 }
 
-void GF::IOModule::Sounds::PlaylistSound::remove(Core::MemGuard<SoundBase> el)
+void GF::IOModule::Sounds::PlaylistSound::remove(Core::shared_ptr<SoundBase> el)
 {
 	for (auto i = list.begin(); i != list.end(); i++)
 		if (el == (*i)) {

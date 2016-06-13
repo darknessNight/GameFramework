@@ -11,8 +11,8 @@ namespace GF {
 			Image(const Image&);
 			Image(Size size);
 			void appendCamera(const Camera &cam);
-			void importFromTexture(Core::MemGuard<Texture2D>);
-			Core::MemGuard<Texture2D> exportTexture();
+			void importFromTexture(Core::shared_ptr<Texture2D>);
+			Core::shared_ptr<Texture2D> exportTexture();
 			bool loadFromMemory(const void * mem, unsigned size);
 			bool loadFromStream(std::istream & stream);
 			bool loadFromFile(std::string path);

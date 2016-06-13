@@ -9,15 +9,15 @@ namespace GF {
 
 		class Bag {
 		public:
-			virtual void addEq(Core::MemGuard<Equipment>);
-			virtual void removeEq(Core::MemGuard<Equipment>);
+			virtual void addEq(Core::shared_ptr<Equipment>);
+			virtual void removeEq(Core::shared_ptr<Equipment>);
 			virtual void removeEq(Posi);
 			virtual void move(Posi, Posi);
 			virtual void clear();
-			virtual Core::MemGuard<Equipment> getEq(Posi);
+			virtual Core::shared_ptr<Equipment> getEq(Posi);
 		protected:
 			Posi maxPos = { 100,100,0};
-			std::map<Posi, Core::MemGuard<Equipment>> items;
+			std::map<Posi, Core::shared_ptr<Equipment>> items;
 		};
 	}
 }

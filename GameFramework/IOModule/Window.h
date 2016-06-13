@@ -36,12 +36,12 @@ namespace GF {
 			void Show();
 			void ShowAsync();
 			void Close();
-			Core::MemGuard<Texture2D> CreateTexture(Size size, int z_index=-1);
-			Core::MemGuard<Image> CreateImage(Size size, int z_index = -1);
+			Core::shared_ptr<Texture2D> CreateTexture(Size size, int z_index=-1);
+			Core::shared_ptr<Image> CreateImage(Size size, int z_index = -1);
 
-			void appendGraphObj(Core::MemGuard<GraphObject2D>, int z_index);
-			void appendGraphObj(Core::MemGuard<GraphObject2D>);
-			void removeGraphObj(Core::MemGuard<GraphObject2D>);
+			void appendGraphObj(Core::shared_ptr<GraphObject2D>, int z_index);
+			void appendGraphObj(Core::shared_ptr<GraphObject2D>);
+			void removeGraphObj(Core::shared_ptr<GraphObject2D>);
 			void clearGraphObjs();
 
 			void appendCamera(const Camera& cam);
@@ -131,13 +131,13 @@ namespace GF {
 			WindowSettings settings;
 
 			std::mutex mutexGraph;
-			Core::MemGuard<std::thread> thread;
+			Core::shared_ptr<std::thread> thread;
 			sf::RenderWindow window;
 
-			Core::MemGuard<GraphObject2D> draggedItem;
-			Core::MemGuard<GraphObject2D> focusedItem;
+			Core::shared_ptr<GraphObject2D> draggedItem;
+			Core::shared_ptr<GraphObject2D> focusedItem;
 
-			std::vector<Core::MemGuard<GraphObject2D>> graphObjs;
+			std::vector<Core::shared_ptr<GraphObject2D>> graphObjs;
 			std::vector<const Camera*> cams;
 			//consts
 			const Size MIN_SIZE = { 10,10 };

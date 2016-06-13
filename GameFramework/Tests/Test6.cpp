@@ -13,7 +13,7 @@ std::string Test6() {
 	std::string result;
 	using namespace GF::IOModule;
 	using namespace std::literals;
-	GF::Core::MemGuard<Sounds::Music> m1, m2, m3, m4, m5;
+	GF::Core::shared_ptr<Sounds::Music> m1, m2, m3, m4, m5;
 	m1 = m2 = m3 = m4 = GF::Core::make_ptr(new Sounds::Music);
 	m5 = GF::Core::make_ptr(new Sounds::Music);
 
@@ -53,7 +53,7 @@ std::string Test6() {
 	SoundCore::setMusicVolume(30);
 
 	Sounds::PlaylistSound p3;
-	GF::Core::MemGuard<Sounds::Music> e1, e2, e3;
+	GF::Core::shared_ptr<Sounds::Music> e1, e2, e3;
 	e1 = new Sounds::Music;
 	e2 = new Sounds::Music;
 	e3 = new Sounds::Music;
@@ -61,7 +61,7 @@ std::string Test6() {
 	e2->openFromFile("./Tests/Resources/tmusic2.ogg");
 	e3->openFromFile("./Tests/Resources/tmusic3.ogg");
 
-	GF::Core::MemGuard<Sounds::SoundBase> sb1;
+	GF::Core::shared_ptr<Sounds::SoundBase> sb1;
 	sb1 = e1;
 	sb1->setVolume(10);
 

@@ -15,7 +15,7 @@ bool GF::GameEngine::InteractiveObject::deserialize(std::vector<unsigned char>)
 	return false;
 }
 
-void GF::GameEngine::InteractiveObject::interact(Core::MemGuard<Mob> mob)
+void GF::GameEngine::InteractiveObject::interact(Core::shared_ptr<Mob> mob)
 {
 	if (!canInteract) return;
 
@@ -38,7 +38,7 @@ std::string GF::GameEngine::InteractiveObject::getName()
 	return name;
 }
 
-GF::Core::MemGuard<const GF::GameEngine::Statistics> GF::GameEngine::InteractiveObject::getCurrStats()
+GF::Core::shared_ptr<const GF::GameEngine::Statistics> GF::GameEngine::InteractiveObject::getCurrStats()
 {
 	calcCurrStats();
 	return currentStats;

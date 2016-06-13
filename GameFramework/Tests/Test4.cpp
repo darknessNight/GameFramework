@@ -19,8 +19,8 @@ std::chrono::time_point<std::chrono::steady_clock> started = std::chrono::high_r
 std::chrono::time_point<std::chrono::steady_clock> start;
 std::chrono::time_point<std::chrono::steady_clock> render;
 int frameCount = 0;
-GF::Core::MemGuard<GF::IOModule::Texture2D> texture1;
-GF::Core::MemGuard<GF::IOModule::Texture2D> texture2;
+GF::Core::shared_ptr<GF::IOModule::Texture2D> texture1;
+GF::Core::shared_ptr<GF::IOModule::Texture2D> texture2;
 typedef std::chrono::duration<double, std::micro> timeDur;
 typedef std::chrono::duration<double, std::milli> timeDur2;
 typedef std::chrono::duration<double, std::ratio<1, 1000> > timeDurMove;
@@ -117,7 +117,7 @@ std::string Test4() {
 		img.draw(c2);
 		img.draw(txt);
 
-		GF::Core::MemGuard<Image> img2(window.CreateImage({ 100,100 }, 999)), img3(window.CreateImage({ 100,100 }, 1));
+		GF::Core::shared_ptr<Image> img2(window.CreateImage({ 100,100 }, 999)), img3(window.CreateImage({ 100,100 }, 1));
 		img2->clear(Color::Magenta);
 		img2->setPosition({ 200, 10 });
 		img3->clear(Color::Cyan);

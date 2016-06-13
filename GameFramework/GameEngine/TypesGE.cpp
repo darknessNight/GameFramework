@@ -5,6 +5,12 @@
 #include "../MemGuard.h"
 #endif
 
+GF::GameEngine::Box::Box(const Box & rhs)
+{
+	x = rhs.x; y = rhs.y; z = rhs.z;
+	width = rhs.width; height = rhs.height; depth = rhs.depth;
+}
+
 GF::GameEngine::Box::Box(Vector3D v, Size s)
 {
 	x = v.x; y = v.y; z = v.z; width = s.width; height = s.height; depth = s.depth;

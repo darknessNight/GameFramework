@@ -38,7 +38,7 @@ namespace GF {
 
 		struct Box {
 			Box() = default;
-			Box(const Box&) = default;
+			Box(const Box& rhs);
 			Box(Vector3D, Size);
 			Box(float x, float y, float z, float w, float h, float d);
 			Box(float x, float y, float w, float h);
@@ -51,7 +51,7 @@ namespace GF {
 
 		class Mob;
 		struct InteractEventArgs :public Core::EventArgs {
-			Core::MemGuard<Mob> mob;
+			Core::shared_ptr<Mob> mob;
 		};
 
 		typedef std::runtime_error GameEngineError;

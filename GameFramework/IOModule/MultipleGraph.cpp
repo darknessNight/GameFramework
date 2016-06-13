@@ -12,7 +12,7 @@ namespace GF {
 			objects.clear();
 		}
 
-		void MultipleGraph2D::append(Core::MemGuard<GraphObject2D> el)
+		void MultipleGraph2D::append(Core::shared_ptr<GraphObject2D> el)
 		{
 			objects.push_back(el);
 		}
@@ -28,7 +28,7 @@ namespace GF {
 			if (active >= objects.size()) setActive(-1);
 		}
 
-		void MultipleGraph2D::remove(Core::MemGuard<GraphObject2D> el)
+		void MultipleGraph2D::remove(Core::shared_ptr<GraphObject2D> el)
 		{
 			
 			for (auto i = objects.begin(); i != objects.end();i++) {

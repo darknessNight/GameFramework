@@ -14,7 +14,7 @@ namespace GF {
 			bool isInteract;
 			bool isWaiting;
 			MoveAction move;
-			Core::MemGuard<InteractiveObject> who;
+			Core::shared_ptr<InteractiveObject> who;
 		};
 	}
 }

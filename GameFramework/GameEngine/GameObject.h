@@ -9,7 +9,7 @@ namespace GF {
 		class GameObject;
 
 		struct CollisionEventArgs :public Core::EventArgs {
-			Core::MemGuard<GameObject> object;
+			Core::shared_ptr<GameObject> object;
 		};
 
 		class GameObject :public Core::ObjectSerialize {
@@ -21,12 +21,12 @@ namespace GF {
 			virtual void setPos(Pos pos);
 			virtual Pos getPos();
 			virtual Size getSize();
-			virtual void setModel(Core::MemGuard<Model>);
-			virtual void updateStats(Core::MemGuard<const Statistics>);
+			virtual void setModel(Core::shared_ptr<Model>);
+			virtual void updateStats(Core::shared_ptr<const Statistics>);
 			virtual Model* getModel();
 
-			virtual void setStats(Core::MemGuard<Statistics> stat);
-			virtual Core::MemGuard<const Statistics> getStats();
+			virtual void setStats(Core::shared_ptr<Statistics> stat);
+			virtual Core::shared_ptr<const Statistics> getStats();
 		protected:
 			virtual void selfDestroy()=0;
 
@@ -43,8 +43,8 @@ namespace GF {
 			bool canDestroy;
 			void* additionalData;
 		protected:
-			Core::MemGuard<Statistics> stats=nullptr;
-			Core::MemGuard<Model> model=nullptr;
+			Core::shared_ptr<Statistics> stats=nullptr;
+			Core::shared_ptr<Model> model=nullptr;
 			GameEngine* engine=nullptr;
 		};
 }}

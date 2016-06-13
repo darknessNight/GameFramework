@@ -4,10 +4,11 @@
 #include "../GameEngine/Model2D.h"
 #include "../GameEngine/Mob.h"
 #include "../GameEngine/StaticObject.h"
+#include "../Core/Exception.h"
 
 #include "Tests.h"
 std::string Test15();
-AutoAdd AA15(Test15, "GameEngine", "Search objects Test", true);
+AutoAdd AA15(Test15, "GameEngine", "Search objects Test", false);
 
 namespace Test15Helpers {
 	class GameEngineTest :public GF::GameEngine::GameEngine {

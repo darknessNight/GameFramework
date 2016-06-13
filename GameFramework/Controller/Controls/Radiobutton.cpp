@@ -4,16 +4,16 @@ using namespace GF::IOModule;
 using namespace GF;
 
 
-Core::MemGuard<std::vector<Core::MemGuard<Radiobutton>>>  GF::Controller::Controls::Radiobutton::getGroup()
+Core::shared_ptr<std::vector<Core::shared_ptr<Radiobutton>>>  GF::Controller::Controls::Radiobutton::getGroup()
 {
 	if (group == nullptr) {
-		group = new std::vector<Core::MemGuard<Radiobutton>>;
+		group = new std::vector<Core::shared_ptr<Radiobutton>>;
 		group->push_back(*this);
 	}
 	return group;
 }
 
-void GF::Controller::Controls::Radiobutton::addToGroup(Core::MemGuard<std::vector<Core::MemGuard<Radiobutton>>> g)
+void GF::Controller::Controls::Radiobutton::addToGroup(Core::shared_ptr<std::vector<Core::shared_ptr<Radiobutton>>> g)
 {
 	if (g != nullptr) {
 		group = g;

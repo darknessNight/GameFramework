@@ -7,11 +7,11 @@ namespace GF {
 			class Radiobutton :public Checkbox {
 			public:
 				using Checkbox::Checkbox;
-				Core::MemGuard<std::vector<Core::MemGuard<Radiobutton>>> getGroup();//if doesn't exist create
-				void addToGroup(Core::MemGuard<std::vector<Core::MemGuard<Radiobutton>>>);
+				Core::shared_ptr<std::vector<Core::shared_ptr<Radiobutton>>> getGroup();//if doesn't exist create
+				void addToGroup(Core::shared_ptr<std::vector<Core::shared_ptr<Radiobutton>>>);
 				void removeGroup();
 			protected:
-				Core::MemGuard<std::vector<Core::MemGuard<Radiobutton>>> group=nullptr;
+				Core::shared_ptr<std::vector<Core::shared_ptr<Radiobutton>>> group=nullptr;
 				void onMousePress(Events::MouseButtonArgs&)override;
 				void drawField()override;
 			};

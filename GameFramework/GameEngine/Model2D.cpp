@@ -46,15 +46,15 @@ bool GF::GameEngine::Model2D::isCollide(bool ** sourceMap, Box sB, Pos ownStart)
 	switch (collType) {
 	case CollideType::NonCollide:return false;
 	case CollideType::AllCollide:
-		for (unsigned i = 0; i < std::fminf(sB.height, size.height); i++) {
-			for (unsigned j = 0; j < std::fminf(sB.width, size.width); j++) {
-				if (sourceMap[static_cast<unsigned>(sB.y + i)][static_cast<unsigned>(sB.x + j)])
+		for (unsigned i = bTmp.y; i < std::fminf(sB.height, size.height); i++) {
+			for (unsigned j = bTmp.x; j < std::fminf(sB.width, size.width); j++) {
+				if (sourceMap[i][j])
 					return true;
 			}
 		}
 	default:
-		for (unsigned i = 0; i < std::fminf(sB.height, size.height); i++) {
-			for (unsigned j = 0; j < std::fminf(sB.width, size.width); j++) {
+		for (unsigned i = 0; ownStart.y + i < std::fminf(sB.height, size.height); i++) {
+			for (unsigned j = 0; sB.x + j < std::fminf(sB.width, size.width); j++) {
 				if (sourceMap[static_cast<unsigned>(sB.y + i)][static_cast<unsigned>(sB.x + j)]
 					&& collisionMap[static_cast<unsigned>(ownStart.y + i)][static_cast<unsigned>(ownStart.x + j)])
 					return true;

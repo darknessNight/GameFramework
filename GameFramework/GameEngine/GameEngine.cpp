@@ -2,13 +2,13 @@
 using namespace GF::GameEngine;
 using namespace GF;
 
-bool PtrCompare(const Core::MemGuard<GameObject> &lhs, const Core::MemGuard<GameObject> &rhs) {
+bool PtrCompare(const Core::shared_ptr<GameObject> &lhs, const Core::shared_ptr<GameObject> &rhs) {
 	return (long long)lhs.getPtr() < (long long)rhs.getPtr();
 }
 
 GF::GameEngine::GameEngine::GameEngine()
 {
-	sectors = new std::list<Core::MemGuard<GameObject>>[countOfSectors];
+	sectors = new std::list<Core::shared_ptr<GameObject>>[countOfSectors];
 }
 
 GF::GameEngine::GameEngine::~GameEngine()
@@ -26,7 +26,7 @@ bool GF::GameEngine::GameEngine::deserialize(std::vector<unsigned char>)
 	return false;
 }
 
-Core::MemGuard<GameObject> GF::GameEngine::GameEngine::whatIsOn(Pos pos)
+Core::shared_ptr<GameObject> GF::GameEngine::GameEngine::whatIsOn(Pos pos)
 {
 	unsigned s = calcSector(pos);
 	for (auto i = sectors[s].begin(); i != sectors[s].end(); i++)
@@ -36,10 +36,10 @@ Core::MemGuard<GameObject> GF::GameEngine::GameEngine::whatIsOn(Pos pos)
 	return nullptr;
 }
 
-std::vector<Core::MemGuard<GameObject>> GF::GameEngine::GameEngine::scanRect(Box rect)
+std::vector<Core::shared_ptr<GameObject>> GF::GameEngine::GameEngine::scanRect(Box rect)
 {
 	Box tmp = rect;
-	std::list<Core::MemGuard<GameObject>> r;
+	std::list<Core::shared_ptr<GameObject>> r;
 	rect.width = fminf(map->getSize().width - rect.x, rect.width);
 	rect.height = fminf(map->getSize().height - rect.y, rect.height);
 	rect.depth = fminf(map->getSize().depth - rect.z, rect.depth);
@@ -54,16 +54,16 @@ std::vector<Core::MemGuard<GameObject>> GF::GameEngine::GameEngine::scanRect(Box
 		}
 	r.sort(PtrCompare);
 	r.unique();
-	std::vector<Core::MemGuard<GameObject>> ret;
+	std::vector<Core::shared_ptr<GameObject>> ret;
 	for each(auto i in r)
 		ret.push_back(i);
 	return ret;
 }
 
-std::vector<Core::MemGuard<GameObject>> GF::GameEngine::GameEngine::detectOnLine(Pos start, Vector3D vector)
+std::vector<Core::shared_ptr<GameObject>> GF::GameEngine::GameEngine::detectOnLine(Pos start, Vector3D vector)
 {
 	//TODO dodaæ dok³adne ograniczenie liczby sektorów
-	std::vector<Core::MemGuard<GameObject>> ret;
+	std::vector<Core::shared_ptr<GameObject>> ret;
 	if (start.x < 0 || start.y < 0)return ret;
 
 	Pos s = start, v = vector;
@@ -79,7 +79,7 @@ std::vector<Core::MemGuard<GameObject>> GF::GameEngine::GameEngine::detectOnLine
 	if (vector.z != 0)
 	box.depth = (vector.z > 0 ? map->getSize().depth - start.z : start.z);
 
-	std::vector<Core::MemGuard<GameObject>> appro = scanRect(box);
+	std::vector<Core::shared_ptr<GameObject>> appro = scanRect(box);
 	for (auto i = appro.begin(); i != appro.end(); i++) {
 		if ((*i)->model->isOnLine(start, vector))
 			ret.push_back(*i);
@@ -87,7 +87,7 @@ std::vector<Core::MemGuard<GameObject>> GF::GameEngine::GameEngine::detectOnLine
 	return ret;
 }
 
-void GF::GameEngine::GameEngine::appendMap(Core::MemGuard<Map> newMap)
+void GF::GameEngine::GameEngine::appendMap(Core::shared_ptr<Map> newMap)
 {
 	staticObjects.clear();
 	interactiveObjects.clear();
@@ -98,28 +98,28 @@ void GF::GameEngine::GameEngine::appendMap(Core::MemGuard<Map> newMap)
 	calcSectors();
 }
 
-void GF::GameEngine::GameEngine::addInteractiveObject(Core::MemGuard<InteractiveObject> el)
+void GF::GameEngine::GameEngine::addInteractiveObject(Core::shared_ptr<InteractiveObject> el)
 {
 	el->engine = this;
 	interactiveObjects.push_back(el);
 	addToSectors(el);
 }
 
-void GF::GameEngine::GameEngine::addStaticObject(Core::MemGuard<StaticObject> el)
+void GF::GameEngine::GameEngine::addStaticObject(Core::shared_ptr<StaticObject> el)
 {
 	el->engine = this;
 	staticObjects.push_back(el);
 	addToSectors(el);
 }
 
-void GF::GameEngine::GameEngine::addMob(Core::MemGuard<Mob> el)
+void GF::GameEngine::GameEngine::addMob(Core::shared_ptr<Mob> el)
 {
 	el->engine = this;
 	mobs.push_back(el);
 	addToSectors(el);
 }
 
-void GF::GameEngine::GameEngine::removeInteractiveObject(Core::MemGuard<InteractiveObject> el)
+void GF::GameEngine::GameEngine::removeInteractiveObject(Core::shared_ptr<InteractiveObject> el)
 {
 	for (auto i = interactiveObjects.begin(); i != interactiveObjects.end(); i++)
 		if ((*i) == el) {
@@ -130,7 +130,7 @@ void GF::GameEngine::GameEngine::removeInteractiveObject(Core::MemGuard<Interact
 		}
 }
 
-void GF::GameEngine::GameEngine::removeStaticObject(Core::MemGuard<StaticObject> el)
+void GF::GameEngine::GameEngine::removeStaticObject(Core::shared_ptr<StaticObject> el)
 {
 	for (auto i = staticObjects.begin(); i != staticObjects.end(); i++)
 		if ((*i) == el) {
@@ -142,7 +142,7 @@ void GF::GameEngine::GameEngine::removeStaticObject(Core::MemGuard<StaticObject>
 		}
 }
 
-void GF::GameEngine::GameEngine::removeMob(Core::MemGuard<Mob> el)
+void GF::GameEngine::GameEngine::removeMob(Core::shared_ptr<Mob> el)
 {
 	for (auto i = mobs.begin(); i != mobs.end(); i++)
 		if ((*i) == el) {
@@ -158,7 +158,7 @@ void GF::GameEngine::GameEngine::setCountOfSectors(unsigned count)
 {
 	if (count > 0) {
 		delete[] sectors;
-		sectors = new std::list<Core::MemGuard<GameObject>>[count];
+		sectors = new std::list<Core::shared_ptr<GameObject>>[count];
 		countOfSectors = count;
 	}
 	calcSectors();
@@ -195,17 +195,17 @@ void GF::GameEngine::GameEngine::calcSectors()
 
 	physCountOfSectors = (xSectors == 0 ? 1 : xSectors)*(ySectors == 0 ? 1 : ySectors)*(zSectors == 0 ? 1 : zSectors);
 	delete[] sectors;
-	sectors = new std::list<Core::MemGuard<GameObject>>[physCountOfSectors];
+	sectors = new std::list<Core::shared_ptr<GameObject>>[physCountOfSectors];
 }
 
-void GF::GameEngine::GameEngine::addToSectors(Core::MemGuard<GameObject> el)
+void GF::GameEngine::GameEngine::addToSectors(Core::shared_ptr<GameObject> el)
 {
 	std::vector<unsigned> s = getSectors({ el->getPos(), el->getSize() });
 	for each(unsigned i in s)
 		sectors[i].push_back(el);
 }
 
-void GF::GameEngine::GameEngine::removeFromSectors(Core::MemGuard<GameObject> el)
+void GF::GameEngine::GameEngine::removeFromSectors(Core::shared_ptr<GameObject> el)
 {
 	std::vector<unsigned> s = getSectors({ el->getPos(), el->getSize() });
 	for each(unsigned i in s)
@@ -260,75 +260,73 @@ void GF::GameEngine::GameEngine::objChangePos(GameObject& obj, Pos pos)
 	obj.model->pos = pos;
 }
 
-void GF::GameEngine::GameEngine::mobMove(Mob& mob, Vector3D shift)
+Pos GF::GameEngine::GameEngine::mobMove(Mob& mob, Vector3D shift)
 {
-	if (shift.x == 0 && shift.y == 0 && shift.z == 0)return;
+	if (shift.x == 0 && shift.y == 0 && shift.z == 0)return mob.getPos();
 	Pos to = map->moveResult(mob.getPos(), shift, mob.getModel());
 	if (to != mob.getPos()) {
 		Pos prevPos = mob.model->pos;
 		
 		Box box;
-		box.x = (shift.x >= 0 ? prevPos.x : 0);
+		/*box.x = (shift.x >= 0 ? prevPos.x : 0);
 		box.y = (shift.y >= 0 ? prevPos.y : 0);
-		box.z = (shift.z >= 0 ? prevPos.z : 0);
-		if (shift.x != 0)
-			box.width = (shift.x > 0 ? shift.x+mob.getSize().width : prevPos.x);
-		if (shift.y != 0)
-			box.height = (shift.y > 0 ? shift.y + mob.getSize().height : prevPos.y);
-		if (shift.z != 0)
-			box.depth = (shift.z > 0 ? shift.z + mob.getSize().depth : prevPos.z);
+		box.z = (shift.z >= 0 ? prevPos.z : 0);*/
 
+		box.width = mob.getSize().width;
+		box.height = mob.getSize().height;
+		box.depth = mob.getSize().depth;
+
+		box.x = prevPos.x + shift.x;
+		box.y = prevPos.y + shift.y;
+		box.z = prevPos.z + shift.z;
 		auto objs = scanRect(box);/////
 		for (auto i = objs.begin(); i != objs.end(); i++) {
 			if (*i != mob) {
-				//pobranie realnego przesuniêcia obiektu do momentu kolizji
-				Vector3D tmp;
-				if (shift.x != 0)
-					tmp = shift*(((*i)->getPos().x - prevPos.x) / shift.x);
-				else if(shift.y!=0) tmp = shift*(((*i)->getPos().y - prevPos.y) / shift.y);
-				else tmp= tmp = shift*(((*i)->getPos().z - prevPos.z) / shift.z);
-
-				mob.model->pos = prevPos+tmp;
-				if ((*i)->model->isCollide(mob.model.getPtr())) {
-					CollisionEventArgs args;
-					args.object = mob;
-					(*i)->Collision(&mob, args);
-					args.object = (*i);
-					mob.Collision(&mob, args);
-					if(args.cancel)
-						mob.model->pos = prevPos;
-					else {
-						float dx=0, dy=0, dz=0;
-						//pobranie informacji jakie s¹ wymiary na których siê nak³ada
-						if (shift.x>0)
-							dx = mob.getPos().x - (*i)->getPos().x + mob.getSize().width;
-						else dx = (*i)->getPos().x - mob.getPos().x + (*i)->getSize().width;
-						if (shift.y>0)
-							dy = mob.getPos().y - (*i)->getPos().y + mob.getSize().height;
-						else dy = (*i)->getPos().y - mob.getPos().y + (*i)->getSize().height;
-						if (shift.z>0)
-							dz = mob.getPos().z - (*i)->getPos().z + mob.getSize().depth;
-						else dz = (*i)->getPos().z - mob.getPos().z + (*i)->getSize().depth;
-						//na podstawie wymiarów nak³adania wybiera siê taki, który powoduje najmiejsze przesuniêcie do ty³u
-						float m=0,m2=0;
-						if (shift.x != 0)
-							m = dx / shift.x;
-						if (shift.y != 0)
-							m2 = dy / shift.y;
-						if (m2 < m && m2!=0) m = m2;
-						m2 = 0;
-						if (shift.z != 0)
-							m2 = dz / shift.z;
-						if (m2 < m && m2 != 0) m = m2;
-
-						to = prevPos + tmp*(1-abs(m));
-					}
-					break;
-				}
+				CollisionEventArgs args;
+				args.object = *i;
+				mob.Collision(&mob, args);
+				if (args.cancel) return prevPos;
+				args.object = mob;
+				mob.Collision(&*i, args);
+				if (args.cancel) return prevPos;
+				to.x = prevPos.x;
+				break;
 			}
 		}
+
+		box.x = prevPos.x + shift.x;
+		box.y = prevPos.y;
+		box.z = prevPos.z;
+
+		objs = scanRect(box);/////
+		for (auto i = objs.begin(); i != objs.end(); i++) {
+			if (*i != mob) {
+				to.x = prevPos.x;
+				break;
+			}
+		}
+		box.x = to.x;
+		box.y = prevPos.y + shift.y;
+		objs = scanRect(box);/////
+		for (auto i = objs.begin(); i != objs.end(); i++) {
+			if (*i != mob) {
+				to.y = prevPos.y;
+				break;
+			}
+		}
+		box.y = to.y;
+		box.z = prevPos.z + shift.z;
+		objs = scanRect(box);/////
+		for (auto i = objs.begin(); i != objs.end(); i++) {
+			if (*i != mob) {
+				to.z = prevPos.z;
+				break;
+			}
+		}
+
 		mob.model->pos = prevPos;
 		objChangePos(mob, to);
+		return to;
 	}
 }
 

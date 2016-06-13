@@ -45,13 +45,13 @@ namespace GF {
 			onClose();
 		}
 
-		Core::MemGuard<Texture2D> Window::CreateTexture(Size size, int z_index)
+		Core::shared_ptr<Texture2D> Window::CreateTexture(Size size, int z_index)
 		{
-			Core::MemGuard<Texture2D> tex;
+			Core::shared_ptr<Texture2D> tex;
 			tex=new Texture2D(size);
 			std::lock_guard<std::mutex> guard(mutexGraph);
 			if (z_index < 0 || z_index >= graphObjs.size()) {
-				Core::MemGuard<GraphObject2D> tmp(tex);
+				Core::shared_ptr<GraphObject2D> tmp(tex);
 				graphObjs.push_back(tmp);
 			}
 			else {
@@ -62,9 +62,9 @@ namespace GF {
 			return tex;
 		}
 
-		Core::MemGuard<Image> Window::CreateImage(Size size, int z_index)
+		Core::shared_ptr<Image> Window::CreateImage(Size size, int z_index)
 		{
-			Core::MemGuard<Image> tex;
+			Core::shared_ptr<Image> tex;
 			tex=new Image(size);
 			std::lock_guard<std::mutex> guard(mutexGraph);
 			if (z_index < 0 || z_index >= graphObjs.size())
@@ -77,7 +77,7 @@ namespace GF {
 			return tex;
 		}
 
-		void Window::appendGraphObj(Core::MemGuard<GraphObject2D> tex, int z_index)
+		void Window::appendGraphObj(Core::shared_ptr<GraphObject2D> tex, int z_index)
 		{
 			std::lock_guard<std::mutex> guard(mutexGraph);
 			if (z_index < 0 || z_index >= graphObjs.size())
@@ -89,13 +89,13 @@ namespace GF {
 			}
 		}
 
-		void Window::appendGraphObj(Core::MemGuard<GraphObject2D> val)
+		void Window::appendGraphObj(Core::shared_ptr<GraphObject2D> val)
 		{
 			std::lock_guard<std::mutex> guard(mutexGraph);
 			graphObjs.push_back(val);
 		}
 
-		void Window::removeGraphObj(Core::MemGuard<GraphObject2D> rem)
+		void Window::removeGraphObj(Core::shared_ptr<GraphObject2D> rem)
 		{
 			std::lock_guard<std::mutex> guard(mutexGraph);
 			for (auto i = graphObjs.begin(); i != graphObjs.end(); i++) {
@@ -258,7 +258,7 @@ namespace GF {
 		{
 			if (clickableElements) {
 				std::lock_guard<std::mutex> guard(mutexGraph);
-				Core::MemGuard<GraphObject2D> lastFocus = focusedItem;
+				Core::shared_ptr<GraphObject2D> lastFocus = focusedItem;
 				Events::EventArgs stdArgs;
 				draggedItem = focusedItem = nullptr;
 				Posf pos = { static_cast<float>(args.x), static_cast<float>(args.y) };
