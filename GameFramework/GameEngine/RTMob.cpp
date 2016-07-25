@@ -56,10 +56,3 @@ bool GF::GameEngine::RTMob::canMove()
 	}
 	return false;
 }
-
-bool GF::GameEngine::RTMob::sendToEngine(Action & action)
-{
-	RTGameEngine* ge = dynamic_cast<RTGameEngine*>(engine);
-	if (ge != nullptr) return ge->pushAction(action);
-	return false;
-}

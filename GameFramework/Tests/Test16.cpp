@@ -13,7 +13,7 @@
 
 #include "Tests.h"
 std::string Test16();
-AutoAdd AA16(Test16, "GameEngine/IOModule", "Synch test", true);
+AutoAdd AA16(Test16, "GameEngine/IOModule", "Synch test", false);
 
 
 namespace Test16Helpers {
@@ -62,31 +62,7 @@ namespace Test16Helpers {
 	}
 
 
-	class GameEngineTest :public GF::GameEngine::GameEngine {
-	public:
-		bool play = false;
-		using GameEngine::xSectors;
-		using GameEngine::ySectors;
-		using GameEngine::zSectors;
-		using GameEngine::sectSize;
-		using GameEngine::calcSector;
-		virtual void start() {
-			play = true; 
-			while (play) {
-				for each(auto mob in this->mobs) {
-					mob->doScript();
-				}
-				std::this_thread::sleep_for(1ms);
-			}
-		};
-		virtual void stop() {
-			play = false;
-		};
-		virtual void pause() {};
-		using GameEngine::sectors;
-		using GameEngine::physCountOfSectors;
-		using GameEngine::staticObjects;
-	} ge;
+	GF::GameEngine::RTGameEngine ge;
 
 	void Close(GF::IOModule::Events::KeyboardArgs &args) {
 		if (args.code == GF::IOModule::Keyboard::Escape) {
@@ -124,7 +100,7 @@ namespace Test16Helpers {
 			if (tmp.x > 0 && tmp.y > 0) {
 				pos = { tmp.x,tmp.y };
 				if (mx != 0 || my != 0)
-				std::cout << pos.x << " " << pos.y << "\n";
+				//std::cout << pos.x << " " << pos.y << "\n";
 				cam->setCenter(pos);
 				img->setPosition(pos);
 				img3->setPosition(pos);
@@ -149,7 +125,7 @@ namespace Test16Helpers {
 			if (tmp.x > 0 && tmp.y > 0) {
 				pos = { tmp.x,tmp.y };
 				if (mx != 0 || my != 0)
-				std::cout << pos.x << " " << pos.y << ":\n";
+				//std::cout << pos.x << " " << pos.y << ":\n";
 				cam->setCenter(pos);
 				img->setPosition(pos);
 				img4->setPosition(pos);

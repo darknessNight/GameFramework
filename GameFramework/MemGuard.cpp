@@ -1,3 +1,4 @@
+#ifndef NOT_MEMGUARD
 #define IMPLEM
 #include "MemGuard.h"
 #include <stdio.h>
@@ -210,3 +211,4 @@ void MemoryGuard::addDynVar(void* p, size_t size, const char* file, unsigned lin
 	}
 }
 //-----------------------------------------------------------------------------------------------------------------------------------
+#endif

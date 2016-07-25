@@ -18,11 +18,13 @@ GF::GameEngine::GameEngine::~GameEngine()
 
 std::vector<unsigned char> GF::GameEngine::GameEngine::serialize()
 {
+	throw std::exception("NOT IMPLEMENT");
 	return std::vector<unsigned char>();
 }
 
 bool GF::GameEngine::GameEngine::deserialize(std::vector<unsigned char>)
 {
+	throw std::exception("NOT IMPLEMENT");
 	return false;
 }
 
@@ -289,7 +291,6 @@ Pos GF::GameEngine::GameEngine::mobMove(Mob& mob, Vector3D shift)
 				args.object = mob;
 				mob.Collision(&*i, args);
 				if (args.cancel) return prevPos;
-				to.x = prevPos.x;
 				break;
 			}
 		}

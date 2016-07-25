@@ -65,6 +65,7 @@ namespace GF {
 			void setCanResize(bool enabled);
 			void setCloseButtonVisible(bool enabled);
 			void setTitleBarVisible(bool enabled);
+			static Size getScreenSize();
 
 #ifdef DEBUG
 			void TestEvents(sf::Event &ev);
@@ -139,6 +140,7 @@ namespace GF {
 
 			std::vector<Core::shared_ptr<GraphObject2D>> graphObjs;
 			std::vector<const Camera*> cams;
+			Camera mainCam;
 			//consts
 			const Size MIN_SIZE = { 10,10 };
 		};

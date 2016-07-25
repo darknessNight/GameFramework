@@ -221,7 +221,7 @@ namespace GF {
 				OnEvent<Events::EventArgs>(Render, &RenderAsync, args);
 				window.clear();
 				std::lock_guard<std::mutex> guard(mutexGraph);
-				if (cams.size() > 0)
+				if (cams.size() > 0) {
 					for each (auto cam in cams)
 					{
 						window.setView(*cam);
@@ -230,11 +230,16 @@ namespace GF {
 							(*i)->render(&window);
 						}
 					}
-				else
+				}
+				else {
+					mainCam.setSize({static_cast<float>( settings.size.x), static_cast<float>(settings.size.y)});
+					mainCam.setViewport({ 0,0,1,1 });
+					window.setView(mainCam);
 					for (auto i = graphObjs.begin(); i != graphObjs.end(); i++)
 					{
 						(*i)->render(&window);
 					}
+				}
 				window.display();
 				window.setView(window.getDefaultView());
 			}
@@ -242,7 +247,6 @@ namespace GF {
 
 		void Window::onClose()
 		{
-			settings.opened = false;
 			Events::EventArgs args;
 			std::lock_guard<std::mutex> guard(mutexGraph);
 			if (window.isOpen()) {
@@ -250,6 +254,7 @@ namespace GF {
 				OnEvent<Events::EventArgs>(WindowClose, nullptr, args);
 			}
 			if (!args.cancel && window.isOpen()) {
+				settings.opened = false;
 				window.close();
 			}
 		}
@@ -397,6 +402,12 @@ namespace GF {
 		void Window::setTitleBarVisible(bool enabled)
 		{
 			settings.hasTitlebar = enabled;
+		}
+
+		Size Window::getScreenSize()
+		{
+			sf::VideoMode mode = sf::VideoMode::getDesktopMode();
+			return{ mode.width,mode.height };
 		}
 
 		void Window::appendCamera(const Camera& cam)

@@ -6,10 +6,13 @@
 namespace GF {
 	namespace GameEngine {
 		class RTGameEngine : public GameEngine {
-
 		public:
-
-			virtual bool pushAction(Action a);
+			virtual void start() override;
+			virtual void startAsync();
+			virtual void stop() override;
+			virtual void pause() override;
+		public:
+			bool play = false;
 		};
 	}
 }
